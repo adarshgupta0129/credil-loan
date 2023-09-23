@@ -41,21 +41,21 @@
 		<div class="form-group">
 			<input class="form-control" type="password" required="" placeholder="Password" name="txtpwd">
 		</div>
-		<div class="form-group ">
+		<!--div class="form-group ">
 			<div class="checkbox checkbox-primary">
 				<input id="checkbox-signup" type="checkbox">
 				<label for="checkbox-signup" class="text-dark">
 					Remember me
 				</label>
 			</div>
-		</div>
+		</div-->
 		<?php
-			if($this->session->flashdata('info'))
+			if($this->session->flashdata('error'))
 			{
 			?>
             <div class="alert alert-danger">
 				<button class="close" data-close="alert"></button>
-				<span><?php echo $this->session->flashdata('info'); ?> </span>
+				<span><?php echo $this->session->flashdata('error'); ?> </span>
 			</div>
             <?php
 			}

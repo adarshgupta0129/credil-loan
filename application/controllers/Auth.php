@@ -6,11 +6,12 @@
 		public function __construct() 
 		{
 			parent::__construct();
+			$this->data['page'] = "Login";
 		}
 		
 		public function index()
 		{
-			$this->load->view('common/header');
+			$this->load->view('common/header',$this->data);
 			$this->load->view('auth/login');
 		}
 
@@ -19,7 +20,7 @@
 			$this->load->library('session');
 			$this->load->helper('url');
 			$this->load->database();
-			$mob='9044592446';
+			$mob='9450810364';
 			$msg="TestingFinal";
 			echo $this->crud_model->send_sms($mob,$msg);
 		}
@@ -49,7 +50,7 @@
 				$msg1 = $this->db->query("SELECT @msg1 as message1")->row()->message1;
 				
 				/*-----------------------Set Message Of Status Or Reason-----------------------------*/
-				$this->session->set_flashdata('info',$msg);
+				error('info',$msg);
 				
 				if($msg1 != 0)
 				{
@@ -139,7 +140,7 @@
 		
 		public function forgot_password()
 		{
-			$this->load->view('common/header');
+			$this->load->view('common/header',$this->data);
 			$this->load->view('auth/view_forgot_password');
 		}
 		

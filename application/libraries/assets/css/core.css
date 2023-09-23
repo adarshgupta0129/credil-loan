@@ -1236,7 +1236,7 @@ Topbar,Left-sidebar,Right-sidebar
     z-index: 2;
 }
 .side-menu.left {
-    background: #f286a0;
+    background: #e07c0a;
     box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);
     position: absolute;
     top: 60px;
