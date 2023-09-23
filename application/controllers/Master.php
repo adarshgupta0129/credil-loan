@@ -147,7 +147,7 @@
 			$data = [
 			'table'	=> "View Bank",
 			'form' 	=> "View Bank",
-			'bank' 	=> $this->db->where('bank_id<>',0)->order_by("bank_id","asc")->get("m01_bank")->result()
+			'bank' 	=> $this->db->where('bank_id<>',0)->order_by("bank_name","asc")->get("m01_bank")->result()
 			];
   			$this->view('view_bank',$data);
 		}

@@ -14,7 +14,7 @@
 				<div class="col-lg-5">
 					<div class="card-box"> 	
 							<div class="form">
-								<?= form_open(fetch_class().'/add_location_group',array("class" => "", "id" => "signupForm")); ?>
+								<?= form_open(fetch_class().'/add_bank',array("class" => "", "id" => "signupForm")); ?>
 													 
 								<div class="form-group">
 									<label class="control-label">Bank Name<span class="required">*</span></label> 
