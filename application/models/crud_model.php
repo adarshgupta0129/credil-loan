@@ -88,46 +88,6 @@
 			//echo $result;
 		}
 		
-		public function profile_percent()
-		{
-			$data=array(
-			'USER_REG'	=>	$this->session->userdata('profile_id')
-			);
-			$query = " CALL sp_profiler(?" . str_repeat(",?", count($data)-1) . ") ";
-			return $this->db->query($query, $data)->row()->percentage;
-		}
-
-		public function menu_limit()
-		{
-			$data=array(
-			'USER_REG'	=>	$this->session->userdata('profile_id')
-			);
-			$query = " CALL sp_profiler(?" . str_repeat(",?", count($data)-1) . ") ";
-			return $this->db->query($query, $data)->row()->MENU_STATUS;
-		}
-		
-    	public function check_permission()
-		{
-			$bank=$this->db->get_where('m04_user_bank',array('or_m_id'=>$this->session->userdata('profile_id'),'or_m_b_primary'=>1));
-			$user=$this->db->get_where('m03_user_detail',array('or_m_reg_id'=>$this->session->userdata('profile_id')));
-			if($bank->num_rows>0 && $user->num_rows>0)
-			{
-			if((($bank->row()->or_m_bid!='' && $bank->row()->or_m_bid!=0 )||($user->row()->or_m_perfect!='' && $user->row()->or_m_perfect!=0)) && $user->row()->or_m_name!='' )
-			{
-				return 1;	
-			}
-			else
-			{
-				return 0;
-			}
-			}
-			else
-			{
-				return 0;
-			}
-		}
-		
-		
 		
 		public function admin_send_email($to=NULL,$subject=NULL,$message=NULL,$mailfor=NULL)
 		{
