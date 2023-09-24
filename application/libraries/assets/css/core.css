@@ -2180,10 +2180,9 @@ legend span {
     color: #2a222f;
 }
 .table td .form-control, .table td .btn {
-    height: 30px;
+    height: 27px;
     min-width: auto;
-    padding: 4px 11px;
-    /* font-size: 7px; */
+    padding: 2px 8px;
 }
 i{
 	-ms-transition: 0.4s ease-in-out;

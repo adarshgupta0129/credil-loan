@@ -1062,9 +1062,7 @@ margin-bottom: 10px;
 .table > tfoot > tr.active > td,
 .table > thead > tr.active > th,
 .table > tbody > tr.active > th,
-.table > tfoot > tr.active > th {
-background-color: #f4f8fb !important;
-}
+.table > tfoot > tr.active > th {background-color: #f4f4f4 !important;}
 .table > thead > tr > th,
 .table > tbody > tr > th,
 .table > tfoot > tr > th,
@@ -1080,9 +1078,7 @@ border-top: 1px solid #ebeff2;
 .table-bordered > tfoot > tr > th,
 .table-bordered > thead > tr > td,
 .table-bordered > tbody > tr > td,
-.table-bordered > tfoot > tr > td {
-border: 1px solid #ebeff2;
-}
+.table-bordered > tfoot > tr > td {border: 1px solid #cacaca;}
 .table > thead > tr > th {
 vertical-align: bottom;
 border-bottom: 2px solid #ebeff2;

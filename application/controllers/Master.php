@@ -99,8 +99,10 @@
 			$data = [
 			'table'		=> "View Location",
 			'form' 		=> "Action in Location",
-			'menu' 		=> $this->db->where("loc_id!=",0)->where("loc_parent_id",1)->get('m02_location')->result(),
+			//'menu' 		=> $this->db->where("loc_id!=",0)->where("loc_parent_id",1)->get('m02_location')->result(),
+			'menu' 		=> q("SELECT * FROM `m02_location` WHERE `loc_id` !=0 AND `loc_id` = 35")->result(),
  			];
+		//	l();
  			$this->view('view_location',$data);
 		}
 		
