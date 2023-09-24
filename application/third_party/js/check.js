@@ -214,7 +214,7 @@ function check(get_id)
 			}   
 		}
 		
-		if($("#"+id+"").attr('class')=="form-control input-small input-inline opt" || $("#"+id+"").attr('class')=="form-control opt" || $("#"+id+"").attr('class')=="form-control input-inline input-medium otp")
+		if($("#"+id+"").attr('class')=="form-control input-small input-inline opt" || $("#"+id+"").attr('class')=="form-control opt" || $("#"+id+"").attr('class')=="form-control opt select2" || $("#"+id+"").attr('class')=="form-control input-inline input-medium otp")
 		{
 			if($("#"+id+"").val() == -1 || $("#"+id+"").val()=="" || $("#"+id+"").val()==0)
 			{

@@ -2356,7 +2356,7 @@ table th[class*="col-"] {
 .table > thead > tr.success > th,
 .table > tbody > tr.success > th,
 .table > tfoot > tr.success > th {
-  background-color: #8de57d;
+  background-color: #8de57d8c;
 }
 .table-hover > tbody > tr > td.success:hover,
 .table-hover > tbody > tr > th.success:hover,
@@ -2419,7 +2419,7 @@ table th[class*="col-"] {
 .table > thead > tr.danger > th,
 .table > tbody > tr.danger > th,
 .table > tfoot > tr.danger > th {
-  background-color: #e48080;
+  background-color: #e13e3e9e;
   color: #fff;
 }
 .table-hover > tbody > tr > td.danger:hover,

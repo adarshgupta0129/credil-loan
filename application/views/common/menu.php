@@ -62,6 +62,7 @@
 								<li><a href="<?php echo base_url() ?>master/view_soft_setting"><i class="fa fa-angle-double-right"></i> Manage Settings</a></li>
  								<li><a href="<?php echo base_url() ?>master/view_location"><i class="fa fa-angle-double-right"></i> Manage Location</a></li>
  								<li><a href="<?php echo base_url() ?>master/view_bank"><i class="fa fa-angle-double-right"></i> Manage Bank</a></li>
+ 								<li><a href="<?php echo base_url() ?>master/view_admin_bank"><i class="fa fa-angle-double-right"></i> Manage Admin Bank</a></li>
 								
 								
 								

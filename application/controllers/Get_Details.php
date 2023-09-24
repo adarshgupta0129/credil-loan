@@ -30,8 +30,23 @@
 				if(post('proc') == 'bank'){		// of Unit Master
 					$this->db->set("bank_name", post('val'))->where('bank_id',post('id'))->update("m01_bank");
 				}
-				elseif(post('proc') == 'adminBank'){		// of Admin Bank Master
+				elseif(post('proc') == 'setConfig'){		// of Set Configuration
+					$this->db->set("m00_value", post('val'))->where('m00_id',post('id'))->update("m00_setconfig");
+				}
+				elseif(post('proc') == 'adminBankName'){		// of Admin Bank Name Master
+					$this->db->set("ad_bank_bank_id", post('val'))->where('ad_bank_id',post('id'))->update("m09_admin_bank");
+				}
+				elseif(post('proc') == 'adminBankAc'){		// of Admin Bank AC Master
 					$this->db->set("ad_bank_ac", post('val'))->where('ad_bank_id',post('id'))->update("m09_admin_bank");
+				}
+				elseif(post('proc') == 'adminBankIfsc'){		// of Admin Bank IFSC Master
+					$this->db->set("ad_bank_ifsc", post('val'))->where('ad_bank_id',post('id'))->update("m09_admin_bank");
+				}
+				elseif(post('proc') == 'adminBankBranch'){		// of Admin Bank Branch Master
+					$this->db->set("ad_bank_branch", post('val'))->where('ad_bank_id',post('id'))->update("m09_admin_bank");
+				}
+				elseif(post('proc') == 'adminBankAddress'){		// of Admin Bank Address Master
+					$this->db->set("ad_bank_address", post('val'))->where('ad_bank_id',post('id'))->update("m09_admin_bank");
 				}
 
 			}
@@ -46,7 +61,7 @@
 					$this->db->set("bank_status", post('status'))->where('bank_id',post('id'))->update("m01_bank");
 					success("Bank status changed.");
 				}
-				elseif(post('proc') == 'adminBankAc'){       // of Admin Bank Master
+				elseif(post('proc') == 'adminBank'){       // of Admin Bank Master
 					$this->db->set("ad_bank_status", post('status'))->where('ad_bank_id',post('id'))->update("m09_admin_bank");
 					success("Admin Bank status changed.");
 				}

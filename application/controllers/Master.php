@@ -38,7 +38,8 @@
 			$this->load->view('Master/'.$page_name, $data);
 			$this->load->view('common/footer');
 			
-		}		
+		}	
+
 		public function dashboard_data()
 		{
 			$data['form_name'] = "Dashboard";
@@ -85,22 +86,10 @@
 		{
 			$data['form'] = "Admin Setting Details";
 			$data['table'] = "Admin Setting Details";
-			$data['config'] = $this->db->get("m00_setconfig");
+			$data['config'] = $this->db->where('m00_visible',1)->get("m00_setconfig");
 			$this->view('view_soft_setting',$data);
 		}
-		
-		public function update_setting()
-		{
-			$data = [
-			"m00_name"=>$this->input->post("txtname"),
-			"m00_value"=>$this->input->post("txtval"),
-			"m00_desc"=>$this->input->post("txtdesc"),
-			];
-			$this->db->where("m00_id",$this->uri->segment(3))->update("m00_setconfig",$data);
-			$this->session->set_flashdata('info','Setting Updated Successfully!!');
-			header("Location:".base_url()."master/view_soft_setting");
-		}
-		
+				
 		/////////////////////////////////////////////////////////////////////////
 		//////////     Start City Master    ///////
 		//////////////////////////////////////////////////////////////////////
@@ -146,8 +135,8 @@
 		{
 			$data = [
 			'table'	=> "View Bank",
-			'form' 	=> "View Bank",
-			'bank' 	=> $this->db->where('bank_id<>',0)->order_by("bank_name","asc")->get("m01_bank")->result()
+			'form' 	=> "View Banks",
+			'banks' 	=> $this->db->where('bank_id<>',0)->order_by("bank_name","asc")->get("m01_bank")->result()
 			];
   			$this->view('view_bank',$data);
 		}
@@ -157,6 +146,36 @@
 			insert("m01_bank", ["bank_name" => post('txtbank')]);			
 			success(post('txtbank'). " added as bank.");
 			header("Location:".base_url()."Master/view_bank");
+		}
+		
+	
+		/////////////////////////////////////////////////////////////////////////
+		//////////   			  Start Admin Bank Master 			   ///////
+		//////////////////////////////////////////////////////////////////////
+		
+		public function view_admin_bank()
+		{
+			$data = [
+			'table'			=> "View Admin Bank",
+			'form' 			=> "View Admin Banks",
+			'banks' 		=> $this->db->where('bank_id<>',0)->order_by("bank_name","asc")->get("m01_bank")->result(),
+			'adminBank' 	=> $this->db->get("v03_admin_bank")->result()
+			];
+  			$this->view('view_admin_bank',$data);
+		}
+		
+		public function add_admin_bank()
+		{
+			$data = [
+				"ad_bank_bank_id" 	=> post('ddbank'),
+				"ad_bank_ac" 		=> post('txtac'),
+				"ad_bank_ifsc" 		=> post('txtifsc'),
+				"ad_bank_branch" 	=> post('txtbranch'),
+				"ad_bank_address" 	=> post('txtaddress')
+			];
+			insert("m09_admin_bank", $data);			
+			success("Admin bank added.");
+			header("Location:".base_url()."Master/view_admin_bank");
 		}
 		
 		

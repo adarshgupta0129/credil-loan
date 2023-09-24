@@ -45,7 +45,7 @@
 							<tbody>
 								<?php 
 									$sn=1;
-									foreach($bank as $unit) {
+									foreach($banks as $unit) {
 									if($unit->bank_status==1) {
 										$status = "success"; $stat = 0;
 									} else {
