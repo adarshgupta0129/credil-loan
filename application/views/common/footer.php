@@ -40,30 +40,30 @@
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
 		$('.select2').select2({placeholder: ' -- Select data --'});
-
+		
 		<?php if($this->session->flashdata("error")){?>
 			$.Notification.autoHideNotify('error', 'top right', '<?=$form?>', '<?php echo $this->session->flashdata("error"); ?>');
 			<?php } if($this->session->flashdata("success")){?>
 			$.Notification.autoHideNotify('success', 'top right', '<?=$form?>', '<?php echo $this->session->flashdata("success"); ?>');
 		<?php } ?>
- 	});
+	});
 </script>
 
 <?php
 	if(fetch_method()=='dashboard' && fetch_method()=='index')
 	{
 	?> 
-		<script src="<?php echo base_url(); ?>application/libraries/assets/plugins/morris/morris.min.js"></script> 
-		<script src="<?php echo base_url(); ?>application/libraries/assets/pages/jquery.dashboard.js"></script>
-<?php
-	} else {
-?>
-		<script src="<?php echo base_url(); ?>application/libraries/assets/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js" type="text/javascript"></script>
-		<script src="<?php echo base_url(); ?>application/libraries/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-		<script src="<?php echo base_url(); ?>application/libraries/assets/plugins/custombox/js/custombox.min.js"></script>
-		<script src="<?php echo base_url(); ?>application/libraries/assets/plugins/custombox/js/legacy.min.js"></script>
-		<script src="<?php echo base_url(); ?>application/libraries/assets/pages/jquery.form-pickers.init.js"></script>
-<?php
+	<script src="<?php echo base_url(); ?>application/libraries/assets/plugins/morris/morris.min.js"></script> 
+	<script src="<?php echo base_url(); ?>application/libraries/assets/pages/jquery.dashboard.js"></script>
+	<?php
+		} else {
+	?>
+	<script src="<?php echo base_url(); ?>application/libraries/assets/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js" type="text/javascript"></script>
+	<script src="<?php echo base_url(); ?>application/libraries/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+	<script src="<?php echo base_url(); ?>application/libraries/assets/plugins/custombox/js/custombox.min.js"></script>
+	<script src="<?php echo base_url(); ?>application/libraries/assets/plugins/custombox/js/legacy.min.js"></script>
+	<script src="<?php echo base_url(); ?>application/libraries/assets/pages/jquery.form-pickers.init.js"></script>
+	<?php
 	}
 ?>
 

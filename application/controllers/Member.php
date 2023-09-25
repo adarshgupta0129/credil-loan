@@ -52,7 +52,7 @@
 		{
 			$data['form_name'] = "Member Joining";
 			
-			$this->db->where('m_parent_id',1);
+			$this->db->where('loc_parent_id',1);
 			$this->db->where('m_status',1);
 			$data['state']=$this->db->get('m02_location');
 			
@@ -87,7 +87,7 @@
 			
 			if($uid != '')
 			{
-				$this->db->where('m_parent_id',1);
+				$this->db->where('loc_parent_id',1);
 				$this->db->where('m_status',1);
 				$data['state']=$this->db->get('m02_location');
 				

@@ -6,7 +6,7 @@
 		public function __construct() 
 		{
 			parent::__construct();
-			$this->data['page'] = "Login";
+			$this->data['page'] = "Authorization";
 		}
 		
 		public function index()
@@ -27,7 +27,6 @@
 		
 		public function login()
 		{
-		//echo uri(2); die;
 			$src = get('login_src');
 			if($this->session->userdata('user_id')=="")
 			{
@@ -127,6 +126,30 @@
 				$this->session->sess_destroy();
 				redirect($this->agent->referrer());
 			}
+		}
+		
+		public function registration()
+		{
+			$data['form_name'] = "Customer Registration";
+			
+			$this->load->view('common/header',$this->data);
+			$this->db->where('loc_parent_id',1);
+			$this->db->where('loc_status',1);
+			$data['state']=$this->db->get('m02_location');
+			
+			$data['bank']=$this->db->where("bank_status",1)->get('m01_bank');
+					
+			$this->load->view('auth/registration',$data);
+			$this->load->view('common/footer');
+		}
+		
+		public function view_term_condition()
+		{
+			$data['form_name'] = "View Terms & Condition";
+			
+			$this->load->view('common/header',$this->data);					
+			$this->load->view('auth/view_term_condition',$data);
+			$this->load->view('common/footer');
 		}
 		
 		public function logout()

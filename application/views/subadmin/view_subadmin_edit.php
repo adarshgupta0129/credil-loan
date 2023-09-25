@@ -76,7 +76,7 @@
 													<?php
 														foreach ($state->result() as $row) {
 														?>
-														<option value="<?php echo $row->m_loc_id; ?>"><?php echo $row->m_loc_name; ?></option>
+														<option value="<?php echo $row->loc_id; ?>"><?php echo $row->loc_name; ?></option>
 														<?php
 														}
 													?>

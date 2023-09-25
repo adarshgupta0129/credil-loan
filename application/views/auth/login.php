@@ -11,7 +11,7 @@
 		
 		<?php 
 			echo form_open('auth/login', 'class="m-t-20" id="myform"');
-			if($this->uri->segment(1) == 'admin')
+			if(uri(1) == 'admin')
 			{
 			?>
             <input type="hidden" name="ddtype" value="1">
@@ -63,9 +63,17 @@
 		<div class="form-group text-center m-t-20">
 			<button class="btn btn-inverse btn-block text-uppercase waves-effect waves-light" type="submit">Log In</button>
 		</div>
-		<div class="form-group m-t-20 m-b-0">
-			<!--a href="<?php echo base_url();?>auth/forgot_password" class="text-dark"><i class="fa fa-lock m-r-5"></i> Forgot your password?</a-->
+		<?php 
+			if(uri(1) != 'admin')
+			{
+			?>
+		<div class="form-group text-right">
+			<a href="<?php echo base_url();?>auth/registration" class="text-dark"><i class="fa fa-user"></i> New Customer?</a>
 		</div>
+			<?php } ?>
+		<!--div class="form-group m-t-20 m-b-0">
+			<a href="<?php echo base_url();?>auth/forgot_password" class="text-dark"><i class="fa fa-lock m-r-5"></i> Forgot your password?</a>
+		</div-->
 		<?php echo form_close(); ?> 
 		
 	</div>

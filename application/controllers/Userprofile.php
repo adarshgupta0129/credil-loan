@@ -211,8 +211,8 @@
 		{	
 			$data['form_name'] = "Edit Associate";
 			
-			$this->db->where('m_parent_id',1);
-			$this->db->where('m_status',1);
+			$this->db->where('loc_parent_id',1);
+			$this->db->where('loc_status',1);
 			$data['state']=$this->db->get('m02_location');
 			$data['relation']=$this->db->get('m07_relation');
 			

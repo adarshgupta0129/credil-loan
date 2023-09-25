@@ -235,5 +235,51 @@ function stat(){
 	}
 }
 
+	
+function get_city()
+{
+	var ddstate=$("#ddstate").val();
+	var ocity=$("#hdocity").val();
+	if(ddstate!="-1")
+	{
+		$.ajax(
+			{
+				type:"POST",
+				url:baseUrl+"Get_Details/get_city",
+				dataType: 'json',
+				data: {'ddstate': ddstate},
+				beforeSend : function(){
+					$.blockUI(
+						{
+							message: '<img src="'+baseUrl+'application/libraries/loading.gif" />'
+						});
+						setTimeout($.unblockUI, 1000);
+				},
+				success: function(msg) {
+					$("#ddcity").empty();
+					$("#ddcity").append("<option value=-1>Select City</option>");
+					$.each(msg.rec,function(i,item)
+						{
+							if(ocity!="")
+							{
+								if(item.loc_id==ocity)
+								{
+									$('#ddcity').append("<option value="+item.loc_id+" selected>"+item.loc_name+"</option>");
+								}
+								else
+								{
+									$('#ddcity').append("<option value="+item.loc_id+">"+item.loc_name+"</option>");
+								}
+							}
+							else
+							{
+								$('#ddcity').append("<option value="+item.loc_id+">"+item.loc_name+"</option>");
+							}
+						});
+				}
+			});
+	}
+}
+
 
 

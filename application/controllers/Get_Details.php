@@ -210,8 +210,8 @@
 		
 		public function get_city()
 		{
-			$this->db->where('m_parent_id',$this->input->post('ddstate'));
-			$this->db->where('m_status',1);
+			$this->db->where('loc_parent_id',$this->input->post('ddstate'));
+			$this->db->where('loc_status',1);
 			$query['rec'] = $this->db->get('m02_location')->result();
 			$json=json_encode($query);
 			echo $json;
