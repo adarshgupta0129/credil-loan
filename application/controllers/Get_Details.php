@@ -48,6 +48,18 @@
 				elseif(post('proc') == 'adminBankAddress'){		// of Admin Bank Address Master
 					$this->db->set("ad_bank_address", post('val'))->where('ad_bank_id',post('id'))->update("m09_admin_bank");
 				}
+				elseif(post('proc') == 'relation_name'){		// of Relation Name
+					$this->db->set("relation_name", post('val'))->where('relation_id',post('id'))->update("m11_relations");
+				}
+				elseif(post('proc') == 'relation_gender'){		// of Relation Gender
+					$this->db->set("relation_gender", post('val'))->where('relation_id',post('id'))->update("m11_relations");
+				}
+				elseif(post('proc') == 'proof_type'){		// of Proof Type
+					$this->db->set("proof_type", post('val'))->where('proof_id',post('id'))->update("m08_proof_type");
+				}
+				elseif(post('proc') == 'proof_name'){		// of Proof Name
+					$this->db->set("proof_name", post('val'))->where('proof_id',post('id'))->update("m08_proof_type");
+				}
 
 			}
 		}
@@ -64,6 +76,18 @@
 				elseif(post('proc') == 'adminBank'){       // of Admin Bank Master
 					$this->db->set("ad_bank_status", post('status'))->where('ad_bank_id',post('id'))->update("m09_admin_bank");
 					success("Admin Bank status changed.");
+				}
+				elseif(post('proc') == 'payment'){       // of  Payment Mode
+					$this->db->set("pay_mode_status", post('status'))->where('pay_mode_id',post('id'))->update("m10_payment_mode");
+					success("Payment Mode  status changed.");
+				}
+				elseif(post('proc') == 'relation'){       // of Relation
+					$this->db->set("relation_status", post('status'))->where('relation_id',post('id'))->update("m11_relations");
+					success("Relation  status changed.");
+				}
+				elseif(post('proc') == 'proof'){       // of Proof
+					$this->db->set("proof_status", post('status'))->where('proof_id',post('id'))->update("m08_proof_type");
+					success("Proof  status changed.");
 				}
 			}
 		}
