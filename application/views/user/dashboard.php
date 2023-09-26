@@ -10,7 +10,7 @@
 				<div class="col-md-12">
 					<div class="card-box" style="padding: 0px 0px 40px 0px;">
 						<div class="col-md-12">
-						<h4>	Welcome: <?= $rec1->user_name; ?></h4>
+						<h4>Welcome: <?= $rec1->user_name; ?></h4>
 						</div>
 					</div>
 				</div>

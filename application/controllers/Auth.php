@@ -138,6 +138,7 @@
 			$data['state']=$this->db->get('m02_location');
 			
 			$data['bank']=$this->db->where("bank_status",1)->get('m01_bank');
+			$data['relation'] = getEnum('user_rel_type','m03_user_detail');
 					
 			$this->load->view('auth/registration',$data);
 			$this->load->view('common/footer');
@@ -150,6 +151,14 @@
 			$this->load->view('common/header',$this->data);					
 			$this->load->view('auth/view_term_condition',$data);
 			$this->load->view('common/footer');
+		}
+		
+		// -------------USER REGISTRATION INSERTION---------------
+		
+		public function register_candidate()
+		{
+			$output = $this->Member_model->signup();
+			echo $output;
 		}
 		
 		public function logout()

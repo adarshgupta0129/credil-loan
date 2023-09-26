@@ -486,7 +486,7 @@
 
 	function get_bal($uid){
 		$CI = & get_instance();
-		return $CI->db->query("SELECT SUM(m_cramount) - SUM(m_dramount) AS bal FROM tr07_manage_ledger WHERE m_u_id=".$uid)->row()->bal;
+		return $CI->db->query("SELECT SUM(led_cr_amt) - SUM(led_dr_amt) AS bal FROM tr07_manage_ledger WHERE led_reg_id=".$uid)->row()->bal;
 	}
 	
 ?>					

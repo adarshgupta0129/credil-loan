@@ -217,6 +217,7 @@
 			echo $json;
 		}
 		
+		
 		//Validate Mobile No
 		public function validate_mobile()
 		{
@@ -226,7 +227,51 @@
 			$json=json_encode($query);
 			echo $json;
 		}
+		public function verify_mobile_regis()
+		{
+			$mobile = $this->input->post('txtmobile');			
+			$this->session->set_userdata('verify_mobile', false);
+			$is_exist = $this->db->query("SELECT COUNT(*) as coun FROM `m03_user_detail` WHERE `or_m_mobile_no` = '$mobile'")->row()->coun;
+			
+			if($is_exist < 3)
+			{	
+				//$otp = '4444';
+				$otp = random_string('numeric',4);
+				$this->session->set_userdata('verify_mobile', false);
+				
+				$msg = "Your otp for mobile number verification is ".$otp.". Team ".SITE_NAME;
+				$this->crud_model->send_sms($mobile, $msg);
+				
+				$newdata = array(
+				'otp'  => $otp,
+				'otp_mobile'=>$mobile
+				);
+				$this->session->set_userdata($newdata);
+				echo 1;
+			}
+			else
+			{
+				echo 0;
+			}
+		}
 		
+		public function verify_otp_regis()
+		{
+			$mobile 	= $this->session->userdata('otp_mobile');
+			$sess_otp 	=  $this->session->userdata('otp');
+			$user_otp 	= $this->input->post('txtotp');
+			
+			if($user_otp == $sess_otp)
+			{
+				$this->session->set_userdata('verify_mobile', true);				
+				echo 1;
+			}
+			else
+			{
+				$this->session->set_userdata('verify_mobile', false);
+				echo 0;
+			}
+		}
 		
 	}
 

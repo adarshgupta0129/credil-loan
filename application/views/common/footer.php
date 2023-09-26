@@ -14,13 +14,10 @@
 	var resizefunc = [];
 </script>
 <!--User Defined jQuery  -->
+<input type="hidden" id="SITE_NAME" value="<?php echo SITE_NAME; ?>" />
 <input type="hidden" id="baseurl" value="<?php echo base_url(); ?>" />
 <input type="hidden" id="txtmethod" value="<?php echo $this->router->fetch_method(); ?>" />
 <input type="hidden" id="txtclass" value="<?php echo $this->router->fetch_class(); ?>" />
-
-<!--ajax_call jQuery  -->
-
-<script src="<?php echo base_url(); ?>assets/js/ajax_call.js"></script>
 
 <!--Common jQuery  -->
 
@@ -69,7 +66,7 @@
 
 <script src="<?php echo base_url(); ?>application/third_party/js/check.js"></script>
 <script src="<?php echo base_url(); ?>application/third_party/js/bootbox.js"></script>
-<?php if(session("usertype") <> 2) { ?> 
+<?php if(session("usertype") == 1 || session("usertype") == 2) { ?> 
 	<script src="<?php echo base_url(); ?>application/third_party/js/master.js"></script>
 <?php } ?>
 <script src="<?php echo base_url(); ?>application/third_party/js/custom.js"></script>

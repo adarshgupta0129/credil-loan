@@ -89,7 +89,7 @@ function get_state()
 				var sel = 'selected';
 			else
 				var sel = '';
-			$('#ddstate').append("<option value="+item.loc_id+" "+sel+">"+item.loc_name+"</option>");
+			$('#ddstate').append("<option value="+item.loc_id+" "+sel+" disabled>"+item.loc_name+"</option>");
 		}
 		
 	});
@@ -105,7 +105,7 @@ function get_cities(parent_id)
 				var sel = 'selected';
 			else
 				var sel = '';
-			$('#ddcity').append("<option value="+item.loc_id+" "+sel+">"+item.loc_name+"</option>");
+			$('#ddcity').append("<option value="+item.loc_id+" "+sel+" disabled>"+item.loc_name+"</option>");
 		}
 	});
 }
