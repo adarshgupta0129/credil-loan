@@ -93,7 +93,7 @@
 				
 				$id = get_uid($uid);
 				
-				$condition = "`m03_user_detail`.`or_m_reg_id` = '".$id."'";
+				$condition = "`m03_user_detail`.`user_reg_id` = '".$id."'";
 				$call_procedure = ' CALL sp_member_detail("'. $condition .'")';
 				$data['rec'] = $this->db->query($call_procedure)->row();
 				mysqli_next_result( $this->db->conn_id );
@@ -123,7 +123,7 @@
 			if($uid)
 			{
 				$id = get_uid($uid);
-				$condition = "`m03_user_detail`.`or_m_reg_id` = '".$id."'";
+				$condition = "`m03_user_detail`.`user_reg_id` = '".$id."'";
 				$call_procedure = ' CALL sp_member_detail("'. $condition .'")';
 				$data['rec'] = $this->db->query($call_procedure)->row();
 				mysqli_next_result( $this->db->conn_id );
@@ -143,9 +143,9 @@
 			$data['form_name'] = "View Search Member";
 			$data['table_name'] = "View All Member";
 			
-			$todate=0;
-			$fromdate=0;
+			$todate = $fromdate = 0;
 			$condition='';
+			
 			$data['rank'] = $this->db->get('m03_designation');
 			if($this->input->post('start')!="")
 			{
@@ -159,38 +159,139 @@
 			
 			if($todate!='0' && $fromdate!='0')
 			{
-				$condition=$condition."`m03_user_detail`.`or_member_joining_date` >= DATE_FORMAT('$fromdate','%Y-%m-%d') and `m03_user_detail`.`or_member_joining_date` <= DATE_FORMAT('$todate','%Y-%m-%d')and ";
+				$condition=$condition."`m03_user_detail`.`user_joining_date` >= DATE_FORMAT('$fromdate','%Y-%m-%d') and `m03_user_detail`.`user_joining_date` <= DATE_FORMAT('$todate','%Y-%m-%d')and ";
 			}
 			if($this->input->post('txtlogin')!="" && $this->input->post('txtlogin')!="0")
 			{
 				$id=get_uid($this->input->post('txtlogin'));
-				$condition=$condition." `m03_user_detail`.`or_m_reg_id`= ".$id."  and";
+				$condition=$condition." `m03_user_detail`.`user_reg_id`= ".$id."  and";
 			}			
 			if($this->input->post('txtmob')!="" && $this->input->post('txtmob')!="0")
 			{
-				$condition=$condition." `m03_user_detail`.`or_m_mobile_no`= ".$this->input->post('txtmob')."  and";
+				$condition=$condition." `m03_user_detail`.`user_mobile_no`= ".$this->input->post('txtmob')."  and";
 			}
 			if($this->input->post('txtname')!="" && $this->input->post('txtname')!="0")
 			{
-				$condition=$condition." `m03_user_detail`.`or_m_name`= '".$this->input->post('txtname')."'  and";
+				$condition=$condition." `m03_user_detail`.`user_name`= '".$this->input->post('txtname')."'  and";
 			}
 			if($this->input->post('ddtype')!="-1" && $this->input->post('ddtype')!="")
 			{
-				$condition=$condition." `m03_user_detail`.`or_m_designation`= '".$this->input->post('ddtype')."'  and";
+				$condition=$condition." `m03_user_detail`.`user_designation`= '".$this->input->post('ddtype')."'  and";
 			}
 			if(count($this->input->post()) == 0)
 			{
-				$condition=$condition."DATE_FORMAT(`m03_user_detail`.`or_member_joining_date`,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d') and ";
+				$condition=$condition."DATE_FORMAT(`m03_user_detail`.`user_joining_date`,'%Y-%m') = DATE_FORMAT(curdate(),'%Y-%m') and ";
 			}
 			
-			$condition=$condition." `m03_user_detail`.`or_m_reg_id` !=0 ";
-			$condition=$condition." ORDER BY `m03_user_detail`.`or_m_reg_id` DESC";
+			$condition=$condition." `m03_user_detail`.`user_reg_id` !=0 ";
+			$condition=$condition." ORDER BY `m03_user_detail`.`user_reg_id` DESC";
 			
-			$call_procedure = ' CALL sp_member_detail_lite("'.$condition.'")';
+			$call_procedure = ' CALL sp05_member_details("'.$condition.'")';
 			$data['rid']=$this->db->query($call_procedure);
 			mysqli_next_result( $this->db->conn_id );
 			
 			$this->view('view_all_member',$data);
+		}
+		
+		/////////////////////////////////////
+		///////   		KYC		  //////
+		//////////////////////////////////
+		
+		public function view_kyc()
+		{
+			$data['form_name']="View Customer KYC";
+			$todate = $fromdate = 0;
+			$condition='';
+			
+			$data['rank'] = $this->db->get('m03_designation');
+			if($this->input->post('start')!="")
+			{
+				$fromdate=$this->input->post('start');
+			}
+			
+			if($this->input->post('end')!="")
+			{
+				$todate=$this->input->post('end');
+			}
+			
+			if($todate!='0' && $fromdate!='0')
+			{
+				$condition=$condition."`m03_user_detail`.`user_joining_date` >= DATE_FORMAT('$fromdate','%Y-%m-%d') and `m03_user_detail`.`user_joining_date` <= DATE_FORMAT('$todate','%Y-%m-%d')and ";
+			}
+			if($this->input->post('txtlogin')!="" && $this->input->post('txtlogin')!="0")
+			{
+				$id=get_uid($this->input->post('txtlogin'));
+				$condition=$condition." `m03_user_detail`.`user_reg_id`= ".$id."  and";
+			}			
+			if($this->input->post('txtmob')!="" && $this->input->post('txtmob')!="0")
+			{
+				$condition=$condition." `m03_user_detail`.`user_mobile_no`= ".$this->input->post('txtmob')."  and";
+			}
+			if($this->input->post('txtname')!="" && $this->input->post('txtname')!="0")
+			{
+				$condition=$condition." `m03_user_detail`.`user_name`= '".$this->input->post('txtname')."'  and";
+			}
+			if($this->input->post('ddtype')!="-1" && $this->input->post('ddtype')!="")
+			{
+				$condition=$condition." `m03_user_detail`.`user_designation`= '".$this->input->post('ddtype')."'  and";
+			}
+			if(count($this->input->post()) == 0)
+			{
+				$condition=$condition."DATE_FORMAT(`m03_user_detail`.`user_joining_date`,'%Y-%m') = DATE_FORMAT(curdate(),'%Y-%m') and ";
+			}
+			
+			$condition=$condition." `m03_user_detail`.`user_reg_id` !=0 ";
+			$condition=$condition." ORDER BY `m03_user_detail`.`user_reg_id` DESC";
+			
+			$call_procedure = ' CALL sp05_member_details("'.$condition.'")';
+			$data['rid']=$this->db->query($call_procedure);
+			mysqli_next_result( $this->db->conn_id );
+			
+			$this->view('view_kyc',$data);
+		}
+		
+		public function approve_kyc($id,$status) 
+		{
+			$this->db->set('kyc_admin_status',$status);
+			$this->db->set('kyc_status',1);
+			$this->db->where('kyc_user_id',$id);
+			$this->db->update('tr03_kyc');
+			redirect('Member/view_kyc', $status);
+		}
+		
+		public function delete_kyc($id) 
+		{
+			$this->db->where('kyc_user_id',$id);
+			$this->db->delete('tr03_kyc');
+			insert('tr03_kyc',['kyc_user_id' => $id]);
+			redirect('Member/view_kyc', $status);
+		}
+		
+		// Check it later
+		public function approve_all_kyc() 
+		{
+			$id = rtrim(post("txtquid"), ',');
+			
+			$this->db->query("UPDATE
+			`tr35_kyc_status`
+			SET
+			`tr35_kyc_status`.`tr_kyc_approve` = 1,
+			`tr35_kyc_status`.`admin_status` = 1
+			WHERE `tr35_kyc_status`.`tr_user_id` in ($id)");
+			
+			redirect('Member/view_kyc', $status);
+		}
+		
+		public function reject_all_kyc() 
+		{
+			$id = rtrim(post("txtquid"), ',');
+			
+			$this->db->query("DELETE
+			FROM
+			`admin_uniqueforce`.`tr35_kyc_status`
+			WHERE `tr35_kyc_status`.`tr_user_id` in ($id)");
+			
+			redirect('Member/view_kyc', $status);
 		}
 		
 		
@@ -200,7 +301,7 @@
 		
 		public function resend_msg($id)
 		{
-			$data = $this->db->query(" CALL sp_member_detail('m03_user_detail.or_m_reg_id =".$id."')")->row();
+			$data = $this->db->query(" CALL sp_member_detail('m03_user_detail.user_reg_id =".$id."')")->row();
 			mysqli_next_result( $this->db->conn_id );
 			if($data->Mobile_No != '')
 			{
@@ -237,30 +338,30 @@
 			
 			if($todate!='0' && $fromdate!='0')
 			{
-				$condition=$condition."`m03_user_detail`.`or_member_joining_date` >= DATE_FORMAT('$fromdate','%Y-%m-%d') and `m03_user_detail`.`or_member_joining_date` <= DATE_FORMAT('$todate','%Y-%m-%d')and ";
+				$condition=$condition."`m03_user_detail`.`user_joining_date` >= DATE_FORMAT('$fromdate','%Y-%m-%d') and `m03_user_detail`.`user_joining_date` <= DATE_FORMAT('$todate','%Y-%m-%d')and ";
 			}
 			if($this->input->post('txtlogin')!="" && $this->input->post('txtlogin')!="0")
 			{
 				$id=get_uid($this->input->post('txtlogin'));
-				$condition=$condition." `m03_user_detail`.`or_m_reg_id`= ".$id."  and";
+				$condition=$condition." `m03_user_detail`.`user_reg_id`= ".$id."  and";
 			}			
 			if($this->input->post('txtmob')!="" && $this->input->post('txtmob')!="0")
 			{
-				$condition=$condition." `m03_user_detail`.`or_m_mobile_no`= ".$this->input->post('txtmob')."  and";
+				$condition=$condition." `m03_user_detail`.`user_mobile_no`= ".$this->input->post('txtmob')."  and";
 			}
 			if($this->input->post('txtname')!="" && $this->input->post('txtname')!="0")
 			{
-				$condition=$condition." `m03_user_detail`.`or_m_name`= '".$this->input->post('txtname')."'  and";
+				$condition=$condition." `m03_user_detail`.`user_name`= '".$this->input->post('txtname')."'  and";
 			}
 			if($this->input->post('ddtype')!="-1" && $this->input->post('ddtype')!="")
 			{
-				$condition=$condition." `m03_user_detail`.`or_m_designation`= '".$this->input->post('ddtype')."'  and";
+				$condition=$condition." `m03_user_detail`.`user_designation`= '".$this->input->post('ddtype')."'  and";
 			}
 			
 			if($condition)
 			{
 				$condition=$condition." `m03_user_detail`.`or_m_status` = 0 ";
-				$condition=$condition." ORDER BY `m03_user_detail`.`or_m_reg_id` DESC";
+				$condition=$condition." ORDER BY `m03_user_detail`.`user_reg_id` DESC";
 				
 				$call_procedure = ' CALL sp_member_detail_lite("'.$condition.'")';
 				$data['rec']=$this->db->query($call_procedure);
@@ -306,30 +407,30 @@
 			
 			if($todate!='0' && $fromdate!='0')
 			{
-				$condition=$condition."`m03_user_detail`.`or_member_joining_date` >= DATE_FORMAT('$fromdate','%Y-%m-%d') and `m03_user_detail`.`or_member_joining_date` <= DATE_FORMAT('$todate','%Y-%m-%d')and ";
+				$condition=$condition."`m03_user_detail`.`user_joining_date` >= DATE_FORMAT('$fromdate','%Y-%m-%d') and `m03_user_detail`.`user_joining_date` <= DATE_FORMAT('$todate','%Y-%m-%d')and ";
 			}
 			if($this->input->post('txtlogin')!="" && $this->input->post('txtlogin')!="0")
 			{
 				$id=get_uid($this->input->post('txtlogin'));
-				$condition=$condition." `m03_user_detail`.`or_m_reg_id`= ".$id."  and";
+				$condition=$condition." `m03_user_detail`.`user_reg_id`= ".$id."  and";
 			}			
 			if($this->input->post('txtmob')!="" && $this->input->post('txtmob')!="0")
 			{
-				$condition=$condition." `m03_user_detail`.`or_m_mobile_no`= ".$this->input->post('txtmob')."  and";
+				$condition=$condition." `m03_user_detail`.`user_mobile_no`= ".$this->input->post('txtmob')."  and";
 			}
 			if($this->input->post('txtname')!="" && $this->input->post('txtname')!="0")
 			{
-				$condition=$condition." `m03_user_detail`.`or_m_name`= '".$this->input->post('txtname')."'  and";
+				$condition=$condition." `m03_user_detail`.`user_name`= '".$this->input->post('txtname')."'  and";
 			}
 			if($this->input->post('ddtype')!="-1" && $this->input->post('ddtype')!="")
 			{
-				$condition=$condition." `m03_user_detail`.`or_m_designation`= '".$this->input->post('ddtype')."'  and";
+				$condition=$condition." `m03_user_detail`.`user_designation`= '".$this->input->post('ddtype')."'  and";
 			}
 			
 			if($condition)
 			{
 				$condition=$condition." `m03_user_detail`.`or_m_status` = 1 ";
-				$condition=$condition." ORDER BY `m03_user_detail`.`or_m_reg_id` DESC";
+				$condition=$condition." ORDER BY `m03_user_detail`.`user_reg_id` DESC";
 				
 				$call_procedure = ' CALL sp_member_detail_lite("'.$condition.'")';
 				$data['rec']=$this->db->query($call_procedure);
@@ -362,29 +463,29 @@
 			
 			if($todate!='0' && $fromdate!='0')
 			{
-				$condition=$condition."`m03_user_detail`.`or_member_joining_date` >= DATE_FORMAT('$fromdate','%Y-%m-%d') and `m03_user_detail`.`or_member_joining_date` <= DATE_FORMAT('$todate','%Y-%m-%d')and ";
+				$condition=$condition."`m03_user_detail`.`user_joining_date` >= DATE_FORMAT('$fromdate','%Y-%m-%d') and `m03_user_detail`.`user_joining_date` <= DATE_FORMAT('$todate','%Y-%m-%d')and ";
 			}
 			if($this->input->post('txtlogin')!="" && $this->input->post('txtlogin')!="0")
 			{
 				$id=get_uid($this->input->post('txtlogin'));
-				$condition=$condition." `m03_user_detail`.`or_m_reg_id`= ".$id."  and";
+				$condition=$condition." `m03_user_detail`.`user_reg_id`= ".$id."  and";
 			}			
 			if($this->input->post('txtmob')!="" && $this->input->post('txtmob')!="0")
 			{
-				$condition=$condition." `m03_user_detail`.`or_m_mobile_no`= ".$this->input->post('txtmob')."  and";
+				$condition=$condition." `m03_user_detail`.`user_mobile_no`= ".$this->input->post('txtmob')."  and";
 			}
 			if($this->input->post('txtname')!="" && $this->input->post('txtname')!="0")
 			{
-				$condition=$condition." `m03_user_detail`.`or_m_name`= '".$this->input->post('txtname')."'  and";
+				$condition=$condition." `m03_user_detail`.`user_name`= '".$this->input->post('txtname')."'  and";
 			}
 			if($this->input->post('ddtype')!="-1" && $this->input->post('ddtype')!="")
 			{
-				$condition=$condition." `m03_user_detail`.`or_m_designation`= '".$this->input->post('ddtype')."'  and";
+				$condition=$condition." `m03_user_detail`.`user_designation`= '".$this->input->post('ddtype')."'  and";
 			}
 			
 			if($condition)
 			{
-				$condition=$condition." ORDER BY `m03_user_detail`.`or_m_reg_id` DESC";
+				$condition=$condition." ORDER BY `m03_user_detail`.`user_reg_id` DESC";
 				
 				$call_procedure = ' CALL sp_member_detail_lite("'.$condition.'")';
 				$data['rec']=$this->db->query($call_procedure);
@@ -446,16 +547,16 @@
 			
 			if($todate!='0' && $fromdate!='0')
 			{
-				$condition=$condition."`m03_user_detail`.`or_member_joining_date` >= DATE_FORMAT('$fromdate','%Y-%m-%d') and `m03_user_detail`.`or_member_joining_date` <= DATE_FORMAT('$todate','%Y-%m-%d')and ";
+				$condition=$condition."`m03_user_detail`.`user_joining_date` >= DATE_FORMAT('$fromdate','%Y-%m-%d') and `m03_user_detail`.`user_joining_date` <= DATE_FORMAT('$todate','%Y-%m-%d')and ";
 			}
 			if($this->input->post('txtlogin')!="" && $this->input->post('txtlogin')!="0")
 			{
 				$id=get_uid($this->input->post('txtlogin'));
-				$condition=$condition." `m03_user_detail`.`or_m_reg_id`= ".$id."  and";
+				$condition=$condition." `m03_user_detail`.`user_reg_id`= ".$id."  and";
 			}			
 			if($this->input->post('txtmob')!="" && $this->input->post('txtmob')!="0")
 			{
-				$condition=$condition." `m03_user_detail`.`or_m_mobile_no`= ".$this->input->post('txtmob')."  and";
+				$condition=$condition." `m03_user_detail`.`user_mobile_no`= ".$this->input->post('txtmob')."  and";
 			}			
 			if($this->input->post('txtspancard') != "" && $this->input->post('txtspancard') != "0")
 			{
@@ -463,7 +564,7 @@
 			}			
 			if($this->input->post('txtname')!="" && $this->input->post('txtname')!="0")
 			{
-				$condition=$condition." `m03_user_detail`.`or_m_name` like '%".$this->input->post('txtname')."%'  and";
+				$condition=$condition." `m03_user_detail`.`user_name` like '%".$this->input->post('txtname')."%'  and";
 			}
 			if($condition != "")
 			{
@@ -519,12 +620,12 @@
 			if($this->input->post('txtlogin')!="" && $this->input->post('txtlogin')!="0")
 			{
 				$id=get_uid($this->input->post('txtlogin'));
-				$condition=$condition." `m03_user_detail`.`or_m_reg_id`= ".$id."  and";
+				$condition=$condition." `m03_user_detail`.`user_reg_id`= ".$id."  and";
 			}
 			
 			if($this->input->post('txtmob')!="" && $this->input->post('txtmob')!="0")
 			{
-				$condition=$condition." `m03_user_detail`.`or_m_mobile_no`= ".$this->input->post('txtmob')."  and";
+				$condition=$condition." `m03_user_detail`.`user_mobile_no`= ".$this->input->post('txtmob')."  and";
 			} 
 			
 			if($this->input->post('txtemail')!="" && $this->input->post('txtemail')!="0")
@@ -534,11 +635,11 @@
 			
 			if(count($this->input->post()) == 0)
 			{
-				$condition=$condition."DATE_FORMAT(`m03_user_detail`.`or_member_joining_date`,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d') and ";
+				$condition=$condition."DATE_FORMAT(`m03_user_detail`.`user_joining_date`,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d') and ";
 			}
 			
-			$condition=$condition." `m03_user_detail`.`or_m_reg_id` !=0 ";
-			$condition=$condition." ORDER BY `m03_user_detail`.`or_m_reg_id` DESC";
+			$condition=$condition." `m03_user_detail`.`user_reg_id` !=0 ";
+			$condition=$condition." ORDER BY `m03_user_detail`.`user_reg_id` DESC";
 			
 			$call_procedure = ' CALL sp_member_detail("'.$condition.'")';
 			$data['rid']=$this->db->query($call_procedure);
@@ -563,12 +664,12 @@
 			$this->db->where('or_user_id',$id);
 			$login = $this->db->get('tr01_login')->row();
 			
-			$this->db->where('or_m_reg_id',$id);
+			$this->db->where('user_reg_id',$id);
 			$email = $this->db->get('m03_user_detail')->row();
 			
 			$msg = "Welcome To ".SITE_NAME.", Your UID is ".$login->or_login_id.", Password ".$login->or_login_pwd." and Tr. password ".$login->or_pin_pwd.".  Thanks for Choosing ".WEBSITE_NAME;
 			
-			$this->crud_model->send_sms(trim($email->or_m_mobile_no),$msg);
+			$this->crud_model->send_sms(trim($email->user_mobile_no),$msg);
 			
 			$this->session->set_flashdata('success','Password Updated Successfully!!');
 			header("Location:".base_url()."member/change_password");

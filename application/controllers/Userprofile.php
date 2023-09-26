@@ -1081,7 +1081,7 @@
 			if($condition != "")
 			{
 				$data['report'] = $this->db->query("SELECT ROUND(SUM(`tr_re_today_lvol`),2) lpv, ROUND(SUM(`tr_re_today_rvol`),2) rpv,
-				`tr_re_date`, `or_m_user_id`, `or_m_name` , tr_re_uid_by, `tr30_repurchase_datewise`.`user_reg_id`
+				`tr_re_date`, `or_m_user_id`, `user_name` , tr_re_uid_by, `tr30_repurchase_datewise`.`user_reg_id`
 				FROM `tr30_repurchase_datewise`
 				LEFT JOIN `m03_user_detail`
 				ON `m03_user_detail`.`user_reg_id` = `tr30_repurchase_datewise`.`user_reg_id` 
@@ -1115,7 +1115,7 @@
 			$id=session('profile_id');
 			
 			$data['pan_report']=$this->db->query("SELECT 
-			or_m_user_id, or_m_name, or_m_old_pancard, or_m_new_pancard, or_m_date 
+			or_m_user_id, user_name, or_m_old_pancard, or_m_new_pancard, or_m_date 
 			FROM m03_user_detail 
 			LEFT JOIN `m04_user_pancard` 
 			ON m03_user_detail.user_reg_id = m04_user_pancard.or_m_id 
@@ -1202,10 +1202,10 @@
 			
 			if($user_opt == $session_opt)
 			{
-				$ct = $this->db->query("select count(*) as ct from m03_user_detail where or_m_mobile_no = '$mobile'")->row()->ct;
+				$ct = $this->db->query("select count(*) as ct from m03_user_detail where user_mobile_no = '$mobile'")->row()->ct;
 				if($ct <= 2)
 				{
-					$this->db->query("update m03_user_detail set or_m_mobile_no = '$mobile' where user_reg_id = $id");
+					$this->db->query("update m03_user_detail set user_mobile_no = '$mobile' where user_reg_id = $id");
 					redirect("userprofile/dashboard");
 				}
 				else
@@ -1241,8 +1241,8 @@
 				$data['payout_details'] = $this->db->query("SELECT
 				`tr04_payout_detail`.`user_reg_id`				AS `User_Reg`,
 				`m03_user_detail`.`or_m_user_id` 				AS `Associate_Id`,
-				`m03_user_detail`.`or_m_name` 					AS `Associate_Name`,
-				(SELECT `m_des_short` FROM `m03_designation` WHERE `m_des_id` = `m03_user_detail`.`or_m_designation`)   AS design,
+				`m03_user_detail`.`user_name` 					AS `Associate_Name`,
+				(SELECT `m_des_short` FROM `m03_designation` WHERE `m_des_id` = `m03_user_detail`.`user_designation`)   AS design,
 				`tr04_payout_detail`.`tr_to_payout_date`		AS `To_Date`,
 				`tr04_payout_detail`.`tr_payout_type`			AS `Payout_Type`,
 				`tr04_payout_detail`.`tr_payout_level` 			AS `Payout_Level`,

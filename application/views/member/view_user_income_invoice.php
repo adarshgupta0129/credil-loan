@@ -74,7 +74,7 @@
 									<td height="30" colspan="2" align="center"> <strong>USER ID :   </strong><?php echo 
 									$rec->or_m_user_id?></td>
 									<td height="30" colspan="2" align="center"> <strong>USER NAME :   </strong><?php echo 
-									$rec->or_m_name?></td>
+									$rec->user_name?></td>
 									<td height="30" colspan="2" align="center"> <strong>USER RANK :  </strong><?php echo 
 									$rec->m_des_name?></td>
 								</tr>

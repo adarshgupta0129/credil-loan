@@ -60,6 +60,9 @@
 				elseif(post('proc') == 'proof_name'){		// of Proof Name
 					$this->db->set("proof_name", post('val'))->where('proof_id',post('id'))->update("m08_proof_type");
 				}
+				elseif(post('proc') == 'kycAdminNote'){		// of Admin KYC Note
+					$this->db->set("kyc_note", post('val'))->where('kyc_id',post('id'))->update("tr03_kyc");
+				}
 
 			}
 		}
@@ -245,7 +248,7 @@
 		//Validate Mobile No
 		public function validate_mobile()
 		{
-			$query_D = $this->db->query("SELECT COUNT(*) as count_mobile FROM `m03_user_detail` where `or_m_mobile_no`=".$this->input->post('phone'));
+			$query_D = $this->db->query("SELECT COUNT(*) as count_mobile FROM `m03_user_detail` where `user_mobile_no`=".$this->input->post('phone'));
 			$rows = $query_D->row();
 			$query['mob'] = $rows->count_mobile;
 			$json=json_encode($query);
@@ -255,7 +258,7 @@
 		{
 			$mobile = $this->input->post('txtmobile');			
 			$this->session->set_userdata('verify_mobile', false);
-			$is_exist = $this->db->query("SELECT COUNT(*) as coun FROM `m03_user_detail` WHERE `or_m_mobile_no` = '$mobile'")->row()->coun;
+			$is_exist = $this->db->query("SELECT COUNT(*) as coun FROM `m03_user_detail` WHERE `user_mobile_no` = '$mobile'")->row()->coun;
 			
 			if($is_exist < 3)
 			{	

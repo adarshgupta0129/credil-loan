@@ -439,7 +439,7 @@
 	function get_user_id_by_reg_id($id)
 	{
 		$CI =& get_instance();
-		$query=$CI->db->get_where('m03_user_detail',array('or_m_reg_id'=>$id ));
+		$query=$CI->db->get_where('m03_user_detail',array('user_reg_id'=>$id ));
 		$row = $query->row();
 		if($query->num_rows()==1)
 		{	
@@ -456,7 +456,7 @@
 	function get_details_by_reg_id($id)
 	{
 		$CI =& get_instance();
-		$query=$CI->db->get_where('m03_user_detail',array('or_m_reg_id'=>$id ));
+		$query=$CI->db->get_where('m03_user_detail',array('user_reg_id'=>$id ));
 		$row = $query->row();
 		if($query->num_rows()==1)
 		{	

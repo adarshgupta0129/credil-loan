@@ -540,7 +540,7 @@
 			
 			if($this->input->post('txtfrom')!='' && $this->input->post('txtfrom')!='0' && $this->input->post('txtto')!='' && $this->input->post('txtto')!='0')
 			{
-				$condition=$condition."DATE_FORMAT(`m03_user_detail`.`or_member_joining_date`,'%Y-%m-%d') BETWEEN DATE_FORMAT('".$this->input->post('txtfrom')."','%Y-%m-%d') and  DATE_FORMAT('".$this->input->post('txtto')." ','%Y-%m-%d') and ";
+				$condition=$condition."DATE_FORMAT(`m03_user_detail`.`user_joining_date`,'%Y-%m-%d') BETWEEN DATE_FORMAT('".$this->input->post('txtfrom')."','%Y-%m-%d') and  DATE_FORMAT('".$this->input->post('txtto')." ','%Y-%m-%d') and ";
 			}
 			if($this->input->post('txtstatus')!="" && $this->input->post('txtstatus')!="-1")
 			{
@@ -548,16 +548,16 @@
 			}			
 			if($this->input->post('txtmob')!="" && $this->input->post('txtmob')!="0")
 			{
-				$condition=$condition." `m03_user_detail`.`or_m_mobile_no`= ".$this->input->post('txtmob')." and";
+				$condition=$condition." `m03_user_detail`.`user_mobile_no`= ".$this->input->post('txtmob')." and";
 			}
 			if(count($this->input->post()) == 0)
 			{
-				$condition=$condition."DATE_FORMAT(`m03_user_detail`.`or_member_joining_date`,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d')  and";
+				$condition=$condition."DATE_FORMAT(`m03_user_detail`.`user_joining_date`,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d')  and";
 			}
 			
-			$condition=$condition." or_m_mobile_no <> '' AND LENGTH(or_m_mobile_no) > 9";
+			$condition=$condition." user_mobile_no <> '' AND LENGTH(user_mobile_no) > 9";
 			
-			$data['rid']=$this->db->query(" SELECT or_m_mobile_no,or_m_name FROM m03_user_detail where    $condition  GROUP BY or_m_mobile_no ");
+			$data['rid']=$this->db->query(" SELECT user_mobile_no,user_name FROM m03_user_detail where    $condition  GROUP BY user_mobile_no ");
 			
 			$this->view('view_sms',$data);
 		}

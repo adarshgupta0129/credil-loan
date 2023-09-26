@@ -86,6 +86,21 @@
 								*/ ?>
 							</ul>
 						</li>
+						
+						<li class="has_sub">
+							<a href="javascript:void(0);" class="waves-effect"><i class="ion-android-social"></i> <span> Customers</span> <span class="menu-arrow"></span></a>
+							<ul class="list-unstyled">
+								<li><a href="<?php echo base_url() ?>Member/view_all_member"><i class="fa fa-users"></i> View Customers</a></li>
+								<li><a href="<?php echo base_url() ?>Member/view_kyc"><i class="ti-star"></i> Manage Kyc</a></li>
+								<!--li><a href="<?php echo base_url() ?>member/join_member"><i class="fa fa-plus-square"></i> Signup</a></li>
+								<li><a href="<?php echo base_url() ?>member/view_member_edit"><i class="fa fa-edit"></i> Edit Member Detail</a></li>
+								<li><a href="<?php echo base_url() ?>member/view_member_details"><i class="fa fa-th-list"></i> View Member Detail</a></li>
+								<li><a href="<?php echo base_url() ?>member/view_activate_members"><i class="fa fa-thumbs-up"></i> Activate Member</a></li>
+								<li><a href="<?php echo base_url() ?>member/view_deactivate_members"><i class="fa fa-thumbs-o-down"></i> Deactivate Member</a></li>
+								<li><a href="<?php echo base_url() ?>member/view_bank_details"><i class="md-account-balance"></i> View Bank Details</a></li-->
+							</ul>
+						</li>
+						
 						<?php /*
 						<li class="has_sub">
 							<a href="javascript:void(0);" class="waves-effect"><i class="md-assignment-returned"></i> <span>Product Master </span> <span class="menu-arrow"></span></a>
@@ -124,8 +139,8 @@
 								<li><a href="<?php echo base_url() ?>master/view_customized"><i class="fa fa-angle-double-right"></i> Customize Cake</a></li>								
 							</ul>
 						</li>
+						<li class=""><a class="waves-effect" href="<?php echo base_url('Member/view_all_member') ?>"><i class="fa fa-users"></i> <span>Customers</span></a></li>						
 						*/?>
-						<li class=""><a class="waves-effect" href="<?php echo base_url('Member/customers') ?>"><i class="fa fa-users"></i> <span>Customers</span></a></li>						
 						<li class=""><a class="waves-effect" href="<?php echo base_url('auth/logout') ?>"><i class="ion-log-out"></i> <span>Logout</span></a></li>						
 					</ul>
 				</div>

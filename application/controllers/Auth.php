@@ -185,9 +185,9 @@
 			$this->db->where('or_m_user_id',$userid);
 			$email = $this->db->get('m03_user_detail')->row();
 			
-			echo $msg = "Welcome To ".SITE_NAME." ".$loginpwd->or_m_name."  Your Userid : ".$userid." and , Password : ".$loginpwd->or_login_pwd." Thanks for Choosing ".WEBSITE_NAME;
+			echo $msg = "Welcome To ".SITE_NAME." ".$loginpwd->user_name."  Your Userid : ".$userid." and , Password : ".$loginpwd->or_login_pwd." Thanks for Choosing ".WEBSITE_NAME;
 			
-			$this->crud_model->send_sms(trim($email->or_m_mobile_no),$msg);
+			$this->crud_model->send_sms(trim($email->user_mobile_no),$msg);
 			
 			$this->crud_model->send_email(trim($email->or_m_email),'Your Password Details in assvigroup.in',$msg,'Forget Password');
 			
