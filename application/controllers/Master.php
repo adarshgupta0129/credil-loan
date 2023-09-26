@@ -183,6 +183,68 @@
 		/////////////////////////////////////////////////////////////////////////
 		//////////   			  Start Payemnt Mode Master 			   ///////
 		//////////////////////////////////////////////////////////////////////
+
+
+		public function view_payment_mode()
+		{
+			$data = [
+			'table'	=> "View Payment Mode",
+			'form' 	=> "View Payments Mode",
+			'payment' 	=> $this->db->where('pay_mode_id<>',0)->order_by("pay_mode_name","asc")->get("m10_payment_mode")->result()
+			];
+  			$this->view('view_payment_mode',$data);
+		}
+		
+		public function add_payment_mode()
+		{
+			insert("m10_payment_mode", ["pay_mode_name" => post('txtpaymentmode')]);			
+			success(post('txtpaymentmode'). " added as Payment Mode.");
+			header("Location:".base_url()."Master/view_payment_mode");
+		}
+
+		/////////////////////////////////////////////////////////////////////////
+		//////////   			  Start Relation Master 			   ///////
+		//////////////////////////////////////////////////////////////////////
+
+
+		public function view_relation()
+		{
+			$data = [
+			'table'	=> "View Relation",
+			'form' 	=> "View Relation",
+			'relation' 	=> $this->db->where('relation_id<>',0)->order_by("relation_name","asc")->get("m11_relations")->result()
+			];
+  			$this->view('view_relation',$data);
+		}
+
+		public function add_relation()
+		{
+			insert("m11_relations", ["relation_name" => post('txtname'),"relation_gender" => post('ddgender')]);			
+			success(post('txtname'). " added as Relation.");
+			header("Location:".base_url()."Master/view_relation");
+		}
+
+			/////////////////////////////////////////////////////////////////////////
+		//////////   			  Start Proof Master 			   ///////
+		//////////////////////////////////////////////////////////////////////
+
+
+		public function view_proof()
+		{
+			$data = [
+			'table'	=> "View Proof",
+			'form' 	=> "View Proof",
+			'proof' 	=> $this->db->where('proof_id<>',0)->order_by("proof_name","asc")->get("m08_proof_type")->result()
+			];
+  			$this->view('view_proof',$data);
+		}
+
+		public function add_proof()
+		{
+			insert("m08_proof_type", ["proof_type" => post('ddprooft'),"proof_name" => post('txtname')]);			
+			success(post('txtname'). " added as Proof.");
+			header("Location:".base_url()."Master/view_proof");
+		}
 		
 		
 		
@@ -652,4 +714,3 @@
 		}
 		*/
 	}
-?>															

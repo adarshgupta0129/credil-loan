@@ -63,6 +63,9 @@
  								<li><a href="<?php echo base_url() ?>master/view_location"><i class="fa fa-angle-double-right"></i> Manage Location</a></li>
  								<li><a href="<?php echo base_url() ?>master/view_bank"><i class="fa fa-angle-double-right"></i> Manage Bank</a></li>
  								<li><a href="<?php echo base_url() ?>master/view_admin_bank"><i class="fa fa-angle-double-right"></i> Manage Admin Bank</a></li>
+ 								<li><a href="<?php echo base_url() ?>master/view_payment_mode"><i class="fa fa-angle-double-right"></i> Manage Payment Mode</a></li>
+ 								<li><a href="<?php echo base_url() ?>master/view_relation"><i class="fa fa-angle-double-right"></i> Manage Relation</a></li>
+ 								<li><a href="<?php echo base_url() ?>master/view_proof"><i class="fa fa-angle-double-right"></i> Manage Proof</a></li>
 								
 								
 								
