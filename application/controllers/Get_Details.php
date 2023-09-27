@@ -63,6 +63,27 @@
 				elseif(post('proc') == 'kycAdminNote'){		// of Admin KYC Note
 					$this->db->set("kyc_note", post('val'))->where('kyc_id',post('id'))->update("tr03_kyc");
 				}
+				elseif(post('proc') == 'loanTypeName'){		// of Loan Type Name
+					$this->db->set("ln_type_name", post('val'))->where('ln_type_id',post('id'))->update("ln01_loan_type");
+				}
+				elseif(post('proc') == 'loanPlanType'){		// of Loan Plan Type Name
+					$this->db->set("ln_plan_type_id", post('val'))->where('ln_plan_id',post('id'))->update("ln02_loan_plan");
+				}
+				elseif(post('proc') == 'loanPlanName'){		// of Loan Plan Name
+					$this->db->set("ln_plan_name", post('val'))->where('ln_plan_id',post('id'))->update("ln02_loan_plan");
+				}
+				elseif(post('proc') == 'loanPlanMinAmt'){		// of Loan Plan Minimum Amt
+					$this->db->set("ln_plan_min_amount", post('val'))->where('ln_plan_id',post('id'))->update("ln02_loan_plan");
+				}
+				elseif(post('proc') == 'loanPlanMaxAmt'){		// of Loan Plan Maximum Amt
+					$this->db->set("ln_plan_max_amount", post('val'))->where('ln_plan_id',post('id'))->update("ln02_loan_plan");
+				}
+				elseif(post('proc') == 'loanPlanAnnualInterest'){		// of Loan Plan Annual Interest
+					$this->db->set("ln_plan_annual_interest", post('val'))->where('ln_plan_id',post('id'))->update("ln02_loan_plan");
+				}
+				elseif(post('proc') == 'loanPlanFee'){		// of Loan Plan charges/Fee
+					$this->db->set("ln_plan_proc_fee_percent", post('val'))->where('ln_plan_id',post('id'))->update("ln02_loan_plan");
+				}
 
 			}
 		}
@@ -91,6 +112,14 @@
 				elseif(post('proc') == 'proof'){       // of Proof
 					$this->db->set("proof_status", post('status'))->where('proof_id',post('id'))->update("m08_proof_type");
 					success("Proof  status changed.");
+				}
+				elseif(post('proc') == 'loanType'){       // of Loan Type
+					$this->db->set("ln_type_status", post('status'))->where('ln_type_id',post('id'))->update("ln01_loan_type");
+					success("Loan Type  status changed.");
+				}
+				elseif(post('proc') == 'loanPlan'){       // of Loan Plan
+					$this->db->set("ln_plan_status", post('status'))->where('ln_plan_id',post('id'))->update("ln02_loan_plan");
+					success("Loan Plan status changed.");
 				}
 			}
 		}

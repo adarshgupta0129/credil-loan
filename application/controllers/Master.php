@@ -1,282 +1,333 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-	
-	class Master extends CI_Controller {
-		
-		/////////////////////////////////////////////////////////////////////////
-		//////////     Constructor In Master Controller    ///////
-		//////////////////////////////////////////////////////////////////////
-		
-		public function __construct()
-		{
-			parent::__construct();      
-			$this->_is_logged_in();
-			$this->data['page'] = "Master Panel";
-			$this->load->model('Master_model');
-		}
-		
-		/////////////////////////////////////////////////////////////////////////
-		//////////     Check Login    ///////
-		//////////////////////////////////////////////////////////////////////
-		
-		public function _is_logged_in() 
-		{
-			if (session('user_id') == "" || session('usertype') == "2"  || session('usertype') == "3")
-			{
-				redirect('auth/logout');
-			}
-		}
-		
-		public function view($page_name = null, $data = null)
-		{
-			$this->load->view('common/header',$this->data);
-			if(session('usertype') == "4") {
-				$this->data['menu'] = $this->db->query("SELECT * FROM `tr36_menu` WHERE `menu_id` IN (SELECT as_parent_id FROM `view_all_assigned_menu` WHERE `as_sub_admin` = ".session('profile_id')." and menu_status = 1 GROUP BY as_parent_id) ORDER BY `menu_id`");
-				$this->load->view('common/subadmin_menu', $this->data);
-				} else {
-				$this->load->view('common/menu', $this->data);
-			}
-			$this->load->view('Master/'.$page_name, $data);
-			$this->load->view('common/footer');
-			
-		}	
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-		public function dashboard_data()
-		{
-			$data['form_name'] = "Dashboard";
-			$call_procedure = ' CALL sp01_admin_dashboard()';
-			$data['rid'] = $this->db->query($call_procedure)->row();
-			mysqli_next_result( $this->db->conn_id );		
-			return $data;
+class Master extends CI_Controller
+{
+
+	/////////////////////////////////////////////////////////////////////////
+	//////////     Constructor In Master Controller    ///////
+	//////////////////////////////////////////////////////////////////////
+
+	public function __construct()
+	{
+		parent::__construct();
+		$this->_is_logged_in();
+		$this->data['page'] = "Master Panel";
+		$this->load->model('Master_model');
+	}
+
+	/////////////////////////////////////////////////////////////////////////
+	//////////     Check Login    ///////
+	//////////////////////////////////////////////////////////////////////
+
+	public function _is_logged_in()
+	{
+		if (session('user_id') == "" || session('usertype') == "2"  || session('usertype') == "3") {
+			redirect('auth/logout');
 		}
-		
-		public function index()
-		{
-			$data = $this->dashboard_data();
-			$this->view('dashboard',$data);
+	}
+
+	public function view($page_name = null, $data = null)
+	{
+		$this->load->view('common/header', $this->data);
+		if (session('usertype') == "4") {
+			$this->data['menu'] = $this->db->query("SELECT * FROM `tr36_menu` WHERE `menu_id` IN (SELECT as_parent_id FROM `view_all_assigned_menu` WHERE `as_sub_admin` = " . session('profile_id') . " and menu_status = 1 GROUP BY as_parent_id) ORDER BY `menu_id`");
+			$this->load->view('common/subadmin_menu', $this->data);
+		} else {
+			$this->load->view('common/menu', $this->data);
 		}
-		
-		public function dashboard()
-		{
-			$data = $this->dashboard_data();
-			$this->view('dashboard',$data);
-		}
-		
-		/////////////////////////////////////////////////////////////////////////
-		//////////     Main Admin Login    ///////
-		//////////////////////////////////////////////////////////////////////
-		
-		public function view_soft_login()
-		{
-			$data['form'] = "Admin Login Details";
-			$data['config'] = $this->Master_model->select_config();
-			$this->view('view_soft_login',$data);
-		}
-		
-		public function update_mainconfig()
-		{
-			success($this->Master_model->update_config());
-			header("Location:".base_url()."master/view_soft_login");
-		}
-		
-		/////////////////////////////////////////////////////////////////////////
-		//////////     Main Admin Login    ///////
-		//////////////////////////////////////////////////////////////////////
-		
-		public function view_soft_setting()
-		{
-			$data['form'] = "Admin Setting Details";
-			$data['table'] = "Admin Setting Details";
-			$data['config'] = $this->db->where('m00_visible',1)->get("m00_setconfig");
-			$this->view('view_soft_setting',$data);
-		}
-				
-		/////////////////////////////////////////////////////////////////////////
-		//////////     Start City Master    ///////
-		//////////////////////////////////////////////////////////////////////
-		
-		public function view_location()
-		{
-			$data = [
+		$this->load->view('Master/' . $page_name, $data);
+		$this->load->view('common/footer');
+	}
+
+	public function dashboard_data()
+	{
+		$data['form_name'] = "Dashboard";
+		$call_procedure = ' CALL sp01_admin_dashboard()';
+		$data['rid'] = $this->db->query($call_procedure)->row();
+		mysqli_next_result($this->db->conn_id);
+		return $data;
+	}
+
+	public function index()
+	{
+		$data = $this->dashboard_data();
+		$this->view('dashboard', $data);
+	}
+
+	public function dashboard()
+	{
+		$data = $this->dashboard_data();
+		$this->view('dashboard', $data);
+	}
+
+	/////////////////////////////////////////////////////////////////////////
+	//////////     Main Admin Login    ///////
+	//////////////////////////////////////////////////////////////////////
+
+	public function view_soft_login()
+	{
+		$data['form'] = "Admin Login Details";
+		$data['config'] = $this->Master_model->select_config();
+		$this->view('view_soft_login', $data);
+	}
+
+	public function update_mainconfig()
+	{
+		success($this->Master_model->update_config());
+		header("Location:" . base_url() . "master/view_soft_login");
+	}
+
+	/////////////////////////////////////////////////////////////////////////
+	//////////     Main Admin Login    ///////
+	//////////////////////////////////////////////////////////////////////
+
+	public function view_soft_setting()
+	{
+		$data['form'] = "Admin Setting Details";
+		$data['table'] = "Admin Setting Details";
+		$data['config'] = $this->db->where('m00_visible', 1)->get("m00_setconfig");
+		$this->view('view_soft_setting', $data);
+	}
+
+	/////////////////////////////////////////////////////////////////////////
+	//////////     Start City Master    ///////
+	//////////////////////////////////////////////////////////////////////
+
+	public function view_location()
+	{
+		$data = [
 			'table'		=> "View Location",
 			'form' 		=> "Action in Location",
 			//'menu' 		=> $this->db->where("loc_id!=",0)->where("loc_parent_id",1)->get('m02_location')->result(),
 			'menu' 		=> q("SELECT * FROM `m02_location` WHERE `loc_id` !=0 AND `loc_id` = 35")->result(),
- 			];
+		];
 		//	l();
- 			$this->view('view_location',$data);
-		}
-		
-		public function set_location()
-		{
-			if(post('menu_id') <> '0')
-			{
-				$this->db
+		$this->view('view_location', $data);
+	}
+
+	public function set_location()
+	{
+		if (post('menu_id') <> '0') {
+			$this->db
 				->set('loc_name', post('loc_name'))
- 				->set('loc_status', post('ddstatus'))
-				->where('loc_id',post('loc_id'))->update('m02_location');
-				success("Location updated");
-			}
-			else 
-			{
-			 	$data = [
-					'loc_name' 		=> post('loc_name'),
-					'loc_parent_id' => post('loc_parent_id'),
-					'loc_status' 	=> post('ddstatus')
- 				];
-				$this->db->insert("m02_location",$data); 
-				success("Location Added");
-			}
-		}
-	
-	
-		/////////////////////////////////////////////////////////////////////////
-		//////////   			  Start Bank Master 			   ///////
-		//////////////////////////////////////////////////////////////////////
-		
-		public function view_bank()
-		{
+				->set('loc_status', post('ddstatus'))
+				->where('loc_id', post('loc_id'))->update('m02_location');
+			success("Location updated");
+		} else {
 			$data = [
+				'loc_name' 		=> post('loc_name'),
+				'loc_parent_id' => post('loc_parent_id'),
+				'loc_status' 	=> post('ddstatus')
+			];
+			$this->db->insert("m02_location", $data);
+			success("Location Added");
+		}
+	}
+
+
+	/////////////////////////////////////////////////////////////////////////
+	//////////   			  Start Bank Master 			   ///////
+	//////////////////////////////////////////////////////////////////////
+
+	public function view_bank()
+	{
+		$data = [
 			'table'	=> "View Bank",
 			'form' 	=> "View Banks",
-			'banks' 	=> $this->db->where('bank_id<>',0)->order_by("bank_name","asc")->get("m01_bank")->result()
-			];
-  			$this->view('view_bank',$data);
-		}
-		
-		public function add_bank()
-		{
-			insert("m01_bank", ["bank_name" => post('txtbank')]);			
-			success(post('txtbank'). " added as bank.");
-			header("Location:".base_url()."Master/view_bank");
-		}
-		
-	
-		/////////////////////////////////////////////////////////////////////////
-		//////////   			  Start Admin Bank Master 			   ///////
-		//////////////////////////////////////////////////////////////////////
-		
-		public function view_admin_bank()
-		{
-			$data = [
+			'banks' 	=> $this->db->where('bank_id<>', 0)->order_by("bank_name", "asc")->get("m01_bank")->result()
+		];
+		$this->view('view_bank', $data);
+	}
+
+	public function add_bank()
+	{
+		insert("m01_bank", ["bank_name" => post('txtbank')]);
+		success(post('txtbank') . " added as bank.");
+		header("Location:" . base_url() . "Master/view_bank");
+	}
+
+
+	/////////////////////////////////////////////////////////////////////////
+	//////////   			  Start Admin Bank Master 			   ///////
+	//////////////////////////////////////////////////////////////////////
+
+	public function view_admin_bank()
+	{
+		$data = [
 			'table'			=> "View Admin Bank",
 			'form' 			=> "View Admin Banks",
-			'banks' 		=> $this->db->where('bank_id<>',0)->order_by("bank_name","asc")->get("m01_bank")->result(),
+			'banks' 		=> $this->db->where('bank_id<>', 0)->order_by("bank_name", "asc")->get("m01_bank")->result(),
 			'adminBank' 	=> $this->db->get("v03_admin_bank")->result()
-			];
-  			$this->view('view_admin_bank',$data);
-		}
-		
-		public function add_admin_bank()
-		{
-			$data = [
-				"ad_bank_bank_id" 	=> post('ddbank'),
-				"ad_bank_ac" 		=> post('txtac'),
-				"ad_bank_ifsc" 		=> post('txtifsc'),
-				"ad_bank_branch" 	=> post('txtbranch'),
-				"ad_bank_address" 	=> post('txtaddress')
-			];
-			insert("m09_admin_bank", $data);			
-			success("Admin bank added.");
-			header("Location:".base_url()."Master/view_admin_bank");
-		}
+		];
+		$this->view('view_admin_bank', $data);
+	}
 
-		/////////////////////////////////////////////////////////////////////////
-		//////////   			  Start Payemnt Mode Master 			   ///////
-		//////////////////////////////////////////////////////////////////////
+	public function add_admin_bank()
+	{
+		$data = [
+			"ad_bank_bank_id" 	=> post('ddbank'),
+			"ad_bank_ac" 		=> post('txtac'),
+			"ad_bank_ifsc" 		=> post('txtifsc'),
+			"ad_bank_branch" 	=> post('txtbranch'),
+			"ad_bank_address" 	=> post('txtaddress')
+		];
+		insert("m09_admin_bank", $data);
+		success("Admin bank added.");
+		header("Location:" . base_url() . "Master/view_admin_bank");
+	}
+
+	/////////////////////////////////////////////////////////////////////////
+	//////////   			  Start Payemnt Mode Master 			   ///////
+	//////////////////////////////////////////////////////////////////////
 
 
-		public function view_payment_mode()
-		{
-			$data = [
+	public function view_payment_mode()
+	{
+		$data = [
 			'table'	=> "View Payment Mode",
 			'form' 	=> "View Payments Mode",
-			'payment' 	=> $this->db->where('pay_mode_id<>',0)->order_by("pay_mode_name","asc")->get("m10_payment_mode")->result()
-			];
-  			$this->view('view_payment_mode',$data);
-		}
-		
-		public function add_payment_mode()
-		{
-			insert("m10_payment_mode", ["pay_mode_name" => post('txtpaymentmode')]);			
-			success(post('txtpaymentmode'). " added as Payment Mode.");
-			header("Location:".base_url()."Master/view_payment_mode");
-		}
+			'payment' 	=> $this->db->where('pay_mode_id<>', 0)->order_by("pay_mode_name", "asc")->get("m10_payment_mode")->result()
+		];
+		$this->view('view_payment_mode', $data);
+	}
 
-		/////////////////////////////////////////////////////////////////////////
-		//////////   			  Start Relation Master 			   ///////
-		//////////////////////////////////////////////////////////////////////
+	public function add_payment_mode()
+	{
+		insert("m10_payment_mode", ["pay_mode_name" => post('txtpaymentmode')]);
+		success(post('txtpaymentmode') . " added as Payment Mode.");
+		header("Location:" . base_url() . "Master/view_payment_mode");
+	}
+
+	/////////////////////////////////////////////////////////////////////////
+	//////////   			  Start Relation Master 			   ///////
+	//////////////////////////////////////////////////////////////////////
 
 
-		public function view_relation()
-		{
-			$data = [
+	public function view_relation()
+	{
+		$data = [
 			'table'	=> "View Relation",
 			'form' 	=> "View Relation",
-			'relation' 	=> $this->db->where('relation_id<>',0)->order_by("relation_name","asc")->get("m11_relations")->result()
-			];
-  			$this->view('view_relation',$data);
-		}
+			'relation' 	=> $this->db->where('relation_id<>', 0)->order_by("relation_name", "asc")->get("m11_relations")->result()
+		];
+		$this->view('view_relation', $data);
+	}
 
-		public function add_relation()
-		{
-			insert("m11_relations", ["relation_name" => post('txtname'),"relation_gender" => post('ddgender')]);			
-			success(post('txtname'). " added as Relation.");
-			header("Location:".base_url()."Master/view_relation");
-		}
+	public function add_relation()
+	{
+		insert("m11_relations", ["relation_name" => post('txtname'), "relation_gender" => post('ddgender')]);
+		success(post('txtname') . " added as Relation.");
+		header("Location:" . base_url() . "Master/view_relation");
+	}
 
-			/////////////////////////////////////////////////////////////////////////
-		//////////   			  Start Proof Master 			   ///////
-		//////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////
+	//////////   			  Start Proof Master 			   ///////
+	//////////////////////////////////////////////////////////////////////
 
 
-		public function view_proof()
-		{
-			$data = [
+	public function view_proof()
+	{
+		$data = [
 			'table'	=> "View Proof",
 			'form' 	=> "View Proof",
-			'proof' 	=> $this->db->where('proof_id<>',0)->order_by("proof_name","asc")->get("m08_proof_type")->result()
-			];
-  			$this->view('view_proof',$data);
-		}
+			'proof' 	=> $this->db->where('proof_id<>', 0)->order_by("proof_name", "asc")->get("m08_proof_type")->result()
+		];
+		$this->view('view_proof', $data);
+	}
 
-		public function add_proof()
-		{
-			insert("m08_proof_type", ["proof_type" => post('ddprooft'),"proof_name" => post('txtname')]);			
-			success(post('txtname'). " added as Proof.");
-			header("Location:".base_url()."Master/view_proof");
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	public function add_proof()
+	{
+		insert("m08_proof_type", ["proof_type" => post('ddprooft'), "proof_name" => post('txtname')]);
+		success(post('txtname') . " added as Proof.");
+		header("Location:" . base_url() . "Master/view_proof");
+	}
+
+
+	/////////////////////////////////////////////////////////////////////////
+	//////////   			  Start Loan Type 			   ///////
+	//////////////////////////////////////////////////////////////////////
+
+
+	public function view_loan_type()
+	{
+		$data = [
+			'table'	=> "View Loan Type",
+			'form' 	=> "View Loan Type",
+			'loan' 	=> $this->db->where('ln_type_id<>', 0)->order_by("ln_type_name", "asc")->get("ln01_loan_type")->result()
+		];
+		$this->view('view_loan_type', $data);
+	}
+
+	public function add_loan_type()
+	{
+		insert("ln01_loan_type", ["ln_type_name" => post('txtloantype')]);
+		success(post('txtloantype') . " added as Loan Type.");
+		header("Location:" . base_url() . "Master/view_loan_type");
+	}
+
+	/////////////////////////////////////////////////////////////////////////
+	//////////   			  Start Loan Plan 			   ///////
+	//////////////////////////////////////////////////////////////////////
+
+
+	public function view_loan_plan()
+	{
+		$data = [
+			'table'	=> "View Loan Plan",
+			'form' 	=> "View Loan Plan",
+			'loanType' 	=> $this->db->where('ln_type_id<>', 0)->order_by("ln_type_name", "asc")->get("ln01_loan_type")->result(),
+			'loanPlan' 	=> $this->db->get("ln02_loan_plan")->result()
+		];
+		$this->view('view_loan_plan', $data);
+	}
+
+	public function add_loan_plan()
+	{
+		$data = [
+			"ln_plan_type_id" 	=> post('ddloantype'),
+			"ln_plan_name" 		=> post('txtplanname'),
+			"ln_plan_min_amount" 		=> post('txtminamt'),
+			"ln_plan_max_amount" 	=> post('txtmaxamt'),
+			"ln_plan_annual_interest" 	=> post('txtanint'),
+			"ln_plan_proc_fee_percent" 	=> post('txtcharges')
+		];
+		insert("ln02_loan_plan", $data);
+		success("Loan Plan  added.");
+		header("Location:" . base_url() . "Master/view_loan_plan");
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	/*
 		/////////////////////////////////////////////////////////////////////////
 		//////////     Start Location Group Master    ///////
@@ -713,4 +764,4 @@
 			redirect("master/view_flavors");
 		}
 		*/
-	}
+}

@@ -66,6 +66,8 @@
  								<li><a href="<?php echo base_url() ?>master/view_payment_mode"><i class="fa fa-angle-double-right"></i> Manage Payment Mode</a></li>
  								<li><a href="<?php echo base_url() ?>master/view_relation"><i class="fa fa-angle-double-right"></i> Manage Relation</a></li>
  								<li><a href="<?php echo base_url() ?>master/view_proof"><i class="fa fa-angle-double-right"></i> Manage Proof</a></li>
+ 								<li><a href="<?php echo base_url() ?>master/view_loan_type"><i class="fa fa-angle-double-right"></i>Manage Loan Type</a></li>
+ 								<li><a href="<?php echo base_url() ?>master/view_loan_plan"><i class="fa fa-angle-double-right"></i> Manage Loan Plan</a></li>
 								
 								
 								
