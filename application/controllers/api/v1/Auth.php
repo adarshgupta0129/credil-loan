@@ -98,7 +98,7 @@
 				$msg = "Welcome ".$email->user_name.", your login details are - Userid : ".$userid." Password : ".$loginpwd->login_pwd;
 				$msg1 = "Your password sent to your registered mobile number.";
 				if(SMS_SEND_STATUS==1)
-				$this->crud_model->send_sms(trim($email->or_m_mobile_no),$msg);
+				$this->crud_model->send_sms(trim($email->user_mobile_no),$msg);
 				success_response($msg1);
 			}
 			else  

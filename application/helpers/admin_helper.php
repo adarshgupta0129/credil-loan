@@ -439,7 +439,7 @@
 	function get_user_id_by_reg_id($id)
 	{
 		$CI =& get_instance();
-		$query=$CI->db->get_where('m03_user_detail',array('or_m_reg_id'=>$id ));
+		$query=$CI->db->get_where('m03_user_detail',array('user_reg_id'=>$id ));
 		$row = $query->row();
 		if($query->num_rows()==1)
 		{	
@@ -456,7 +456,7 @@
 	function get_details_by_reg_id($id)
 	{
 		$CI =& get_instance();
-		$query=$CI->db->get_where('m03_user_detail',array('or_m_reg_id'=>$id ));
+		$query=$CI->db->get_where('m03_user_detail',array('user_reg_id'=>$id ));
 		$row = $query->row();
 		if($query->num_rows()==1)
 		{	
@@ -486,7 +486,7 @@
 
 	function get_bal($uid){
 		$CI = & get_instance();
-		return $CI->db->query("SELECT SUM(m_cramount) - SUM(m_dramount) AS bal FROM tr07_manage_ledger WHERE m_u_id=".$uid)->row()->bal;
+		return $CI->db->query("SELECT SUM(led_cr_amt) - SUM(led_dr_amt) AS bal FROM tr07_manage_ledger WHERE led_reg_id=".$uid)->row()->bal;
 	}
 	
 ?>					

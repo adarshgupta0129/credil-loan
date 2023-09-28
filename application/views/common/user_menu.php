@@ -9,9 +9,11 @@
 			
 			<!-- LOGO -->
 			<div class="topbar-left">
-				<div class="text-center"> <a href="" class="logo"><i class="icon-c-logo">
-					 <img src="<?= base_url(); ?>favicon/favicon.png" alt="Logo">
-					</i><span>
+				<div class="text-center"> <a href="" class="logo">
+				<i class="icon-c-logo">
+					 <img src="<?= base_url(); ?>favicon/favicon.png" width=50 alt="Logo">
+				</i>
+				<span>
 					 <img src="<?= base_url(); ?>logo/logo.png" alt="Logo" style="width: 60px;" >
 				</span></a> </div>
 			</div>
@@ -51,15 +53,16 @@
 						<li class="has-submenu"> <a href="#"><i class="ion-android-social"></i> <span>Member</span> <span class="menu-arrow"></span></a>
 							<ul class="submenu">
 								<li><a href="<?php echo base_url() ?>userprofile/member_profile"><i class="fa fa-users"></i>Profile</a></li>
+								<li> <a href="<?php echo base_url() ?>userprofile/view_kyc"><i class="fa fa-file-text"></i> <span>KYC</span></a> </li>
 								<li> <a href="<?php echo base_url() ?>userprofile/change_password"><i class="ion-locked"></i> <span>Password</span></a> </li>
 							</ul>
 						</li>
 						  
- 						<li><a href="<?php echo base_url() ?>Userprofile/viewOrders"><i class="ion-ios7-bell-outline" aria-hidden="true"></i> <span> My Orders</span></a> </li>
+ 						<!--li><a href="<?php echo base_url() ?>Userprofile/viewOrders"><i class="ion-ios7-bell-outline" aria-hidden="true"></i> <span> My Orders</span></a> </li>
  						<li><a href="<?php echo base_url() ?>userprofile/query_form"><i class="md md-question-answer" aria-hidden="true"></i> <span> Query?</span></a> </li>						
 						<li><a href="<?php echo base_url() ?>userprofile/member_address"><i class="fa fa-map-marker" aria-hidden="true"></i> <span>Address</span></a> </li>
 						<li><a href="<?php echo base_url() ?>userprofile/wallet_transactions"><i class="fa fa-map-marker" aria-hidden="true"></i> <span>Wallet Transactions</span></a> </li>
-						<li><a href="<?php echo base_url() ?>"><i class="fa fa-star"></i> <span>Continue Purchase</span></a> </li>
+						<li><a href="<?php echo base_url() ?>"><i class="fa fa-star"></i> <span>Continue Purchase</span></a> </li-->
 						<li><a href="<?php echo base_url('auth/logout') ?>"><i class="ion-log-out"></i> <span>Logout</span></a> </li>
 						
 					</ul>

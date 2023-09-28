@@ -17,8 +17,8 @@
 						<label class="col-md-4 control-label">Customer Name <span class="required"> * </span>
 						</label>
 						<div class="col-md-5">
-							<input type="text" class="form-control empty"  name="txtassociate_name" id="txtassociate_name"/>
-							<span id="divtxtassociate_name" style="color:red"/>
+							<input type="text" class="form-control empty"  name="txtname" id="txtname"/>
+							<span id="divtxtassociate_name" style="color:red"></span>
 						</div>
 					</div>
 					
@@ -33,16 +33,25 @@
 								<label class="radio-inline">
 								<input type="radio" name="rbgender1" id="rbgender3" value="O" onClick="$('#rbgender').val('O')"/>Other</label>
 								<input type="hidden" class="form-control empty" id="rbgender" name="rbgender" />
-								<span id="divrbgender" style="color:red"/>
+								<span id="divrbgender" style="color:red"></span>
 							</div>
 						</div>
 					</div>
 					
 					<div class="form-group">
-						<label class="col-md-4 control-label">Father/Husband's Name</label>
-						<div class="col-md-5">
+						<label class="col-md-4 control-label">Father/Husband's Name</label>						
+							<div class="col-md-2">
+								<select class="form-control" name="ddrel" id="ddrel">
+									<option value="0"> Relation</option>
+									<?php foreach ( $relation as $key => $value ) { ?>
+											<option value="<?=$key+1?>"><?=$value?></option>
+									<?php }	?>
+								</select>
+							</div>
+						<div class="col-md-3">
+						
 							<input type="text" class="form-control" name="txtparent" id="txtparent"/>
-							<span id="divtxtparent" style="color:red"/>
+							<span id="divtxtparent" style="color:red"></span>
 						</div>
 					</div>
 					
@@ -54,18 +63,18 @@
 						<div class="col-md-5">
 							<div class="input-daterange" id="date-range" data-date-format="yyyy-mm-dd">
 								<input type="text" class="form-control empty" name="txtdob" id="datepicker" data-date-format="yyyy-mm-dd" autocomplete="off" value="">
-								<span id="divdatepicker" style="color:red"/>
+								<span id="divdatepicker" style="color:red"></span>
 							</div>
 						</div>
 					</div>
 					<h3 class="form-section">Contact Details</h3>
 					
 					<div class="form-group">
-						<label class="col-md-4 control-label">Mobile<span class="required"> * </span></label>
+						<label class="col-md-4 control-label">Mobile (+91)<span class="required"> * </span></label>
 						<div class="col-md-5">
-							<input type="text" class="form-control numeric" name="txtmobile" id="txtmobile" <?php /*onkeyup="verify_mobile()"*/ ?> max="9999999999" />
+							<input type="text" class="form-control numeric" name="txtmobile" id="txtmobile" <?php /* onkeyup="verify_mobile()" */ ?> max="9999999999" />
 							<i class="fa fa-times" onclick="$('#txtmobile').val('');$('#txtmobile').attr('readonly', false);$('#divtxtmobile').html('');" style="position: absolute;top: 9px;right: 23px;" title="change number"></i>
-							<span id="divtxtmobile" style="color:red"/>
+							<span id="divtxtmobile" style="color:red"></span>
 						</div>
 					</div>
 					
@@ -73,7 +82,7 @@
 						<label class="col-md-4 control-label">Email Address</label>
 						<div class="col-md-5">
 							<input type="text" class="form-control" name="txtemail" id="txtemail"/>
-							<span id="divtxtemail" style="color:red"/>
+							<span id="divtxtemail" style="color:red"></span>
 						</div>
 					</div>
 					
@@ -93,7 +102,7 @@
 										}
 									?>
 								</select>
-								<span id="divddstate" style="color:red"/>
+								<span id="divddstate" style="color:red"></span>
 							</div>
 						</div>
 						
@@ -104,7 +113,7 @@
 								<select id="ddcity" name="ddcity" class="form-control opt">
 									<option selected="selected" value="">Select City</option>
 								</select>
-								<span id="divddcity" style="color:red"/>
+								<span id="divddcity" style="color:red"></span>
 							</div>
 						</div>
 						
@@ -112,21 +121,21 @@
 							<label class="col-md-4 control-label">Pincode<span class="required"> * </span></label>
 							<div class="col-md-5">
 								<input type="text" class="form-control numeric" min="100000" max="999999" name="txtpincode" id="txtpincode" maxlength="6"/>
-								<span id="divtxtpincode" style="color:red"/>
+								<span id="divtxtpincode" style="color:red"></span>
 							</div>
 						</div>
 						
 						<div class="form-group">
 							<label class="col-md-4 control-label">Address<span class="required"> * </span></label>
 							<div class="col-md-5">
-								<textarea class="form-control alpha_numeric" name="txtaddress" id="txtaddress"></textarea>
-								<span id="divtxtaddress" style="color:red"/>
+								<textarea rows="2" class="form-control" name="txtaddress" id="txtaddress"></textarea>
+								<span id="divtxtaddress" style="color:red"></span>
 							</div>
 						</div>
 					<?php } ?>
 					
 					<?php if( NOMINEE == 1 ){ ?>
-					<h3 class="form-section">Nominee's Details</h3>
+						<h3 class="form-section">Nominee's Details</h3>
 						<div class="form-group">
 							<label class="col-md-4 control-label">Nominee's Name</label>
 							<div class="col-md-5">
@@ -168,7 +177,7 @@
 										}
 									?>
 								</select>
-								<span id="divddbank_name" style="color:red"/>
+								<span id="divddbank_name" style="color:red"></span>
 							</div>
 						</div>
 						
@@ -176,7 +185,7 @@
 							<label class="col-md-4 control-label">Branch Name</label>
 							<div class="col-md-5">
 								<input type="text" class="form-control" name="txtbranch_name" id="txtbranch_name"/>	
-								<span id="divtxtbranch_name" style="color:red"/>
+								<span id="divtxtbranch_name" style="color:red"></span>
 							</div>
 						</div>
 						
@@ -184,7 +193,7 @@
 							<label class="col-md-4 control-label">Account Number</label>
 							<div class="col-md-5">
 								<input type="text" class="form-control" name="txtaccount" id="txtaccount"/>
-								<span id="divtxtaccount" style="color:red"/>
+								<span id="divtxtaccount" style="color:red"></span>
 							</div>
 						</div>
 						
@@ -192,7 +201,7 @@
 							<label class="col-md-4 control-label">IFSCode</label>
 							<div class="col-md-5">
 								<input type="text" class="form-control" name="txtifscode" id="txtifscode"  maxlength="11"/>	
-								<span id="divtxtifscode" style="color:red"/>
+								<span id="divtxtifscode" style="color:red"></span>
 							</div>
 						</div>
 						
@@ -207,28 +216,28 @@
 							<label class="col-md-4 control-label">Adhar</label>
 							<div class="col-md-5">
 								<input type="text" class="form-control" name="txtadhar" id="txtadhar"/>
-								<span id="divtxtadhar" style="color:red"/>
+								<span id="divtxtadhar" style="color:red"></span>
 							</div>
 						</div>
 					<?php } ?>
-					<!--h3 class="form-section">Password</h3>
-						
-						<div class="form-group">
+					<h3 class="form-section">Password</h3>
+					
+					<div class="form-group">
 						<label class="col-md-4 control-label">Password</label>
 						<div class="col-md-5">
-						<input type="password" class="form-control" name="txtpassword" id="txtpassword"  maxlength="10"/>
-						<span id="divtxtpassword" style="color:red"/>
+							<input type="password" class="form-control" name="txtpassword" id="txtpassword"  maxlength="10"/>
+							<span id="divtxtpassword" style="color:red"></span>
 						</div>
-						</div>
-						
-						<div class="form-group">
+					</div>
+					
+					<div class="form-group">
 						<label class="col-md-4 control-label">Confirm Password</label>
 						<div class="col-md-5">
-						<input type="password" class="form-control" name="txtcpassword" id="txtcpassword"/>
-						<span id="divtxtcpassword" style="color:red"/>
-						<span id="divtxtconfirm" style="color:red"/>
+							<input type="password" class="form-control" name="txtcpassword" id="txtcpassword"/>
+							<span id="divtxtcpassword" style="color:red"><span/>
+							<span id="divtxtconfirm" style="color:red"><span/>
 						</div>
-					</div-->
+					</div>
 					
 					
 					<div class="col-md-offset-3 col-md-9" >
@@ -247,7 +256,7 @@
 				</div>
 				
 				<input type="hidden" name="txtproc" id="txtproc" value="1" />
-				<input type="hidden" name="txtreg_from" id="txtreg_from" value="1" />
+				<input type="hidden" name="txtusertype" id="txtusertype" value="6" />
 				
 				<div class="row">
 					<div class="form-group">

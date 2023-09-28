@@ -15,7 +15,7 @@
 			}
 		?> 
 		<dl class="dl-horizontal" style="text-align:center">
-			<dt>Login As :</dt>
+			<dt>User Id :</dt>
 			<dd><?php echo $rec1->user_u_id; ?></dd>
 			<dt>Full Name :</dt>
 			<dd><?php echo $rec1->user_name; ?></dd>
@@ -26,24 +26,15 @@
  		</dl> 
 	</div>
 </div>
-
-
-
+<?php
+$bal =	get_bal(session("profile_id"));
+if($bal > 0){ ?>
 <div class="col-md-4">
 	<div class="profile-detail card-box text-center"> 
-		<h1><?=get_bal($this->session->userdata("profile_id"))?></h1>
+		<h1><?=$bal?></h1>
 		<dl class="dl-horizontal" style="text-align:center">
 			<h4 align="center">Wallet Balance</h4>
  		</dl> 
 	</div>
 </div>
-
-
-<div class="col-md-4">
-	<div class="profile-detail card-box text-center"> 
-		<h1><?php echo $rec1->user_u_id; ?></h1>
-		<dl class="dl-horizontal" style="text-align:center">
-			<h4 align="center">My Referral Code <a class="whatshop btn btn-success" target="_blank" href="https://api.whatsapp.com/send?text=https://easycelebrations.org/welcome/register?referral=<?php echo $rec1->user_u_id; ?>">Share</a></h4>
- 		</dl> 
-	</div>
-</div>
+<?php } ?>

@@ -11,7 +11,6 @@
 			parent::__construct();
 			$this->_is_logged_in();
 			$this->data['page'] = "Customer Panel";
-			$this->load->model('Master_model');
 		}
 		
 		/////////////////////////////////////////////////////////////////////////
@@ -20,29 +19,36 @@
 		
 		public function _is_logged_in() 
 		{
-			if($this->session->userdata('user_id') == "" && $this->session->userdata('profile_id') == 0)
+			if(session('user_id') == "" && session('profile_id') == 0)
 			{
 				redirect('auth/index');
 				die();
 			}
 		}
 		
-		public function index()
-		{
-			$this->dashboard();
-		}
-		
 		public function view($page_name = null, $data = null)
 		{
-			$this->load->view('common/header');
-			$this->load->view('common/user_menu',$this->data);
-			$this->load->view('user/'.$page_name,$data);
+			$this->load->view('common/header', $this->data);
+			$this->load->view('common/user_menu');
+			$this->load->view('user/'.$page_name, $data);
 			$this->load->view('common/footer');	
 		}
 		
 		/*----------------------User Dashboard----------------------------*/
 		
+		
+		public function index()
+		{
+			$this->dashboard();
+		}
+		
 		public function dashboard()
+		{
+			$data = $this->_dashboard_data();
+			$this->view('dashboard',$data);
+		}
+		
+		public function _dashboard_data()
 		{
 			$data['form'] = "Dashboard";
 			$query = "CALL sp04_user_dashboard(".session('profile_id').")";
@@ -54,7 +60,7 @@
 			$data['rec1'] = $row = $query1->row();
 			mysqli_next_result( $this->db->conn_id );
 			
-			$this->view('dashboard',$data);
+			return $data;
 		}
 		
 		/*|------     USER DETAILS      -------|*/
@@ -80,22 +86,107 @@
 		
 		public function update_password()
 		{
-			if(post('txtpassword') <> post('txtcpassword')) {
+			if(post('txtpassword') == post('txtcpassword')) {
 				$ulgpd = array(
-				'login_pwd'=>$this->input->post('txtpassword')
+				'login_pwd' => post('txtpassword')
 				);
-				$this->db->where('login_reg_id',session('profile_id'));
-				if($this->db->update('tr01_login',$ulgpd)){
-					success('Updated Successfully!!');
-					} else {
-					error('Oh Snap!! Something went wrong.');
-					header("Location:".base_url()."userprofile/change_password");
-				}
+				$this->db->where('login_reg_id', session('profile_id'));
+				if($this->db->update('tr01_login', $ulgpd)){
+					success('Password Updated Successfully!!');
 				} else {
+					error('Oh Snap!! Something went wrong.');
+				}
+			} else {
 				error('Oh Snap!! Password does not match!');
-				header("Location:".base_url()."userprofile/change_password");
 			}
+			header("Location:".base_url()."userprofile/change_password");
 		}
+		
+		/*|--------------------------------------------
+		----------------Upload Kyc Section------------
+		----------------------------------------------*/
+		
+		public function view_kyc()
+		{
+			$data['form_name'] = "Upload KYC";
+			$data['info'] = ''; 
+			$query = $this->db->where("kyc_user_id", session('profile_id'))->get("tr03_kyc");
+			$data['get_count'] = $num = $query->num_rows();
+			
+			if($num > 0)
+			{
+				$data['info'] = $query->row();
+			}
+			$this->view('view_kyc',$data);
+		}
+		
+		public function _upload_data(){
+			$config['upload_path']   =   "application/kyc/";
+			$config['allowed_types'] =   "gif|jpg|jpeg|png|bmp";
+			$config['max_size'] = '100000';
+			$config['remove_spaces'] = TRUE;
+			$config['encrypt_name'] = TRUE;
+			$this->load->library('upload',$config);
+			$this->upload->do_upload();
+			$finfo=$this->upload->data();
+			$fileupload = ($finfo['raw_name'].$finfo['file_ext']);
+			return $fileupload;
+		}
+			
+		public function upload_kyc($id)
+		{
+			$fileupload = $this->_upload_data();
+			if($id == 1){
+				$col = 'kyc_pan';
+			} elseif($id == 2){
+				$col = 'kyc_aadhar_f';
+			} elseif($id == 3){
+				$col = 'kyc_aadhar_b';
+			} elseif($id == 4){
+				$col = 'kyc_cheque';
+			}
+			update('tr03_kyc', [$col => $fileupload], ['kyc_user_id' => session('profile_id')]);
+			redirect("userprofile/view_kyc");
+		}
+		
+		public function remove_kyc($id)
+		{
+			if($id == 1){
+			$col = 'kyc_pan';
+			} elseif($id == 2){
+				$col = 'kyc_aadhar_f';
+			} elseif($id == 3){
+				$col = 'kyc_aadhar_b';
+			} elseif($id == 4){
+				$col = 'kyc_cheque';
+			}
+			$img = $this->db->where("kyc_user_id",session('profile_id'))->get('tr03_kyc')->row_array();
+			update('tr03_kyc', [$col => ''], ['kyc_user_id' => session('profile_id')]);			
+			 
+			unlink("application/kyc/".$img[$col]);
+			redirect("userprofile/view_kyc");
+		}
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+		
+		
+		
+		
+		
+		
 		
 		/*|------  		      USER QUERY      	     -------|*/
 		
@@ -133,7 +224,7 @@
 		
 		public function member_address(){
 			$data['form'] = "Member Address";
-			$id=$this->session->userdata('profile_id');
+			$id=session('profile_id');
 			$data['result'] = $this->db->where('user_reg_id',$id)->where('user_addr_status',1)->get('v12_user_address')->result();
 			$data['loc'] = $this->db->where('loc_parent_id',1)->get('m02_location')->result();
 			//print_r($data['result']);exit;
@@ -216,12 +307,12 @@
 			$data['state']=$this->db->get('m02_location');
 			$data['relation']=$this->db->get('m07_relation');
 			
-			$condition = "`m03_user_detail`.`user_reg_id` = '".$this->session->userdata('profile_id')."'";
+			$condition = "`m03_user_detail`.`user_reg_id` = '".session('profile_id')."'";
 			$call_procedure = ' CALL sp05_member_details("'. $condition .'")';
 			$data['rec'] = $this->db->query($call_procedure)->row();
 			mysqli_next_result( $this->db->conn_id );
 			
-			$topup=$this->db->where('tr_user_id',$this->session->userdata('profile_id'))->get('tr34_retopup');
+			$topup=$this->db->where('tr_user_id',session('profile_id'))->get('tr34_retopup');
 			if($topup->num_rows() > 0)
 			{
 				$data['readonly']='';
@@ -259,9 +350,9 @@
 			
 			$data['bank'] = $this->db->where("m_bank_status",1)->get("m01_bank");
 			
-			$data['dt'] = $this->db->query("SELECT MAX(`or_m_date`) as dt FROM `m04_user_pancard` WHERE `or_m_id` = ".$this->session->userdata('profile_id'))->row()->dt;
+			$data['dt'] = $this->db->query("SELECT MAX(`or_m_date`) as dt FROM `m04_user_pancard` WHERE `or_m_id` = ".session('profile_id'))->row()->dt;
 			
-			$call_procedure = ' CALL sp05_member_details("`m03_user_detail`.`user_reg_id` = '.$this->session->userdata('profile_id').'")';
+			$call_procedure = ' CALL sp05_member_details("`m03_user_detail`.`user_reg_id` = '.session('profile_id').'")';
 			$data['bank_details']=$this->db->query($call_procedure);
 			mysqli_next_result( $this->db->conn_id );
 			// echo "<pre>";
@@ -272,7 +363,7 @@
 		public function update_bank_details()
 		{
 			$insert=array(
-			'or_m_id' =>$this->session->userdata('profile_id') , 
+			'or_m_id' =>session('profile_id') , 
 			'or_m_old_pancard'=>$this->input->post('txtoldpan'),
 			'or_m_new_pancard'=>$this->input->post('txtpancard')
 			);
@@ -324,7 +415,7 @@
 		{
 			$data['form_name'] = "User Invoice";
 			
-			$call_procedure = ' CALL sp05_member_details("`m03_user_detail`.`user_reg_id` = '.$this->session->userdata('profile_id').'")';
+			$call_procedure = ' CALL sp05_member_details("`m03_user_detail`.`user_reg_id` = '.session('profile_id').'")';
 			$data['info']=$this->db->query($call_procedure);
 			mysqli_next_result( $this->db->conn_id );
 			
@@ -342,7 +433,7 @@
 		{
 			$data['form_name'] = "User Invoice";
 			
-			$call_procedure = "select * from tr34_retopup where `tr_user_id` = ".$this->session->userdata('profile_id');
+			$call_procedure = "select * from tr34_retopup where `tr_user_id` = ".session('profile_id');
 			$data['info']=$this->db->query($call_procedure);
 			
 			$this->load->view('common/header');
@@ -374,7 +465,7 @@
 			$data['form_name'] = "User Invoice";
 			$id = $this->input->post('ddinvoice');
 			
-			$call_procedure = "select * from view_retopup where `tr_invoice` = '$id' and `tr_user_id` = ".$this->session->userdata('profile_id');
+			$call_procedure = "select * from view_retopup where `tr_invoice` = '$id' and `tr_user_id` = ".session('profile_id');
 			$data['info']=$this->db->query($call_procedure)->row();
 			
 			$this->load->view('common/header');
@@ -394,7 +485,7 @@
 			$ulgpd=array(
 			'or_pin_pwd'=>$this->input->post('txtpassword')
 			);
-			$this->db->where('or_user_id',$this->session->userdata('profile_id'));
+			$this->db->where('or_user_id',session('profile_id'));
 			
 			if($this->db->update('tr01_login',$ulgpd))
 			$this->session->set_flashdata('info','Updated Successfully!!');
@@ -413,7 +504,7 @@
 			$data['table_name'] = "View Direct Referal";
 			$condition = $data['rec'] = '';
 			
-			$id = $this->session->userdata('profile_id');
+			$id = session('profile_id');
 			
 			$condition=$condition.' `m03_user_detail`.`or_m_intr_id` = '.$id;
 			
@@ -432,7 +523,7 @@
 		{
 			$data['form_name'] 	= "Downline Member";
 			$data['table_name'] = "View Downline Member";
-			$uid 				= $this->session->userdata('profile_id');
+			$uid 				= session('profile_id');
 			
 			if(ISLEVEL==0)
 			{	if(post('ddposition'))
@@ -508,7 +599,7 @@
 			$data['form_name'] = "Search Member Ledger";
 			$data['table_name'] = "View Member Ledger";
 			
-			$data["det"] = $this->db->query("SELECT SUM(`m_cramount`) cr, SUM(`m_dramount`) dr FROM `tr07_manage_ledger` WHERE `tr07_manage_ledger`.`m_u_id` = ".$this->session->userdata('profile_id')." and `tr07_manage_ledger`.`m_bal_type` = 1")->row();
+			$data["det"] = $this->db->query("SELECT SUM(`m_cramount`) cr, SUM(`m_dramount`) dr FROM `tr07_manage_ledger` WHERE `tr07_manage_ledger`.`m_u_id` = ".session('profile_id')." and `tr07_manage_ledger`.`m_bal_type` = 1")->row();
 			
 			if($this->input->post('end')!="")
 			{
@@ -525,7 +616,7 @@
 				$condition=$condition." `LEDGER_DATETIME1`>='$fromdate' AND `LEDGER_DATETIME1`<='$todate' AND ";
 			}
 			
-			$condition=$condition." `LEDGER_UID` = ".$this->session->userdata('profile_id');
+			$condition=$condition." `LEDGER_UID` = ".session('profile_id');
 			$condition=$condition." and `LEDGER_BALTYPE`=1";
 			
 			$data['rid']=$this->db->query("SELECT * FROM view_ledger WHERE ".$condition);
@@ -545,7 +636,7 @@
 			$data['form_name'] = "Search E-Shop Wallet";
 			$data['table_name'] = "View E-Shop Wallet";
 			
-			$data["det"] = $this->db->query("SELECT SUM(`m_cramount`) cr, SUM(`m_dramount`) dr FROM `tr07_manage_ledger` WHERE `tr07_manage_ledger`.`m_u_id` = ".$this->session->userdata('profile_id')." and `tr07_manage_ledger`.`m_bal_type` = 2")->row();
+			$data["det"] = $this->db->query("SELECT SUM(`m_cramount`) cr, SUM(`m_dramount`) dr FROM `tr07_manage_ledger` WHERE `tr07_manage_ledger`.`m_u_id` = ".session('profile_id')." and `tr07_manage_ledger`.`m_bal_type` = 2")->row();
 			
 			if($this->input->post('end')!="")
 			{
@@ -562,7 +653,7 @@
 				$condition=$condition." `LEDGER_DATETIME1`>='$fromdate' AND `LEDGER_DATETIME1`<='$todate' AND ";
 			}
 			
-			$condition=$condition." `LEDGER_UID`=".$this->session->userdata('profile_id');
+			$condition=$condition." `LEDGER_UID`=".session('profile_id');
 			$condition=$condition." and `LEDGER_BALTYPE`=2 and LEDGER_DESC not in ('Cash Purchase Amount Credited','Cash Purchase Amount Debited')";
 			
 			$data['rid']=$this->db->query("SELECT * FROM view_ledger WHERE ".$condition);
@@ -585,7 +676,7 @@
 			
 			$data['form_name'] = "Search Daily Benifit Statement";
 			$data['table_name'] = "View Daily Benifit Ledger";
-			$data["det"] = $this->db->query("SELECT SUM(`m_cramount`) cr, SUM(`m_dramount`) dr FROM `tr07_manage_ledger` WHERE `tr07_manage_ledger`.`m_u_id` = ".$this->session->userdata('profile_id')." and `tr07_manage_ledger`.`m_bal_type` = 3")->row();
+			$data["det"] = $this->db->query("SELECT SUM(`m_cramount`) cr, SUM(`m_dramount`) dr FROM `tr07_manage_ledger` WHERE `tr07_manage_ledger`.`m_u_id` = ".session('profile_id')." and `tr07_manage_ledger`.`m_bal_type` = 3")->row();
 			
 			if($this->input->post('end')!="")
 			{
@@ -602,7 +693,7 @@
 				$condition=$condition." date(`LEDGER_DATETIME1`)>=date('$fromdate') AND date(`LEDGER_DATETIME1`)<=date('$todate') AND ";
 			}
 			
-			$condition=$condition." `LEDGER_UID`=".$this->session->userdata('profile_id');
+			$condition=$condition." `LEDGER_UID`=".session('profile_id');
 			$condition=$condition." and `LEDGER_BALTYPE`=3";
 			
 			$data['rid']=$this->db->query("SELECT * FROM view_ledger WHERE ".$condition);
@@ -719,7 +810,7 @@
 		
 		function coupon_list(){
 			$data['form_name'] = "Product Purchase History";
-			$userid= $this->session->userdata('profile_id');
+			$userid= session('profile_id');
 			$data['table_name'] = "Coupon List";
 			$this->db->where('tr_coupan_user',$userid);
 			$data['rows']=$this->db->where_in('tr_coupan_status',array('1','2'))
@@ -890,7 +981,7 @@
 		{
 			$data['form_name'] = "Associate Activation";
 			$data['table_name'] = "View Associate Activation";
-			$data['rid'] = $this->db->query("SELECT * FROM `view_retopup` WHERE `tr_user_id` = ".$this->session->userdata('profile_id')."");
+			$data['rid'] = $this->db->query("SELECT * FROM `view_retopup` WHERE `tr_user_id` = ".session('profile_id')."");
 			
 			$this->load->view('common/header');
 			$this->load->view('common/user_menu',$this->data);
@@ -903,7 +994,7 @@
 		{
 			$data['form_name'] = "Associate Activation";
 			$data['table_name'] = "View Associate Activation";
-			$data['rid'] = $this->db->query("SELECT * FROM `view_retopup` WHERE `tr_customer_id` = ".$this->session->userdata('profile_id'));
+			$data['rid'] = $this->db->query("SELECT * FROM `view_retopup` WHERE `tr_customer_id` = ".session('profile_id'));
 			
 			$this->load->view('common/header');
 			$this->load->view('common/user_menu',$this->data);
@@ -915,7 +1006,7 @@
 		{
 			$data['form_name'] = "Topup By Report";
 			$data['table_name'] = "View Topup By Report";
-			$data['rid'] = $this->db->where('tr_topuby',$this->session->userdata('profile_id'))->get("view_retopup");
+			$data['rid'] = $this->db->where('tr_topuby',session('profile_id'))->get("view_retopup");
 			$this->load->view('common/header');
 			$this->load->view('common/user_menu',$this->data);
 			$this->load->view('user/view_topup_report',$data);
@@ -942,7 +1033,7 @@
 				tr_today_type,
 				DATE_FORMAT(tr_date,'%Y-%m-%d') tr_date
 				FROM `tr03_datewise_pair` 
-				WHERE `tr03_datewise_pair`.`user_reg_id` = ".$this->session->userdata('profile_id')." $queery
+				WHERE `tr03_datewise_pair`.`user_reg_id` = ".session('profile_id')." $queery
 				GROUP BY DATE_FORMAT(`tr_date`,'%Y-%m-%d') order by tr_date desc");
 			}
 			$this->load->view('common/header');
@@ -957,7 +1048,7 @@
 			$data['table_name'] = "View Repurchase Business report";
 			$id=$this->input->post('user_id');
 			
-			$userid = $this->session->userdata('profile_id');
+			$userid = session('profile_id');
 			$data['report'] = $condition = "";
 			$fromdate = $todate = 0;
 			
@@ -990,7 +1081,7 @@
 			if($condition != "")
 			{
 				$data['report'] = $this->db->query("SELECT ROUND(SUM(`tr_re_today_lvol`),2) lpv, ROUND(SUM(`tr_re_today_rvol`),2) rpv,
-				`tr_re_date`, `or_m_user_id`, `or_m_name` , tr_re_uid_by, `tr30_repurchase_datewise`.`user_reg_id`
+				`tr_re_date`, `or_m_user_id`, `user_name` , tr_re_uid_by, `tr30_repurchase_datewise`.`user_reg_id`
 				FROM `tr30_repurchase_datewise`
 				LEFT JOIN `m03_user_detail`
 				ON `m03_user_detail`.`user_reg_id` = `tr30_repurchase_datewise`.`user_reg_id` 
@@ -1012,175 +1103,6 @@
 			$this->load->view('common/footer');
 		}
 		
-		/*--------------------------------------------
-			----------------Upload Kyc Section------------
-		----------------------------------------------*/
-		
-		public function view_kyc()
-		{
-			$data['form_name'] = "Upload KYC";
-			$profile_id=$this->session->userdata('profile_id');
-			$data['info'] = ''; 
-			$query = $this->db->where("tr_user_id",$this->session->userdata('profile_id'))->get("tr35_kyc_status");
-			$data['get_count'] = $num = $query->num_rows();
-			
-			if($num > 0)
-			{
-				$data['info'] = $query->row();
-			}
-			$this->load->view('common/header');
-			$this->load->view('common/user_menu',$this->data);
-			$this->load->view('user/view_kyc',$data);
-			$this->load->view('common/footer');
-		}
-		
-		public function upload_pan_card()
-		{
-			$config['upload_path']   =   "application/kyc/";
-			$config['allowed_types'] =   "gif|jpg|jpeg|png|bmp";
-			$config['max_size'] = '100000';
-			$config['remove_spaces'] = true;
-			$this->load->library('upload',$config);
-			$this->upload->do_upload();
-			$finfo=$this->upload->data();
-			$fileupload = ($finfo['raw_name'].$finfo['file_ext']);
-			$query = $this->db->where("tr_user_id",$this->session->userdata('profile_id'))->get("tr35_kyc_status");
-			$num = $query->num_rows();
-			if($num>0)
-			{
-				$data = array("tr_pannumber"=>$fileupload);
-				$this->db->where("tr_user_id",$this->session->userdata('profile_id'))->update("tr35_kyc_status",$data);
-			}
-			else
-			{
-				$data = array(
-				"tr_user_id"=>$this->session->userdata('profile_id'),
-				"tr_pannumber"=>$fileupload,
-				"tr_status"=>1,
-				);
-				$this->db->insert("tr35_kyc_status",$data);
-			}
-			redirect("userprofile/view_kyc");
-		}
-		
-		public function upload_front_adhar()
-		{
-			$config['upload_path']   =   "application/kyc/";
-			$config['allowed_types'] =   "gif|jpg|jpeg|png|bmp"; 
-			$config['max_size'] = '100000'; 
-			$config['remove_spaces'] = true;
-			$this->load->library('upload',$config);
-			$this->upload->do_upload();
-			$finfo=$this->upload->data();
-			$fileupload = ($finfo['raw_name'].$finfo['file_ext']);
-			$query = $this->db->where("tr_user_id",$this->session->userdata('profile_id'))->get("tr35_kyc_status");
-			$num = $query->num_rows();
-			if($num>0)
-			{
-				$data = array("tr_address"=>$fileupload);
-				$this->db->where("tr_user_id",$this->session->userdata('profile_id'))->update("tr35_kyc_status",$data);
-			}
-			else
-			{
-				$data = array(
-				"tr_user_id"=>$this->session->userdata('profile_id'),
-				"tr_address"=>$fileupload,
-				"tr_status"=>1,
-				);
-				$this->db->insert("tr35_kyc_status",$data);
-			}
-			redirect("userprofile/view_kyc");
-		}
-		
-		public function upload_back_adhar()
-		{
-			$config['upload_path']   =   "application/kyc/";
-			$config['allowed_types'] =   "gif|jpg|jpeg|png|bmp"; 
-			$config['max_size'] = '100000';
-			$config['remove_spaces'] = true;
-			$this->load->library('upload',$config);
-			$this->upload->do_upload();
-			$finfo=$this->upload->data();
-			$fileupload = ($finfo['raw_name'].$finfo['file_ext']);
-			$query = $this->db->where("tr_user_id",$this->session->userdata('profile_id'))->get("tr35_kyc_status");
-			$num = $query->num_rows();
-			if($num>0)
-			{
-				$data = array("tr_address2"=>$fileupload);
-				$this->db->where("tr_user_id",$this->session->userdata('profile_id'))->update("tr35_kyc_status",$data);
-			}
-			else
-			{
-				$data = array(
-				"tr_user_id"=>$this->session->userdata('profile_id'),
-				"tr_address2"=>$fileupload,
-				"tr_status"=>1,
-				);
-				$this->db->insert("tr35_kyc_status",$data);
-			}
-			redirect("userprofile/view_kyc");
-		}
-		
-		public function upload_cheque_passbook()
-		{
-			$config['upload_path']   =   "application/kyc/";
-			$config['allowed_types'] =   "gif|jpg|jpeg|png|bmp"; 
-			$config['max_size'] = '100000';
-			$config['remove_spaces'] = true;
-			$this->load->library('upload',$config);
-			$this->upload->do_upload();
-			$finfo=$this->upload->data();
-			$fileupload = ($finfo['raw_name'].$finfo['file_ext']);
-			$query = $this->db->where("tr_user_id",$this->session->userdata('profile_id'))->get("tr35_kyc_status");
-			$num = $query->num_rows();
-			if($num>0)
-			{
-				$data = array("tr_cheque"=>$fileupload);
-				$this->db->where("tr_user_id",$this->session->userdata('profile_id'))->update("tr35_kyc_status",$data);
-			}
-			else
-			{
-				$data = array(
-				"tr_user_id"=>$this->session->userdata('profile_id'),
-				"tr_cheque"=>$fileupload,
-				"tr_status"=>1,
-				);
-				$this->db->insert("tr35_kyc_status",$data);
-			}
-			redirect("userprofile/view_kyc");
-		}
-		
-		public function update_remove_kyc()
-		{
-			$id = $this->uri->segment(3);
-			$file = '';
-			$r = $this->db->where("tr_user_id",$this->session->userdata('profile_id'))->get('tr35_kyc_status')->row();
-			
-			if($id==1)
-			{
-				$data = array("tr_pannumber"=>'');
-				$file = $r->tr_pannumber;
-			}
-			if($id==2)
-			{
-				$data = array("tr_address"=>'');
-				$file = $r->tr_address;
-			}
-			if($id==3)
-			{
-				$data = array("tr_address2"=>'');
-				$file = $r->tr_address2;
-			}
-			if($id==4)
-			{
-				$data = array("tr_cheque"=>'');
-				$file = $r->tr_cheque;
-			}
-			$this->db->where("tr_user_id",$this->session->userdata('profile_id'))->update("tr35_kyc_status",$data);
-			
-			unlink("application/kyc/".$file);
-			redirect("userprofile/view_kyc");
-		}
 		
 		/////////////////////////////////////////
 		////////////  pan report  /////////////
@@ -1190,10 +1112,10 @@
 		{
 			$data['form_name'] = "Pancard report";
 			$data['table_name'] = "Pancard report";
-			$id=$this->session->userdata('profile_id');
+			$id=session('profile_id');
 			
 			$data['pan_report']=$this->db->query("SELECT 
-			or_m_user_id, or_m_name, or_m_old_pancard, or_m_new_pancard, or_m_date 
+			or_m_user_id, user_name, or_m_old_pancard, or_m_new_pancard, or_m_date 
 			FROM m03_user_detail 
 			LEFT JOIN `m04_user_pancard` 
 			ON m03_user_detail.user_reg_id = m04_user_pancard.or_m_id 
@@ -1218,7 +1140,7 @@
 			$data['form_name'] = "Search Member Repurchase Ledger";
 			$data['table_name'] = "View Member Repurchase Ledger";
 			
-			$data["det"] = $this->db->query("SELECT SUM(`m_cramount`) cr, SUM(`m_dramount`) dr FROM `tr07_manage_ledger` WHERE `tr07_manage_ledger`.`m_u_id` = ".$this->session->userdata('profile_id')." and `tr07_manage_ledger`.`m_bal_type` = 3")->row();
+			$data["det"] = $this->db->query("SELECT SUM(`m_cramount`) cr, SUM(`m_dramount`) dr FROM `tr07_manage_ledger` WHERE `tr07_manage_ledger`.`m_u_id` = ".session('profile_id')." and `tr07_manage_ledger`.`m_bal_type` = 3")->row();
 			
 			if($this->input->post('end')!="")
 			{
@@ -1235,7 +1157,7 @@
 				$condition=$condition." date(`LEDGER_DATETIME1`)>=date('$fromdate') AND date(`LEDGER_DATETIME1`)<=date('$todate') AND ";
 			}
 			
-			$condition=$condition." `LEDGER_UID`=".$this->session->userdata('profile_id');
+			$condition=$condition." `LEDGER_UID`=".session('profile_id');
 			$condition=$condition." and `LEDGER_BALTYPE`=2";
 			
 			$data['rid']=$this->db->query("SELECT * FROM view_ledger WHERE ".$condition);
@@ -1247,7 +1169,7 @@
 		
 		public function update_mobile()
 		{
-			$id = $this->session->userdata('profile_id');			
+			$id = session('profile_id');			
 			$this->load->view('common/header');
 			$this->load->view('user/update_mobile');
 		}
@@ -1274,16 +1196,16 @@
 		public function verify_otp()
 		{
 			$mobile = $this->session->userdata('mobile');
-			$id = $this->session->userdata('profile_id');
+			$id = session('profile_id');
 			$user_opt = $this->input->post('txtotp');
 			$session_opt =  $this->input->post('session_opt');
 			
 			if($user_opt == $session_opt)
 			{
-				$ct = $this->db->query("select count(*) as ct from m03_user_detail where or_m_mobile_no = '$mobile'")->row()->ct;
+				$ct = $this->db->query("select count(*) as ct from m03_user_detail where user_mobile_no = '$mobile'")->row()->ct;
 				if($ct <= 2)
 				{
-					$this->db->query("update m03_user_detail set or_m_mobile_no = '$mobile' where user_reg_id = $id");
+					$this->db->query("update m03_user_detail set user_mobile_no = '$mobile' where user_reg_id = $id");
 					redirect("userprofile/dashboard");
 				}
 				else
@@ -1310,7 +1232,7 @@
 			
 			$data['closingdt'] = $currdate = $this->input->post('dddate');
 			$queery = $queery." `tr04_payout_detail`.`tr_payout_ispublish` = 1 AND ";
-			$queery = $queery." `tr04_payout_detail`.`user_reg_id` = ".$this->session->userdata('profile_id')." AND ";
+			$queery = $queery." `tr04_payout_detail`.`user_reg_id` = ".session('profile_id')." AND ";
 			
 			if($currdate != '' && $currdate != '-1' && $currdate != '-1')
 			{
@@ -1319,8 +1241,8 @@
 				$data['payout_details'] = $this->db->query("SELECT
 				`tr04_payout_detail`.`user_reg_id`				AS `User_Reg`,
 				`m03_user_detail`.`or_m_user_id` 				AS `Associate_Id`,
-				`m03_user_detail`.`or_m_name` 					AS `Associate_Name`,
-				(SELECT `m_des_short` FROM `m03_designation` WHERE `m_des_id` = `m03_user_detail`.`or_m_designation`)   AS design,
+				`m03_user_detail`.`user_name` 					AS `Associate_Name`,
+				(SELECT `m_des_short` FROM `m03_designation` WHERE `m_des_id` = `m03_user_detail`.`user_designation`)   AS design,
 				`tr04_payout_detail`.`tr_to_payout_date`		AS `To_Date`,
 				`tr04_payout_detail`.`tr_payout_type`			AS `Payout_Type`,
 				`tr04_payout_detail`.`tr_payout_level` 			AS `Payout_Level`,
@@ -1371,7 +1293,7 @@
 			}
 			else
 			{
-				$id = $this->session->userdata('profile_id');
+				$id = session('profile_id');
 				$res = 'true';
 			}
 			if($res == 'true')
@@ -1381,12 +1303,12 @@
 			elseif($res == 'false')
 			{
 				error("User Id not in your team!");
-				$id = $this->session->userdata('profile_id');
+				$id = session('profile_id');
 				$data['result'] = $this->user_model->user_tree_level($id);
 			}
 			else
 			{
-				$id = $this->session->userdata('profile_id');
+				$id = session('profile_id');
 				$data['result'] = $this->user_model->user_tree_level($id);
 			}
 			$this->load->view('common/header');
@@ -1397,7 +1319,7 @@
 		
 		public function viewOrders()
 		{
-			$id = $this->session->userdata('profile_id');
+			$id = session('profile_id');
 			$data['form'] 		= "Purchase Detail";
 			$data['table'] 	= "Purchase";
 			/* $data['purchase']= $this->db->query("SELECT `tr04_purchase`.*,user_name AS NAME FROM `tr04_purchase` JOIN `m03_user_detail`ON `tr04_purchase`.pur_reg_id=`m03_user_detail`.user_reg_id where pur_reg_id=$id")->result(); */			
@@ -1416,7 +1338,7 @@
 			$data['form'] 	= "Product Order Summery";
 			$data['table'] 	= "Product Order";
 			$condition="";
-			$uid = $this->session->userdata('profile_id');
+			$uid = session('profile_id');
 			$id = $this->uri->segment(3);
 			$data['invoice'] = $id;
 			if(!empty($this->input->post()))
@@ -1441,7 +1363,7 @@
 			$data['form'] 	= "Product Order Summary";
 			$data['table'] 	= "Product Order";
 			$id = $this->uri->segment(3);
-			$uid = $this->session->userdata('profile_id');
+			$uid = session('profile_id');
 			$data['transid'] = $id;
 			$data['rid'] = $this->db->query("SELECT * from v15_product_purchase_all where pur_all_trans_id = $id and pur_all_reg_id = $uid GROUP BY pur_all_variant_id, pur_all_type")->result();
 			

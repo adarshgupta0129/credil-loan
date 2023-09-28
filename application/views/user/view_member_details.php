@@ -3,7 +3,7 @@
 	<div class="col-sm-12">
 		<h4 id="das"  class="page-title"><?php echo $page; ?></h4>
 		<ol class="breadcrumb">
-			<li><a href="<?php echo base_url(); ?>master/index">Dashboard</a></li>
+			<li><a href="<?php echo base_url(); ?><?=fetch_class()?>/index">Dashboard</a></li>
 			<li class="active"><?php echo $form; ?></li>
 		</ol>
 	</div>

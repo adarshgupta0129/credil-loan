@@ -31,7 +31,7 @@
 			else
 			{
 			?>
-            <input type="hidden" name="ddtype" value="2">
+            <input type="hidden" name="ddtype" value="6">
             <?php
 			}
 		?>

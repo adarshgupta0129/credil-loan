@@ -62,14 +62,14 @@ function check(get_id)
 				else
 				{
 					$("#"+id+"").focus();
-					$("#divtxtconfirm").html("Password does't match. ");
+					$("#div"+id+"").html("Password does't match. ");
 					return false;
 				}
 			}
 			else
 			{
 				$("#"+id+"").focus();
-				$("#div"+id+"").html("This field is req");
+				$("#div"+id+"").html("This field is required!");
 				return false;
 			}
 		}
@@ -145,7 +145,7 @@ function check(get_id)
 				return false;
 			}
 		}
-	
+		
 		if($("#"+id+"").attr('id')=="txtemail")
 		{
 			if(type=="text" && value!="" )
@@ -162,14 +162,14 @@ function check(get_id)
 					return false;
 				} 
 			}
-/* 			else
-			{
+			/* 			else
+				{
 				$("#"+id+"").focus();
 				$("#div"+id+"").html("This Feild is required.You can't leave this empty");
 				return false;
 			} */
 		} 
-	
+		
 		if($("#"+id+"").attr('name')=="txtmobile")
 		{
 			if(type=="text" && value!="" && value!=0 )

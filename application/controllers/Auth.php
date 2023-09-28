@@ -138,6 +138,7 @@
 			$data['state']=$this->db->get('m02_location');
 			
 			$data['bank']=$this->db->where("bank_status",1)->get('m01_bank');
+			$data['relation'] = getEnum('user_rel_type','m03_user_detail');
 					
 			$this->load->view('auth/registration',$data);
 			$this->load->view('common/footer');
@@ -150,6 +151,14 @@
 			$this->load->view('common/header',$this->data);					
 			$this->load->view('auth/view_term_condition',$data);
 			$this->load->view('common/footer');
+		}
+		
+		// -------------USER REGISTRATION INSERTION---------------
+		
+		public function register_candidate()
+		{
+			$output = $this->Member_model->signup();
+			echo $output;
 		}
 		
 		public function logout()
@@ -176,9 +185,9 @@
 			$this->db->where('or_m_user_id',$userid);
 			$email = $this->db->get('m03_user_detail')->row();
 			
-			echo $msg = "Welcome To ".SITE_NAME." ".$loginpwd->or_m_name."  Your Userid : ".$userid." and , Password : ".$loginpwd->or_login_pwd." Thanks for Choosing ".WEBSITE_NAME;
+			echo $msg = "Welcome To ".SITE_NAME." ".$loginpwd->user_name."  Your Userid : ".$userid." and , Password : ".$loginpwd->or_login_pwd." Thanks for Choosing ".WEBSITE_NAME;
 			
-			$this->crud_model->send_sms(trim($email->or_m_mobile_no),$msg);
+			$this->crud_model->send_sms(trim($email->user_mobile_no),$msg);
 			
 			$this->crud_model->send_email(trim($email->or_m_email),'Your Password Details in assvigroup.in',$msg,'Forget Password');
 			

@@ -22,7 +22,7 @@
 		<script src="<?php echo base_url(); ?>application/libraries/assets/js/jquery.min.js"></script>
         <script src="<?php echo base_url(); ?>application/libraries/assets/js/modernizr.min.js"></script>
         <?php
-        if($this->router->fetch_method() != 'dashboard' && $this->router->fetch_method() != 'index' )
+        if(fetch_method() != 'dashboard' && fetch_method() != 'index' )
         {
         ?>
         <!-- Custom Date Picker Js -->

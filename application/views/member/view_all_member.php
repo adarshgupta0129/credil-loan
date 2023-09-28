@@ -35,13 +35,13 @@
 
 							<div class="row">
 
-								<div class="col-md-4">
+								<!--div class="col-md-4">
 									<div class="form-group">
 										<label class="control-label">Login Id<span class="required"> * </span>
 										</label>
 										<input type="text" id="txtlogin" name="txtlogin"  class="form-control input-inline input-medium" placeholder="Enter login id.">
 										</div>
-									</div>
+									</div-->
 
 									<div class="col-md-4">
 										<div class="form-group">
@@ -57,10 +57,6 @@
 												</div>
 											</div>
 
-										</div>
-
-										<div class="row">
-
 											<div class="col-md-4">
 												<div class="form-group">
 													<label class="control-label">From Joining Date<span class="required"> * </span>
@@ -73,7 +69,7 @@
 												</div>
 											</div>
 
-											<div class="col-md-4">
+											<!--div class="col-md-4">
 
 												<div class="form-group">
 													<label class="control-label">Type</label>
@@ -91,7 +87,7 @@
 													</select>
 													<span id="divddtype" style="color:red"/>
 												</div>
-											</div>
+											</div-->
 
 										</div>
 										<div class="row">
@@ -113,22 +109,20 @@
 										<b>
 											<?php echo $table_name; ?>
 										</b>
-<!--button onclick="exportTableToExcel('datatable', '<?=$table_name; ?>')" class="btn btn-success btn-xs pull-right">Export Data</button-->
+<button onclick="exportTableToExcel('datatable', '<?=$table_name; ?>')" class="btn btn-success btn-xs pull-right">Export Data</button>
 									</h4>
 
 									<table id="datatable" class="table table-striped table-bordered">
 										<thead>
 											<tr>
 												<th>S No.</th>
-												<th nowrap>Action</th>
+												<!--th nowrap>Action</th-->
 												<th>LoginId</th>
-												<th>Name</th>
-												<th>Type</th>
-												<th>Date</th>
-												<th>City</th>
 												<th>Mobile No</th>
-												<th>Topup Date</th>
- 											</tr>
+												<th>Name</th>
+ 												<th>Date</th>
+												<th>City</th>
+  											</tr>
 										</thead>
 										<tbody id="userid">
 											<?php
@@ -139,25 +133,15 @@
 												<td>
 													<?php echo $sn;?>
 												</td>
-												<td nowrap>
-												<a href="<?=base_url()?>member/view_member_edit/<?= $rows->regid; ?>" title="Edit Profile"><i class="fa fa-pencil text-primary"></i></a> | 
-												<a href="<?= base_url(); ?>member/resend_msg/<?= $rows->regid; ?>" title="Send Sms"><i class="md md-email text-primary"></i></a>
- 
-												</td>
-												<td>
-													<?php echo $rows->Login_Id;?></td>
-												<td>
-													<?php echo $rows->Associate_Name;?></td>
-												<td>
-													<?php echo $rows->DESIGNATION_S;?></td>
-												<td>
-													<?php echo date('d-m-y h:i:s',strtotime($rows->Joining_Date));?></td>
-												<td>
-													<?php echo $rows->City;?></td>
-												<td>
-													<?php echo $rows->Mobile_No;?></td>
-												<td>
-													<?php echo ($rows->TOPDATE == '')?("Non TopUp"):$rows->TOPDATE;?></td> 
+												<!--td nowrap>
+													<a href="<?=base_url()?>member/view_member_edit/<?= $rows->user_reg_id; ?>" title="Edit Profile"><i class="fa fa-pencil text-primary"></i></a> | 
+													<a href="<?= base_url(); ?>member/resend_msg/<?= $rows->user_reg_id; ?>" title="Send Sms"><i class="md md-email text-primary"></i></a>
+ 												</td-->
+												<td><?=$rows->user_u_id;?></td>
+												<td><?=$rows->user_mobile_no;?></td>
+												<td><?=$rows->user_name;?></td>
+ 												<td><?=date('d-m-y',strtotime($rows->user_joining_date));?></td>
+												<td><?=$rows->City;?></td>
 											</tr>   
 											<?php $sn++; }?>                   
 										</tbody>
