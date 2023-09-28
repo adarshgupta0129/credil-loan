@@ -68,6 +68,7 @@
  								<li><a href="<?php echo base_url() ?>master/view_proof"><i class="fa fa-angle-double-right"></i> Manage Proof</a></li>
  								<li><a href="<?php echo base_url() ?>master/view_loan_type"><i class="fa fa-angle-double-right"></i>Manage Loan Type</a></li>
  								<li><a href="<?php echo base_url() ?>master/view_loan_plan"><i class="fa fa-angle-double-right"></i> Manage Loan Plan</a></li>
+ 								<li><a href="<?php echo base_url() ?>branch/view_branch_reg"><i class="fa fa-angle-double-right"></i> Manage Branch</a></li>
 								
 								
 								

@@ -121,6 +121,10 @@
 					$this->db->set("ln_plan_status", post('status'))->where('ln_plan_id',post('id'))->update("ln02_loan_plan");
 					success("Loan Plan status changed.");
 				}
+				elseif(post('proc') == 'branch'){       // of Branch Master
+					$this->db->set("branch_status", post('status'))->where('branch_id',post('id'))->update("m03_branch");
+					success("Branch status changed.");
+				}
 			}
 		}
 		
