@@ -30,6 +30,7 @@
             <p class="text-muted font-13 m-b-30" />
 
             <div class="form">
+                
                 <?= form_open('userprofile/add_apply_loan', array("class" => "cmxform horizontal-form", "id" => "signupForm")); ?>
 
                 <div class="row">
