@@ -272,6 +272,17 @@
 			$json=json_encode($query);
 			echo $json;
 		}
+
+		
+		public function get_loan_plan($id)
+		{
+			$this->db->where('ln_plan_type_id', $id);
+			$this->db->where('ln_plan_status', 1);
+			$query['rec'] = $this->db->get('ln02_loan_plan')->result();
+			$json = json_encode($query);
+			echo $json;
+		}
+
 		
 		
 		//Validate Mobile No
