@@ -290,8 +290,6 @@ function verify_otp(get_id) {
 	}
 }
 
-
-
 function get_city() {
 	var ddstate = $("#ddstate").val();
 	var ocity = $("#hdocity").val();
@@ -330,42 +328,155 @@ function get_city() {
 	}
 }
 
-/***** Rishi Code  *****/
-/***** Get Loan Plan *****/
-function get_loan_plan(u_id) {
+/******************************** Rishi Code  ****************************/
 
-	var id = u_id;
-	//alert(id)
+/********************************** Get Loan Plan *******************************/
+function get_loan_plan(id) {
 	$.ajax(
 		{
-			type: "POST",
+			type: "GET",
 			url: baseUrl + "Get_Details/get_loan_plan/" + id,
+			dataType: 'json',
 			beforeSend: function () {
 				$.blockUI(
 					{
 						message: '<img src="' + baseUrl + 'application/libraries/loading.gif" />'
 					});
-				setTimeout($.unblockUI, 1000);
+				setTimeout($.unblockUI, 500);
 			},
 			success: function (msg) {
 				$("#ddloanplan").empty();
 				$("#ddloanplan").append("<option value=-1>Select Loan Plan</option>");
-				//alert(msg.trim())
-				var k = msg.trim();
-				$.each(k.rec, function (i, item) {
+				$.each(msg.rec, function (i, item) {
 					$('#ddloanplan').append("<option value=" + item.ln_plan_id + ">" + item.ln_plan_name + "</option>");
-
 				});
 			}
 		});
 }
+/********************************** End Loan Plan *******************************/
 
+/********************************* Submit Loan Plan ***************************/
 
+function add_loan(id) {
+	$.ajax(
+		{
+			url: baseUrl + "Get_Details/check_loan_amt/" + id,
+			dataType: 'json',
+			success: function (msg) {
+				// console.log(msg);
+				$("#hf_max").val(msg['ln_plan_max_amount']);
+				$("#hf_min").val(msg['ln_plan_min_amount']);
+				$("#txtinterst").val(msg['ln_plan_annual_interest']).prop("readonly", true);
+				$("#txtcharges").val(msg['ln_plan_proc_fee_percent']).prop("readonly", true);
+			}
+		});
+}
 
+// function add_loan() {
+// 	if (check('add_loan')) {
+// 		var formData = new FormData(this);
 
+// 		$.ajax({
+// 			url: baseUrl + "Get_Details/check_loan_amt",
+// 			type: "post",
+// 			data: formData,
+// 			dataType: "json",
+// 			processData: false,
+// 			contentType: false,
 
+// 			success: function (response) {
+// 				$('#loadingOverlay').hide();
+// 				if (response['status']) {
+// 					swal(response['msg'], {
+// 						icon: "success",
+// 					}).then((willDelete) => {
+// 						if (willDelete) {
+// 							$('#vehicle_form_insert input, #vehicle_form_insert select, #vehicle_form_insert textarea').each(function () {
+// 								if ($(this).is('select')) {
+// 									$(this).val(0);
+// 								} else {
+// 									$(this).val("");
+// 								}
+// 							});
+// 							get_data();
+// 							$("#divfd_img").html("");
+// 							$(".MultipleRecord").find('.duplicate-row').not(':first').remove();
+// 						} else {
+// 							window.location.reload();
+// 						}
+// 					});
+// 				} else {
+// 					if (response['msg'] == 'error') {
+// 						$("#divfd_img").html("Please upload some image.!");
+// 					} else {
+// 						Swal.fire({
+// 							icon: 'error',
+// 							title: 'Oops...',
+// 							text: 'Something went wrong!'
+// 						});
+// 					}
+// 				}
+// 			}
+// 		});
+// 	} else {
+// 		return false;
+// 	}
+// }
+// $('#add_loan').submit(function (event) {
+// 	event.preventDefault();
+// 	alert("hello");
+// 	if (check('add_loan')) {
+// 		var formData = new FormData(this);
 
-/***** End Code Rishi *****/
+// 		$.ajax({
+// 			url: baseUrl + "Get_Details/check_loan_amt",
+// 			type: "post",
+// 			data: formData,
+// 			dataType: "json",
+// 			processData: false,
+// 			contentType: false,
+
+// 			success: function (response) {
+// 				$('#loadingOverlay').hide();
+// 				if (response['status']) {
+// 					swal(response['msg'], {
+// 						icon: "success",
+// 					}).then((willDelete) => {
+// 						if (willDelete) {
+// 							$('#vehicle_form_insert input, #vehicle_form_insert select, #vehicle_form_insert textarea').each(function () {
+// 								if ($(this).is('select')) {
+// 									$(this).val(0);
+// 								} else {
+// 									$(this).val("");
+// 								}
+// 							});
+// 							get_data();
+// 							$("#divfd_img").html("");
+// 							$(".MultipleRecord").find('.duplicate-row').not(':first').remove();
+// 						} else {
+// 							window.location.reload();
+// 						}
+// 					});
+// 				} else {
+// 					if (response['msg'] == 'error') {
+// 						$("#divfd_img").html("Please upload some image.!");
+// 					} else {
+// 						Swal.fire({
+// 							icon: 'error',
+// 							title: 'Oops...',
+// 							text: 'Something went wrong!'
+// 						});
+// 					}
+// 				}
+// 			}
+// 		});
+// 	} else {
+// 		return false;
+// 	}
+// });
+/********************************* End Submit Loan Plan ***************************/
+
+/********************************** End Code Rishi *****************************/
 
 
 
