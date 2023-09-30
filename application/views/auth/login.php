@@ -6,7 +6,14 @@
 	<div class="card-box">
 		
 		
-		<h1 class="text-center">Sign In</h1>
+		<h1 class="text-center">
+			Sign In  
+<?=(uri(1)=='branch'?' -Branch':'')?>
+<?=(uri(1)=='admin'?' -Admin':'')?>
+			
+
+
+		</h1>
 		
 		
 		<?php 
@@ -15,6 +22,12 @@
 			{
 			?>
             <input type="hidden" name="ddtype" value="1">
+            <?php
+			}
+			else if($this->uri->segment(1) == 'branch')
+			{
+			?>
+            <input type="hidden" name="ddtype" value="2">
             <?php
 			}
 			else if($this->uri->segment(1) == 'store')

@@ -38,10 +38,12 @@ class Auth extends CI_Controller
 			);
 			$query = "CALL sp00_login(?" . str_repeat(",?", count($login_data) - 1) . ",@msg,@msg1)";
 			$query_result = $this->db->query($query, $login_data);
-
+			
 			/*-----------------------Check User Logged In or Not-----------------------------*/
 			$count = $query_result->num_rows();
 
+
+			
 			/*-----------------------Free Result For Next Query-----------------------------*/
 			mysqli_next_result($this->db->conn_id);
 			$msg = $this->db->query("SELECT @msg as message")->row()->message;
@@ -66,6 +68,7 @@ class Auth extends CI_Controller
 					'logged_in' 	=> 	$row->logged_in,
 					'usertype' 		=> 	$row->usertype,
 				);
+				
 				$this->session->set_userdata($sessiondata);
 				if (session('tmp_profile_id') <> '') {
 					$id = session('profile_id');
@@ -79,17 +82,11 @@ class Auth extends CI_Controller
 				$this->session->set_userdata('tmp_profile_id', $id);
 
 				/*-----------------Redirect Url For Different User-----------------*/
-
+				// echo $this->db->last_query(); die;
 				if ($msg1 == 1 || $msg1 == 4) {
 					header("Location:" . base_url() . "master/index");
 				} elseif ($msg1 == 2) {
-					if ($src == 'login') {
-						header("Location:" . base_url() . "Userprofile/index");
-					} elseif ($src == 'checkout') {
-						header("Location:" . base_url() . "checkout");
-					} else {
-						header("Location:" . base_url() . "Userprofile/index");
-					}
+					header("Location:" . base_url() . "branch/index");					
 				} elseif ($msg1 == 3) {
 					header("Location:" . base_url() . "store/dashboard");
 				} else {

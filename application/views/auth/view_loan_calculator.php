@@ -15,9 +15,12 @@
 <div class="row">
   <div class="col-md-12 readCont">
     <h1 class="loanHeading">
-      <strong>Personal Loan</strong> EMI Calculator
+      <strong> Loan</strong> EMI Calculator
     </h1>
-    <div class="paraGraph readMoreCont" style="height: 108.2px; transition: height 0.2s ease 0s;"> <p class="emiHere">
+    <div class="form-group text-right">
+				<a href="<?php echo base_url();?>auth/index" class="btn btn-warning"><i class="fa fa-login"></i> Back to Login</a>
+			</div>
+    <div class="paraGraph readMoreCont" style="height: 20.2px; transition: height 0.2s ease 0s;"> <p class="emiHere">
         <strong></strong>
       </p>
      
@@ -278,7 +281,7 @@
     </article>
   </div>
 </div>
-<div class="paraGraph readMoreCont" style="height: 108.2px; transition: height 0.2s ease 0s;"> <p class="emiHere">
+<div class="paraGraph readMoreCont" style="height: 120.2px; transition: height 0.2s ease 0s;"> <p class="emiHere">
         <strong></strong>
       </p>
      
