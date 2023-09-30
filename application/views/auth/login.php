@@ -63,14 +63,34 @@
 		<div class="form-group text-center m-t-20">
 			<button class="btn btn-inverse btn-block text-uppercase waves-effect waves-light" type="submit">Log In</button>
 		</div>
+
+
+
+
+
+
+		<div class="row">
+
+
+<div class="col-md-6 m-t-20">
+	<a href="<?php echo base_url();?>dummy/loan_calculator" class="text-dark"><i class="fa fa-calculator"></i> Loan Calculater</a>
+</div>
+
+
+
 		<?php 
 			if(uri(1) != 'admin')
 			{
 			?>
-		<div class="form-group text-right">
+		<div class="col-md-6 text-right m-t-20">
 			<a href="<?php echo base_url();?>auth/registration" class="text-dark"><i class="fa fa-user"></i> New Customer?</a>
 		</div>
 			<?php } ?>
+
+
+			</div>
+
+
 		<!--div class="form-group m-t-20 m-b-0">
 			<a href="<?php echo base_url();?>auth/forgot_password" class="text-dark"><i class="fa fa-lock m-r-5"></i> Forgot your password?</a>
 		</div-->
