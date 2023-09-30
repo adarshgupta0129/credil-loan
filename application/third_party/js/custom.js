@@ -357,7 +357,8 @@ function get_loan_plan(id) {
 
 /********************************* Submit Loan Plan ***************************/
 
-function add_loan(id) {
+function add_loan1(id) {
+	
 	$.ajax(
 		{
 			url: baseUrl + "Get_Details/check_loan_amt/" + id,
@@ -372,109 +373,22 @@ function add_loan(id) {
 		});
 }
 
-// function add_loan() {
-// 	if (check('add_loan')) {
-// 		var formData = new FormData(this);
 
-// 		$.ajax({
-// 			url: baseUrl + "Get_Details/check_loan_amt",
-// 			type: "post",
-// 			data: formData,
-// 			dataType: "json",
-// 			processData: false,
-// 			contentType: false,
 
-// 			success: function (response) {
-// 				$('#loadingOverlay').hide();
-// 				if (response['status']) {
-// 					swal(response['msg'], {
-// 						icon: "success",
-// 					}).then((willDelete) => {
-// 						if (willDelete) {
-// 							$('#vehicle_form_insert input, #vehicle_form_insert select, #vehicle_form_insert textarea').each(function () {
-// 								if ($(this).is('select')) {
-// 									$(this).val(0);
-// 								} else {
-// 									$(this).val("");
-// 								}
-// 							});
-// 							get_data();
-// 							$("#divfd_img").html("");
-// 							$(".MultipleRecord").find('.duplicate-row').not(':first').remove();
-// 						} else {
-// 							window.location.reload();
-// 						}
-// 					});
-// 				} else {
-// 					if (response['msg'] == 'error') {
-// 						$("#divfd_img").html("Please upload some image.!");
-// 					} else {
-// 						Swal.fire({
-// 							icon: 'error',
-// 							title: 'Oops...',
-// 							text: 'Something went wrong!'
-// 						});
-// 					}
-// 				}
-// 			}
-// 		});
-// 	} else {
-// 		return false;
-// 	}
-// }
-// $('#add_loan').submit(function (event) {
-// 	event.preventDefault();
-// 	alert("hello");
-// 	if (check('add_loan')) {
-// 		var formData = new FormData(this);
-
-// 		$.ajax({
-// 			url: baseUrl + "Get_Details/check_loan_amt",
-// 			type: "post",
-// 			data: formData,
-// 			dataType: "json",
-// 			processData: false,
-// 			contentType: false,
-
-// 			success: function (response) {
-// 				$('#loadingOverlay').hide();
-// 				if (response['status']) {
-// 					swal(response['msg'], {
-// 						icon: "success",
-// 					}).then((willDelete) => {
-// 						if (willDelete) {
-// 							$('#vehicle_form_insert input, #vehicle_form_insert select, #vehicle_form_insert textarea').each(function () {
-// 								if ($(this).is('select')) {
-// 									$(this).val(0);
-// 								} else {
-// 									$(this).val("");
-// 								}
-// 							});
-// 							get_data();
-// 							$("#divfd_img").html("");
-// 							$(".MultipleRecord").find('.duplicate-row').not(':first').remove();
-// 						} else {
-// 							window.location.reload();
-// 						}
-// 					});
-// 				} else {
-// 					if (response['msg'] == 'error') {
-// 						$("#divfd_img").html("Please upload some image.!");
-// 					} else {
-// 						Swal.fire({
-// 							icon: 'error',
-// 							title: 'Oops...',
-// 							text: 'Something went wrong!'
-// 						});
-// 					}
-// 				}
-// 			}
-// 		});
-// 	} else {
-// 		return false;
-// 	}
-// });
 /********************************* End Submit Loan Plan ***************************/
+
+/********************************* Check Loan Amount ***************************/
+
+function check_amt() {
+	val = $("#txtloanamt").val();
+	if ($("#hf_min").val() <= parseInt(val) && parseInt(val) <= $("#hf_max").val()) {
+		$("#signform").submit();
+	} else {
+		$("#txtloanamt").focus();
+		$("#divtxtloanamt").html('Ammount must be between ' + $("#hf_min").val() + " and " + $("#hf_max").val());
+	}
+}
+
 
 /********************************** End Code Rishi *****************************/
 

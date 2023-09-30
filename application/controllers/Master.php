@@ -297,6 +297,19 @@ class Master extends CI_Controller
 	}
 
 
+		/////////////////////////////////////////////////////////////////////////
+	//////////   			  Vew Loan Request 			   ///////
+	//////////////////////////////////////////////////////////////////////
+
+	public function view_loan_request()
+	{
+		$data['form_name'] = "View Loan Request";
+		$data['table_name'] = "View All Request";
+		
+		
+		$this->view('view_all_member',$data);
+	}
+
 
 
 

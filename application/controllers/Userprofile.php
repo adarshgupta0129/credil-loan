@@ -173,14 +173,18 @@ class Userprofile extends CI_Controller
 
 	public function apply_loan()
 	{
-
+		$id = session('profile_id');
 		$data = [
 			'table_name'	=> "View Loan Plan",
 			'form_name' 	=> "View Loan Plan",
 			'loanType' 	=> $this->db->where('ln_type_id<>', 0)->order_by("ln_type_name", "asc")->get("ln01_loan_type")->result(),
 			'loanPlan' 	=> $this->db->get("ln02_loan_plan")->result(),
-			'rid' => $this->db->get("ln03_loan_booking")
+			'rid' => $this->db->query("SELECT * FROM `tr04_apply_loan` AS A
+										INNER JOIN `ln02_loan_plan` AS P
+										ON A.`ap_ln_plan` = P.`ln_plan_id`
+										WHERE ap_ln_reg_id = $id")
 		];
+		// p($data);
 
 		$this->view('apply_loan', $data);
 	}
@@ -188,15 +192,16 @@ class Userprofile extends CI_Controller
 	public function add_apply_loan()
 	{
 		$data = [
-			"ln_bk_reg_id" 	=> session('profile_id'),
-			"ln_bk_booking_num" 		=> post('ddloantype'),
-			"ln_bk_loan_plan_id" 		=> 1,
-			"ln_bk_loan_amt" 		=> post('txtloanamt'),
-			"ln_bk_intrest_rate" 	=> post('txtinterst'),
-			"ln_bk_proc_charges" 	=> post('txtcharges')
+			"ap_ln_reg_id" 	=> session('profile_id'),
+			"ap_ln_plan" 		=> post('ddloanplan'),
+			"ap_ln_apply_amt" 		=> post('txtloanamt'),
+			"ap_ln_interest" 	=> post('txtinterst'),
+			"ap_ln_charges" 	=> post('txtcharges'),
+			"ap_ln_loan_amt" 	=> post('txtloanamt'),
+			"ap_ln_date" 	=> date('Y-m-d')
 		];
 		// p($data);
-		insert("ln03_loan_booking", $data);
+		insert("tr04_apply_loan", $data);
 		success("Loan Request  added.");
 		header("Location:" . base_url() . "userprofile/apply_loan");
 	}

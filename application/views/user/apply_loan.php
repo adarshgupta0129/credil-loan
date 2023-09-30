@@ -50,7 +50,7 @@
 
                     <div class="form-group col-md-4">
                         <label class="control-label">Loan Plan</label>
-                        <select class="form-control" name="ddloanplan" id="ddloanplan" onchange="add_loan(this.value)">
+                        <select class="form-control" name="ddloanplan" id="ddloanplan" onchange="add_loan1(this.value)">
                             <option value="-1">Select Loan Type</option>
                         </select>
                         <span id="divddloanplan" style="color:red"></span>
@@ -97,15 +97,7 @@
     </div>
 
     <script>
-        function check_amt() {
-            val = $("#txtloanamt").val();
-            if ($("#hf_min").val() <= parseInt(val) && parseInt(val) <= $("#hf_max").val()) {
-                $("#signform").submit();
-            } else {
-                $("#txtloanamt").focus();
-                $("#divtxtloanamt").html('Ammount must be between ' + $("#hf_min").val() + " and " + $("#hf_max").val());
-            }
-        }
+
     </script>
 
     <div class="col-sm-12">
@@ -122,11 +114,12 @@
                     <tr>
                         <th>S No.</th>
                         <!--th nowrap>Action</th-->
-                        <th>Loan Type</th>
+                        <!-- <th>Loan Type</th> -->
                         <th>Loan Plan</th>
                         <th>Loan Amount</th>
                         <th>Intrest</th>
                         <th>Charges</th>
+                        <th>Apply Loan Data</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -139,12 +132,13 @@
                                 <?php echo $sn; ?>
                             </td>
 
-                            <td><?= $rows->ln_bk_booking_num; ?></td>
-                            <td><?= $rows->ln_bk_loan_plan_id; ?></td>
-                            <td><?= $rows->ln_bk_loan_amt; ?></td>
-                            <td><?= $rows->ln_bk_intrest_rate; ?></td>
-                            <td><?= $rows->ln_bk_proc_charges; ?></td>
-                            <td><?= $rows->ln_bk_status; ?></td>
+                            <td><?= $rows->ln_plan_name; ?></td>
+                            <td><?= $rows->ap_ln_apply_amt; ?></td>
+                            <td><?= $rows->ap_ln_interest; ?></td>
+                            <td><?= $rows->ap_ln_charges; ?></td>
+                            <!-- <td><?= $rows->ln_bk_proc_charges; ?></td> -->
+                            <td><?= $rows->ap_ln_date; ?></td>
+                            <td><?= $rows->ap_ln_status; ?></td>
 
                         </tr>
                     <?php $sn++;
