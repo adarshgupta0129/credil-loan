@@ -1,7 +1,5 @@
 <!-- Start content -->
 
-
-
 <!-- Page-Title -->
 <div class="row">
     <div class="col-sm-12">
@@ -30,8 +28,8 @@
             <p class="text-muted font-13 m-b-30" />
 
             <div class="form">
-                
-                <?= form_open('userprofile/add_apply_loan', array("class" => "cmxform horizontal-form", "id" => "signupForm")); ?>
+
+                <?= form_open('userprofile/add_apply_loan', array("class" => "cmxform horizontal-form", "id" => "signform")); ?>
 
                 <div class="row">
 
@@ -52,15 +50,8 @@
 
                     <div class="form-group col-md-4">
                         <label class="control-label">Loan Plan</label>
-                        <select class="form-control" name="ddloanplan" id="ddloanplan">
-                            <!-- <option value="-1">Select Loan Type</option>
-                            <?php
-                            foreach ($loanType as $bk) {
-                            ?>
-                                <option value="<?= $bk->ln_type_id; ?>"><?= $bk->ln_type_name; ?></option>
-                            <?php
-                            }
-                            ?> -->
+                        <select class="form-control" name="ddloanplan" id="ddloanplan" onchange="add_loan1(this.value)">
+                            <option value="-1">Select Loan Type</option>
                         </select>
                         <span id="divddloanplan" style="color:red"></span>
                     </div>
@@ -93,15 +84,21 @@
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-offset-4 col-md-8">
-                            <button class="btn btn-info" type="submit">Submit</button>
+                            <button class="btn btn-info" onclick="check_amt()" type="button">Submit</button>
                             <button type="button" class="btn btn-danger">Cancel</button>
                         </div>
                     </div>
                 </div>
+                <input type="hidden" id="hf_min">
+                <input type="hidden" id="hf_max">
                 <?php echo form_close(); ?>
             </div>
         </div>
     </div>
+
+    <script>
+
+    </script>
 
     <div class="col-sm-12">
         <div class="card-box table-responsive">
@@ -117,11 +114,12 @@
                     <tr>
                         <th>S No.</th>
                         <!--th nowrap>Action</th-->
-                        <th>Loan Type</th>
+                        <!-- <th>Loan Type</th> -->
                         <th>Loan Plan</th>
                         <th>Loan Amount</th>
                         <th>Intrest</th>
                         <th>Charges</th>
+                        <th>Apply Loan Data</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -133,16 +131,15 @@
                             <td>
                                 <?php echo $sn; ?>
                             </td>
-                            <!--td nowrap>
-													<a href="<?= base_url() ?>member/view_member_edit/<?= $rows->user_reg_id; ?>" title="Edit Profile"><i class="fa fa-pencil text-primary"></i></a> | 
-													<a href="<?= base_url(); ?>member/resend_msg/<?= $rows->user_reg_id; ?>" title="Send Sms"><i class="md md-email text-primary"></i></a>
- 												</td-->
-                            <td><?= $rows->ln_bk_booking_num; ?></td>
-                            <td><?= $rows->ln_bk_loan_plan_id; ?></td>
-                            <td><?= $rows->ln_bk_loan_amt; ?></td>
-                            <td><?= $rows->ln_bk_intrest_rate; ?></td>
-                            <td><?= $rows->ln_bk_proc_charges; ?></td>
-                            <td><?= $rows->ln_bk_status; ?></td>
+
+                            <td><?= $rows->ln_plan_name; ?></td>
+                            <td><?= $rows->ap_ln_apply_amt; ?></td>
+                            <td><?= $rows->ap_ln_interest; ?></td>
+                            <td><?= $rows->ap_ln_charges; ?></td>
+                            <!-- <td><?= $rows->ln_bk_proc_charges; ?></td> -->
+                            <td><?= $rows->ap_ln_date; ?></td>
+                            <td><?= $rows->ap_ln_status; ?></td>
+
                         </tr>
                     <?php $sn++;
                     } ?>

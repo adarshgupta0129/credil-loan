@@ -290,8 +290,6 @@ function verify_otp(get_id) {
 	}
 }
 
-
-
 function get_city() {
 	var ddstate = $("#ddstate").val();
 	var ocity = $("#hdocity").val();
@@ -330,42 +328,69 @@ function get_city() {
 	}
 }
 
-/***** Rishi Code  *****/
-/***** Get Loan Plan *****/
-function get_loan_plan(u_id) {
+/******************************** Rishi Code  ****************************/
 
-	var id = u_id;
-	//alert(id)
+/********************************** Get Loan Plan *******************************/
+function get_loan_plan(id) {
 	$.ajax(
 		{
-			type: "POST",
+			type: "GET",
 			url: baseUrl + "Get_Details/get_loan_plan/" + id,
+			dataType: 'json',
 			beforeSend: function () {
 				$.blockUI(
 					{
 						message: '<img src="' + baseUrl + 'application/libraries/loading.gif" />'
 					});
-				setTimeout($.unblockUI, 1000);
+				setTimeout($.unblockUI, 500);
 			},
 			success: function (msg) {
 				$("#ddloanplan").empty();
 				$("#ddloanplan").append("<option value=-1>Select Loan Plan</option>");
-				//alert(msg.trim())
-				var k = msg.trim();
-				$.each(k.rec, function (i, item) {
+				$.each(msg.rec, function (i, item) {
 					$('#ddloanplan').append("<option value=" + item.ln_plan_id + ">" + item.ln_plan_name + "</option>");
-
 				});
+			}
+		});
+}
+/********************************** End Loan Plan *******************************/
+
+/********************************* Submit Loan Plan ***************************/
+
+function add_loan1(id) {
+	
+	$.ajax(
+		{
+			url: baseUrl + "Get_Details/check_loan_amt/" + id,
+			dataType: 'json',
+			success: function (msg) {
+				// console.log(msg);
+				$("#hf_max").val(msg['ln_plan_max_amount']);
+				$("#hf_min").val(msg['ln_plan_min_amount']);
+				$("#txtinterst").val(msg['ln_plan_annual_interest']).prop("readonly", true);
+				$("#txtcharges").val(msg['ln_plan_proc_fee_percent']).prop("readonly", true);
 			}
 		});
 }
 
 
 
+/********************************* End Submit Loan Plan ***************************/
+
+/********************************* Check Loan Amount ***************************/
+
+function check_amt() {
+	val = $("#txtloanamt").val();
+	if ($("#hf_min").val() <= parseInt(val) && parseInt(val) <= $("#hf_max").val()) {
+		$("#signform").submit();
+	} else {
+		$("#txtloanamt").focus();
+		$("#divtxtloanamt").html('Ammount must be between ' + $("#hf_min").val() + " and " + $("#hf_max").val());
+	}
+}
 
 
-
-/***** End Code Rishi *****/
+/********************************** End Code Rishi *****************************/
 
 
 
