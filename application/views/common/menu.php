@@ -32,7 +32,7 @@
 							<li class="dropdown top-menu-item-xs">
 								<a href="" class="dropdown-toggle profile waves-effect waves-light" data-toggle="dropdown" aria-expanded="true"><i class="ti-user m-r-10"></i> </a>
 								<ul class="dropdown-menu">
-									<li><a href="<?php echo base_url() ?>master/view_soft_login"><i class="ti-user m-r-10 text-custom"></i> Profile</a></li>
+									<li><a href="<?php echo base_url() ?><?=fetch_class()?>/view_soft_login"><i class="ti-user m-r-10 text-custom"></i> Profile</a></li>
 									<li class="divider"></li>
 									<li><a href="<?php echo base_url('auth/logout') ?>"><i class="ti-power-off m-r-10 text-danger"></i> Logout</a></li>
 								</ul>
@@ -53,8 +53,13 @@
 				<!--- Divider -->
 				<div id="sidebar-menu">
 					<ul>
-						<li><a class="waves-effect" href="<?php echo base_url(); ?>master/index"><i class="md md-dashboard"></i> <span>Dashboard</span></a></li>
+						<li><a class="waves-effect" href="<?php echo base_url(); ?><?=fetch_class()?>/index"><i class="md md-dashboard"></i> <span>Dashboard</span></a></li>
+						
+<?php 
+if (session('usertype') == "1") {  ?>
 
+
+						
 						<li class="has_sub">
 							<a href="javascript:void(0);" class="waves-effect"><i class="md-assignment-returned"></i> <span> Master </span> <span class="menu-arrow"></span></a>
 							<ul class="list-unstyled">
@@ -68,15 +73,7 @@
 								<li><a href="<?php echo base_url() ?>master/view_proof"><i class="fa fa-angle-double-right"></i> Manage Proof</a></li>
 								<li><a href="<?php echo base_url() ?>master/view_loan_type"><i class="fa fa-angle-double-right"></i>Manage Loan Type</a></li>
 								<li><a href="<?php echo base_url() ?>master/view_loan_plan"><i class="fa fa-angle-double-right"></i> Manage Loan Plan</a></li>
-								<li><a href="<?php echo base_url() ?>branch/view_branch_reg"><i class="fa fa-angle-double-right"></i> Manage Branch</a></li>
-
-
-
-
-
-
-
-
+								<li><a href="<?php echo base_url() ?>branch_admin/view_branch_reg"><i class="fa fa-angle-double-right"></i> Manage Branch</a></li>
 
 
 
@@ -111,7 +108,10 @@
 								<!-- <li><a href="<?php echo base_url() ?>Member/view_kyc"><i class="ti-star"></i> Manage Kyc</a></li> -->
 							</ul>
 						</li>
+						<?php } elseif(session('usertype') == "2"){
 
+
+} ?>
 						<?php /*
 						<li class="has_sub">
 							<a href="javascript:void(0);" class="waves-effect"><i class="md-assignment-returned"></i> <span>Product Master </span> <span class="menu-arrow"></span></a>

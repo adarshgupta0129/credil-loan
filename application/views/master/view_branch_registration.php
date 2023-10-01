@@ -134,7 +134,7 @@
   										<td><?= $unit->branch_address; ?> </td>
 										<td>
 											<!-- <a href="javascript:void(0);"  class="btn btn-default" onclick="change_status('<?=$unit->branch_id?>','<?=$stat?>', 'adminBank')"><span class='fa fa-refresh' title="Change Status"></span></a>									 -->
-											<a href="<?=base_url()?>branch/view_branch_edit/<?= $unit->branch_id; ?>"  class="btn btn-default" ><span class='fa fa-edit' title="Status"></span></a>									
+											<a href="<?=base_url()?><?=fetch_class()?>/view_branch_edit/<?= $unit->branch_id; ?>"  class="btn btn-default" ><span class='fa fa-edit' title="Status"></span></a>									
 										
 											<a href="javascript:void(0);"  class="btn btn-default" onclick="change_status('<?=$unit->branch_id?>','<?=$stat?>', 'branch')"><span class='fa fa-refresh' title="Change Status"></span></a>	
 										</td>
