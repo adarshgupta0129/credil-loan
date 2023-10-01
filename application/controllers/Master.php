@@ -278,6 +278,7 @@ class Master extends CI_Controller
 			'loanType' 	=> $this->db->where('ln_type_id<>', 0)->order_by("ln_type_name", "asc")->get("ln01_loan_type")->result(),
 			'loanPlan' 	=> $this->db->get("ln02_loan_plan")->result()
 		];
+		// p($data);
 		$this->view('view_loan_plan', $data);
 	}
 
@@ -286,10 +287,12 @@ class Master extends CI_Controller
 		$data = [
 			"ln_plan_type_id" 	=> post('ddloantype'),
 			"ln_plan_name" 		=> post('txtplanname'),
-			"ln_plan_min_amount" 		=> post('txtminamt'),
-			"ln_plan_max_amount" 	=> post('txtmaxamt'),
+			"ln_plan_min_amt" 		=> post('txtminamt'),
+			"ln_plan_max_amt" 	=> post('txtmaxamt'),
 			"ln_plan_annual_interest" 	=> post('txtanint'),
-			"ln_plan_proc_fee_percent" 	=> post('txtcharges')
+			"ln_plan_proc_fee_percent" 	=> post('txtcharges'),
+			"ln_plan_min_tanure" 	=> post('txtminmonth'),
+			"ln_plan_max_tanure" 	=> post('txtmaxmonth')
 		];
 		insert("ln02_loan_plan", $data);
 		success("Loan Plan  added.");
@@ -297,19 +300,40 @@ class Master extends CI_Controller
 	}
 
 
-		/////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////
 	//////////   			  Vew Loan Request 			   ///////
 	//////////////////////////////////////////////////////////////////////
 
 	public function view_loan_request()
 	{
-		$data['form_name'] = "View Loan Request";
-		$data['table_name'] = "View All Request";
-		
-		
-		$this->view('view_all_member',$data);
+
+		$data = [
+			'table_name'	=> "View All Request",
+			'form_name' 	=> "View Loan Request",
+			'applyLoan' 	=> $this->db->query("SELECT * FROM `tr04_apply_loan` AS A
+													INNER JOIN `ln02_loan_plan` AS P
+													ON A.`ap_ln_plan` = P.`ln_plan_id`
+													INNER JOIN `m03_user_detail` AS U
+													ON A.`ap_ln_reg_id` = U.`user_reg_id`;")->result()
+		];
+		$this->view('view_loan_request', $data);
 	}
 
+	public function approve_loan($id, $status)
+	{
+		$this->db->set('ap_ln_status', $status);
+		$this->db->where('ap_ln_id', $id);
+		$this->db->update('tr04_apply_loan');
+		redirect('Master/view_loan_request', $status);
+	}
+
+	public function Reject_loan($id)
+	{
+		$this->db->set('ap_ln_status', 3);
+		$this->db->where('ap_ln_id', $id);
+		$this->db->update('tr04_apply_loan');
+		redirect('Master/view_loan_request');
+	}
 
 
 

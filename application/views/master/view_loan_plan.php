@@ -56,8 +56,20 @@
 
                 <div class="form-group">
                     <label class="control-label">Charges</label>
-                    <input type="text" id="txtcharges" name="txtcharges" class="form-control" placeholder="Enter Charges     In %">
+                    <input type="text" id="txtcharges" name="txtcharges" class="form-control" placeholder="Enter Charges In %">
                     <span id="divtxtcharges" style="color:red"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Minimum Month</label>
+                    <input type="Number" id="txtminmonth" name="txtminmonth" class="form-control" placeholder="Enter Minimum Month">
+                    <span id="divtxtminmonth" style="color:red"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Maximum Month </label>
+                    <input type="text" id="txtmaxmonth" name="txtmaxmonth" class="form-control" placeholder="Enter Maximum Month">
+                    <span id="divtxtmaxmonth" style="color:red"></span>
                 </div>
             </div>
 
@@ -82,6 +94,8 @@
                         <th>Maximum Amount</th>
                         <th>Annual Intrest (%)</th>
                         <th>Charges(%)</th>
+                        <th>Minimum Month</th>
+                        <th>Maximum Month</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -107,10 +121,12 @@
                                 </select>
                             </td>
                             <td><input type="text" class="form-control" value="<?= $unit->ln_plan_name; ?>" onblur="update_value('<?= $unit->ln_plan_id; ?>', this.value, 'loanPlanName')" /> </td>
-                            <td><input type="text" class="form-control" value="<?= $unit->ln_plan_min_amount; ?>" onblur="update_value('<?= $unit->ln_plan_id; ?>', this.value, 'loanPlanMinAmt')" /> </td>
-                            <td><input type="text" class="form-control" value="<?= $unit->ln_plan_max_amount; ?>" onblur="update_value('<?= $unit->ln_plan_id; ?>', this.value, 'loanPlanMaxAmt')" /> </td>
+                            <td><input type="text" class="form-control" value="<?= $unit->ln_plan_min_amt; ?>" onblur="update_value('<?= $unit->ln_plan_id; ?>', this.value, 'loanPlanMinAmt')" /> </td>
+                            <td><input type="text" class="form-control" value="<?= $unit->ln_plan_max_amt; ?>" onblur="update_value('<?= $unit->ln_plan_id; ?>', this.value, 'loanPlanMaxAmt')" /> </td>
                             <td><input type="text" class="form-control" value="<?= $unit->ln_plan_annual_interest; ?>" onblur="update_value('<?= $unit->ln_plan_id; ?>', this.value, 'loanPlanAnnualInterest')" /> </td>
                             <td><input type="text" class="form-control" value="<?= $unit->ln_plan_proc_fee_percent; ?>" onblur="update_value('<?= $unit->ln_plan_id; ?>', this.value, 'loanPlanFee')" /> </td>
+                            <td><input type="text" class="form-control" value="<?= $unit->ln_plan_min_tanure; ?>" onblur="update_value('<?= $unit->ln_plan_id; ?>', this.value, 'loanMinMonth')" /> </td>
+                            <td><input type="text" class="form-control" value="<?= $unit->ln_plan_max_tanure; ?>" onblur="update_value('<?= $unit->ln_plan_id; ?>', this.value, 'loanMaxMonth')" /> </td>
                             <td>
                                 <a href="javascript:void(0);" class="btn btn-default" onclick="change_status('<?= $unit->ln_plan_id ?>','<?= $stat ?>', 'loanPlan')"><span class='fa fa-refresh' title="Change Status"></span></a>
                             </td>

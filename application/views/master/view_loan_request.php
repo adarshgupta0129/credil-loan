@@ -34,13 +34,6 @@
 
                 <div class="row">
 
-                    <!--div class="col-md-4">
-									<div class="form-group">
-										<label class="control-label">Login Id<span class="required"> * </span>
-										</label>
-										<input type="text" id="txtlogin" name="txtlogin"  class="form-control input-inline input-medium" placeholder="Enter login id.">
-										</div>
-									</div-->
 
                     <div class="col-md-4">
                         <div class="form-group">
@@ -68,24 +61,6 @@
                         </div>
                     </div>
 
-                    <!--div class="col-md-4">
-
-												<div class="form-group">
-													<label class="control-label">Type</label>
-													<select id="ddtype" name="ddtype" class="form-control">
-														<option selected="selected" value="-1">Select Type</option>
-														<?php
-                                                        foreach ($rank->result() as $p) {
-                                                        ?>
-														<option value="<?php echo $p->m_des_id; ?>">
-															<?php echo $p->m_des_name; ?></option>
-														<?php
-                                                        }
-                                                        ?>
-													</select>
-													<span id="divddtype" style="color:red"/>
-												</div>
-											</div-->
 
                 </div>
                 <div class="row">
@@ -115,30 +90,46 @@
                     <tr>
                         <th>S No.</th>
                         <!--th nowrap>Action</th-->
-                        <th>LoginId</th>
-                        <th>Mobile No</th>
-                        <th>Name</th>
-                        <th>Date</th>
-                        <th>City</th>
+                        <th>User Name|Contact Number</th>
+                        <th>Loan Plan</th>
+                        <th>Loan Amount</th>
+                        <th>Apply Loan Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody id="userid">
                     <?php
                     $sn = 1;
-                    foreach ($rid->result() as $rows) { ?>
+                    foreach ($applyLoan as $rows) { ?>
                         <tr>
                             <td>
                                 <?php echo $sn; ?>
                             </td>
-                            <!--td nowrap>
-													<a href="<?= base_url() ?>member/view_member_edit/<?= $rows->user_reg_id; ?>" title="Edit Profile"><i class="fa fa-pencil text-primary"></i></a> | 
-													<a href="<?= base_url(); ?>member/resend_msg/<?= $rows->user_reg_id; ?>" title="Send Sms"><i class="md md-email text-primary"></i></a>
- 												</td-->
-                            <td><?= $rows->user_u_id; ?></td>
-                            <td><?= $rows->user_mobile_no; ?></td>
-                            <td><?= $rows->user_name; ?></td>
-                            <td><?= date('d-m-y', strtotime($rows->user_joining_date)); ?></td>
-                            <td><?= $rows->City; ?></td>
+                            <td><?= $rows->user_name; ?> | <?= $rows->user_mobile_no; ?></td>
+                            <td><?= $rows->ln_plan_name; ?></td>
+                            <td><?= $rows->ap_ln_apply_amt; ?></td>
+                            <td><?= date('d-m-y', strtotime($rows->ap_ln_date)); ?></td>
+                            <td><?= $rows->ap_ln_status; ?></td>
+                            <td class="text-center">
+                                <?php
+                                if ($rows->ap_ln_status == 'Pending') {
+                                ?>
+                                    <a href="javascript:void(0)" onclick="link_submit('<?= base_url() ?>Master/approve_loan/<?= $rows->ap_ln_id; ?>/1')" class=" btn btn-xs btn-success">
+                                        Approved
+                                    </a>
+                                    <a href="javascript:void(0)" onclick="link_submit('<?= base_url() ?>Master/Reject_loan/<?= $rows->ap_ln_id;; ?>')" class="btn btn-xs btn-danger">
+                                        Reject
+                                    </a>
+                                <?php } else { ?>
+
+                                <?php } ?>
+
+                            </td>
+                            <!-- <td class="text-center">
+                                <a href="" class="btn btn-sm btn-success te">Approved</a>&nbsp;&nbsp;&nbsp;
+                                <a href=""class="btn btn-sm btn-danger">Reject</a>
+                            </td> -->
                         </tr>
                     <?php $sn++;
                     } ?>

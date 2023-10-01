@@ -59,13 +59,17 @@ class Get_details extends CI_Controller
 			} elseif (post('proc') == 'loanPlanName') {		// of Loan Plan Name
 				$this->db->set("ln_plan_name", post('val'))->where('ln_plan_id', post('id'))->update("ln02_loan_plan");
 			} elseif (post('proc') == 'loanPlanMinAmt') {		// of Loan Plan Minimum Amt
-				$this->db->set("ln_plan_min_amount", post('val'))->where('ln_plan_id', post('id'))->update("ln02_loan_plan");
+				$this->db->set("ln_plan_min_amt", post('val'))->where('ln_plan_id', post('id'))->update("ln02_loan_plan");
 			} elseif (post('proc') == 'loanPlanMaxAmt') {		// of Loan Plan Maximum Amt
-				$this->db->set("ln_plan_max_amount", post('val'))->where('ln_plan_id', post('id'))->update("ln02_loan_plan");
+				$this->db->set("ln_plan_max_amt", post('val'))->where('ln_plan_id', post('id'))->update("ln02_loan_plan");
 			} elseif (post('proc') == 'loanPlanAnnualInterest') {		// of Loan Plan Annual Interest
 				$this->db->set("ln_plan_annual_interest", post('val'))->where('ln_plan_id', post('id'))->update("ln02_loan_plan");
 			} elseif (post('proc') == 'loanPlanFee') {		// of Loan Plan charges/Fee
 				$this->db->set("ln_plan_proc_fee_percent", post('val'))->where('ln_plan_id', post('id'))->update("ln02_loan_plan");
+			} elseif (post('proc') == 'loanMinMonth') {		// of Loan Plan Minimum Month
+				$this->db->set("ln_plan_min_tanure", post('val'))->where('ln_plan_id', post('id'))->update("ln02_loan_plan");
+			} elseif (post('proc') == 'loanMaxMonth') {		// of Loan Plan Maximum Month
+				$this->db->set("ln_plan_max_tanure", post('val'))->where('ln_plan_id', post('id'))->update("ln02_loan_plan");
 			}
 		}
 	}

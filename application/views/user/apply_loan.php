@@ -3,12 +3,12 @@
 <!-- Page-Title -->
 <div class="row">
     <div class="col-sm-12">
-        <h4 id="das" class="page-title">
+        <!-- <h4 id="das" class="page-title">
             <?php echo $page; ?>
-        </h4>
+        </h4> -->
         <ol class="breadcrumb">
             <li>
-                <a href="<?php echo base_url(); ?>master/index">Dashboard</a>
+                <a href="<?php echo base_url(); ?>userprofile/index">Dashboard</a>
             </li>
             <li class="active">
                 <?php echo $form_name; ?>

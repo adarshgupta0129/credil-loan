@@ -364,9 +364,9 @@ function add_loan1(id) {
 			url: baseUrl + "Get_Details/check_loan_amt/" + id,
 			dataType: 'json',
 			success: function (msg) {
-				// console.log(msg);
-				$("#hf_max").val(msg['ln_plan_max_amount']);
-				$("#hf_min").val(msg['ln_plan_min_amount']);
+				console.log(msg);
+				$("#hf_max").val(msg['ln_plan_max_amt']);
+				$("#hf_min").val(msg['ln_plan_min_amt']);
 				$("#txtinterst").val(msg['ln_plan_annual_interest']).prop("readonly", true);
 				$("#txtcharges").val(msg['ln_plan_proc_fee_percent']).prop("readonly", true);
 			}
@@ -381,6 +381,7 @@ function add_loan1(id) {
 
 function check_amt() {
 	val = $("#txtloanamt").val();
+	// alert(val)
 	if ($("#hf_min").val() <= parseInt(val) && parseInt(val) <= $("#hf_max").val()) {
 		$("#signform").submit();
 	} else {
