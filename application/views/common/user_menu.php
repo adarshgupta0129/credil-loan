@@ -29,7 +29,7 @@
 							<li class="hidden-xs"> <a href="#" id="btn-fullscreen" class="waves-effect waves-light"><i class="icon-size-fullscreen"></i></a> </li>
 							<li class="dropdown top-menu-item-xs"> <a href="" class="dropdown-toggle profile waves-effect waves-light" data-toggle="dropdown" aria-expanded="true"><i class="ti-user m-r-10"></i> </a>
 								<ul class="dropdown-menu">
-									<li><a href="<?php echo base_url() ?>userprofile/member_profile"><i class="ti-user m-r-10 text-custom"></i> Profile</a></li>
+									<li><a href="<?php echo base_url() ?>userprofile/member_profile"><i class="fa fa-angle-double-right"></i> Profile</a></li>
 									<li class="divider"></li>
 									<li><a href="<?php echo base_url('auth/logout') ?>"><i class="ti-power-off m-r-10 text-danger"></i> Logout</a></li>
 								</ul>
@@ -52,17 +52,18 @@
 
 						<li class="has-submenu"> <a href="#"><i class="ion-android-social"></i> <span>Member</span> <span class="menu-arrow"></span></a>
 							<ul class="submenu">
-								<li><a href="<?php echo base_url() ?>userprofile/member_profile"><i class="fa fa-users"></i>Profile</a></li>
-								<li> <a href="<?php echo base_url() ?>userprofile/view_kyc"><i class="fa fa-file-text"></i> <span>KYC</span></a> </li>
-								<li> <a href="<?php echo base_url() ?>userprofile/change_password"><i class="ion-locked"></i> <span>Password</span></a> </li>
+								<li><a href="<?php echo base_url() ?>userprofile/member_profile"><i class="fa fa-angle-double-right"></i>Profile</a></li>
+								<li> <a href="<?php echo base_url() ?>userprofile/view_kyc"><i class="fa fa-angle-double-right"></i> <span>KYC</span></a> </li>
+								<li> <a href="<?php echo base_url() ?>userprofile/change_password"><i class="fa fa-angle-double-right"></i> <span>Password</span></a> </li>
 							</ul>
 						</li>
-
-						<li class="has-submenu"> <a href="#"><i class="ion-android-social"></i> <span>Loan</span> <span class="menu-arrow"></span></a>
-							<ul class="submenu">
-								<li><a href="<?php echo base_url() ?>userprofile/apply_loan"><i class="fa fa-users"></i>Apply Loan</a></li>
-							</ul>
-						</li>
+						<?php if(ifKYC(session('profile_id')) == 'Approve' ) { ?>
+							<li class="has-submenu"> <a href="#"><i class="fa fa-money"></i> <span>Loan</span> <span class="menu-arrow"></span></a>
+								<ul class="submenu">
+									<li><a href="<?php echo base_url() ?>userprofile/apply_loan"><i class="fa fa-angle-double-right"></i>Apply Loan</a></li>
+								</ul>
+							</li>
+						<?php } ?>
 
 						<!--li><a href="<?php echo base_url() ?>Userprofile/viewOrders"><i class="ion-ios7-bell-outline" aria-hidden="true"></i> <span> My Orders</span></a> </li>
  						<li><a href="<?php echo base_url() ?>userprofile/query_form"><i class="md md-question-answer" aria-hidden="true"></i> <span> Query?</span></a> </li>						

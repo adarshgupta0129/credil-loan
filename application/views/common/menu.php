@@ -70,10 +70,10 @@ if (session('usertype') == "1") {  ?>
 								<li><a href="<?php echo base_url() ?>master/view_admin_bank"><i class="fa fa-angle-double-right"></i> Manage Admin Bank</a></li>
 								<li><a href="<?php echo base_url() ?>master/view_payment_mode"><i class="fa fa-angle-double-right"></i> Manage Payment Mode</a></li>
 								<li><a href="<?php echo base_url() ?>master/view_relation"><i class="fa fa-angle-double-right"></i> Manage Relation</a></li>
-								<li><a href="<?php echo base_url() ?>master/view_proof"><i class="fa fa-angle-double-right"></i> Manage Proof</a></li>
-								<li><a href="<?php echo base_url() ?>master/view_loan_type"><i class="fa fa-angle-double-right"></i>Manage Loan Type</a></li>
+								<!--li><a href="<?php echo base_url() ?>master/view_proof"><i class="fa fa-angle-double-right"></i> Manage Proof</a></li-->
+								<li><a href="<?php echo base_url() ?>master/view_loan_type"><i class="fa fa-angle-double-right"></i> Manage Loan Type</a></li>
 								<li><a href="<?php echo base_url() ?>master/view_loan_plan"><i class="fa fa-angle-double-right"></i> Manage Loan Plan</a></li>
-								<li><a href="<?php echo base_url() ?>branch_admin/view_branch_reg"><i class="fa fa-angle-double-right"></i> Manage Branch</a></li>
+								<li><a href="<?php echo base_url() ?>master/view_branch_reg"><i class="fa fa-angle-double-right"></i> Manage Branch</a></li>
 
 
 
@@ -90,8 +90,8 @@ if (session('usertype') == "1") {  ?>
 						<li class="has_sub">
 							<a href="javascript:void(0);" class="waves-effect"><i class="ion-android-social"></i> <span> Customers</span> <span class="menu-arrow"></span></a>
 							<ul class="list-unstyled">
-								<li><a href="<?php echo base_url() ?>Member/view_all_member"><i class="fa fa-users"></i> View Customers</a></li>
-								<li><a href="<?php echo base_url() ?>Member/view_kyc"><i class="ti-star"></i> Manage Kyc</a></li>
+								<li><a href="<?php echo base_url() ?>Member/view_all_member/6/Customers"><i class="fa fa-angle-double-right"></i> View Customers</a></li>
+								<li><a href="<?php echo base_url() ?>Member/view_kyc"><i class="fa fa-angle-double-right"></i> Manage Kyc</a></li>
 								<!--li><a href="<?php echo base_url() ?>member/join_member"><i class="fa fa-plus-square"></i> Signup</a></li>
 								<li><a href="<?php echo base_url() ?>member/view_member_edit"><i class="fa fa-edit"></i> Edit Member Detail</a></li>
 								<li><a href="<?php echo base_url() ?>member/view_member_details"><i class="fa fa-th-list"></i> View Member Detail</a></li>
@@ -102,16 +102,39 @@ if (session('usertype') == "1") {  ?>
 						</li>
 
 						<li class="has_sub">
-							<a href="javascript:void(0);" class="waves-effect"><i class="ion-android-social"></i> <span> Loan</span> <span class="menu-arrow"></span></a>
+							<a href="javascript:void(0);" class="waves-effect"><i class="ion-android-social"></i> <span> Advisors</span> <span class="menu-arrow"></span></a>
 							<ul class="list-unstyled">
-								<li><a href="<?php echo base_url() ?>Master/view_loan_request"><i class="fa fa-users"></i> View Loan</a></li>
-								<!-- <li><a href="<?php echo base_url() ?>Member/view_kyc"><i class="ti-star"></i> Manage Kyc</a></li> -->
+								<li><a href="<?php echo base_url() ?>Member/registration/5/Advisors"><i class="fa fa-angle-double-right"></i> Register Advisors</a></li>
+								<li><a href="<?php echo base_url() ?>Member/view_all_member/5/Advisors"><i class="fa fa-angle-double-right"></i> View Advisors</a></li>
 							</ul>
 						</li>
-						<?php } elseif(session('usertype') == "2"){
 
+						
 
-} ?>
+						<li class="has_sub">
+							<a href="javascript:void(0);" class="waves-effect"><i class="ion-android-social"></i> <span> Finanser</span> <span class="menu-arrow"></span></a>
+							<ul class="list-unstyled">
+								<li><a href="<?php echo base_url() ?>Member/registration/4/Finanser"><i class="fa fa-angle-double-right"></i> Register Finanser</a></li>
+								<li><a href="<?php echo base_url() ?>Member/view_all_member/4/Finansers"><i class="fa fa-angle-double-right"></i> View Finanser</a></li>
+							</ul>
+						</li>
+
+						<li class="has_sub">
+							<a href="javascript:void(0);" class="waves-effect"><i class="ion-android-social"></i> <span> Support</span> <span class="menu-arrow"></span></a>
+							<ul class="list-unstyled">
+								<li><a href="<?php echo base_url() ?>Member/registration/3/Support"><i class="fa fa-angle-double-right"></i> Register Support</a></li>
+								<li><a href="<?php echo base_url() ?>Member/view_all_member/3/Support"><i class="fa fa-angle-double-right"></i> View Support</a></li>
+							</ul>
+						</li>
+
+						<li class="has_sub">
+							<a href="javascript:void(0);" class="waves-effect"><i class="fa fa-money"></i> <span> Loan</span> <span class="menu-arrow"></span></a>
+							<ul class="list-unstyled">
+								<li><a href="<?php echo base_url() ?>Member/view_loan_request"><i class="fa fa-angle-double-right"></i> View Loan Requests</a></li>
+								<li><a href="<?php echo base_url() ?>Member/view_kyc"><i class="ti-star"></i> Manage Kyc</a></li> 
+							</ul>
+						</li>
+						<?php } ?>
 						<?php /*
 						<li class="has_sub">
 							<a href="javascript:void(0);" class="waves-effect"><i class="md-assignment-returned"></i> <span>Product Master </span> <span class="menu-arrow"></span></a>

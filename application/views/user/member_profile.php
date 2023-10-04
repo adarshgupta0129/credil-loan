@@ -9,6 +9,12 @@
 	</div>
 </div>
 <!-- Page-Title -->
+<style>
+	input, button, select, textarea {
+    width:100%;
+	border:none;
+}
+</style>
 <div class="row">
 
 	<div class="col-sm-6">

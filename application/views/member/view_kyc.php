@@ -1,7 +1,8 @@
 <div class="row">
 	<div class="col-sm-12">
 		<ol class="breadcrumb">
-			<li><a href="<?php echo base_url(); ?>master/index">&nbsp; Dashboard</a></li>
+			<li>
+				<a href="#">Dashboard</a></li>
 			<li class="active"><?php echo $form_name; ?></li>
 		</ol>
 	</div>
@@ -14,7 +15,7 @@
 			<h4 class="m-t-0 header-title"><b>View KYC Status</b></h4>
 			<p class="text-muted font-13 m-b-30"></p>
 			<div class="form">
-				<form class="form-horizontal" method="post" action="<?php echo base_url() ?>Member/view_kyc">
+			<?= form_open(fetch_class().'/'.fetch_method().'/'.uri(3).'/'.uri(4), array("class" => "cmxform horizontal-form", "id" => "signupForm")); ?>
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group">
@@ -50,11 +51,11 @@
 							<input type="hidden" id="txtquid" name="txtquid" />
 							<button class="btn btn-info btn-sm" type="submit">Submit</button>
 							<br><br>
-							<!--button type="submit" class="btn btn-success btn-sm" formaction="<?= base_url() ?>Member/approve_all_kyc">Approve Here</button>
-										<button type="submit" class="btn btn-danger btn-sm" formaction="<?= base_url() ?>Member/reject_all_kyc">Reject Here</button-->
+							<!--button type="submit" class="btn btn-success btn-sm" formaction="<?= base_url().fetch_class() ?>/approve_all_kyc">Approve Here</button>
+										<button type="submit" class="btn btn-danger btn-sm" formaction="<?= base_url().fetch_class() ?>/reject_all_kyc">Reject Here</button-->
 						</div>
 					</div>
-				</form>
+					<?php echo form_close(); ?>
 			</div>
 		</div>
 	</div>
@@ -148,11 +149,11 @@
 								<?php
 								if (($value->kyc_admin_status) == 0) {
 								?>
-									<a href="javascript:void(0)" onclick="link_submit('<?= base_url() ?>Member/approve_kyc/<?php echo $value->user_reg_id; ?>/1')" class="btn-xs btn-success">
+									<a href="javascript:void(0)" onclick="link_submit('<?= base_url().fetch_class() ?>/approve_kyc/<?php echo $value->user_reg_id; ?>/1')" class="btn-xs btn-success">
 										Approved
 									</a>
 								<?php } ?>
-								<a href="<?php echo base_url() ?>Member/delete_kyc/<?php echo $value->user_reg_id; ?>" class="btn-xs btn-danger">
+								<a href="<?php echo base_url().fetch_class() ?>/delete_kyc/<?php echo $value->user_reg_id; ?>" class="btn-xs btn-danger">
 									Reject
 								</a>
 							</td>

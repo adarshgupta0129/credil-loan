@@ -35,7 +35,7 @@
 
                     <div class="form-group col-md-4">
                         <label class="control-label">Loan Type</label>
-                        <select class="form-control opt select2" name="ddloantype" id="ddloantype" onchange="get_loan_plan(this.value)">
+                        <select class="form-control opt" name="ddloantype" id="ddloantype" onchange="get_loan_plan(this.value)">
                             <option value="-1">Select Loan Type</option>
                             <?php
                             foreach ($loanType as $bk) {
@@ -50,7 +50,7 @@
 
                     <div class="form-group col-md-4">
                         <label class="control-label">Loan Plan</label>
-                        <select class="form-control" name="ddloanplan" id="ddloanplan" onchange="add_loan1(this.value)">
+                        <select class="form-control opt" name="ddloanplan" id="ddloanplan" onchange="add_loan1(this.value)">
                             <option value="-1">Select Loan Type</option>
                         </select>
                         <span id="divddloanplan" style="color:red"></span>
@@ -59,15 +59,15 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label">Loan Amount</label>
-                            <input type="text" id="txtloanamt" name="txtloanamt" class="form-control input-inline input-medium" placeholder="Enter Loan Amount.">
+                            <input type="text" id="txtloanamt" name="txtloanamt" class="form-control numeric" placeholder="Enter Loan Amount">
                         </div>
                         <span id="divtxtloanamt" style="color:red"></span>
                     </div>
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label">Inteest Rate </label>
-                            <input type="text" id="txtinterst" name="txtinterst" class="form-control input-inline input-medium" placeholder="Enter Name.">
+                            <label class="control-label">Interest Rate </label>
+                            <input type="text" id="txtinterst" name="txtinterst" class="form-control empty" placeholder="Interest Rate">
                         </div>
                         <span id="divtxtinterst" style="color:red"></span>
                     </div>
@@ -75,7 +75,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label">Charges </label>
-                            <input type="text" id="txtcharges" name="txtcharges" class="form-control input-inline input-medium" placeholder="Enter Name.">
+                            <input type="text" id="txtcharges" name="txtcharges" class="form-control empty" placeholder="Charges">
                         </div>
                         <span id="divtxtcharges" style="color:red"></span>
                     </div>
@@ -84,7 +84,7 @@
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-offset-4 col-md-8">
-                            <button class="btn btn-info" onclick="check_amt()" type="button">Submit</button>
+                            <button class="btn btn-info" onclick="check_amt('signform')" type="button">Submit</button>
                             <button type="button" class="btn btn-danger">Cancel</button>
                         </div>
                     </div>
@@ -118,7 +118,7 @@
                         <th>Loan Plan</th>
                         <th>Loan Amount</th>
                         <th>Intrest</th>
-                        <th>Charges</th>
+                        <!--th>Charges</th-->
                         <th>Apply Loan Data</th>
                         <th>Status</th>
                     </tr>
@@ -135,7 +135,7 @@
                             <td><?= $rows->ln_plan_name; ?></td>
                             <td><?= $rows->ap_ln_apply_amt; ?></td>
                             <td><?= $rows->ap_ln_interest; ?></td>
-                            <td><?= $rows->ap_ln_charges; ?></td>
+                            <!--td><?= $rows->ap_ln_charges; ?></td-->
                             <!-- <td><?= $rows->ln_bk_proc_charges; ?></td> -->
                             <td><?= $rows->ap_ln_date; ?></td>
                             <td><?= $rows->ap_ln_status; ?></td>

@@ -28,19 +28,19 @@
 		
 		public function index()
 		{
-			header("Location:".base_url()."master/view_mainconfig");
+			header("Location:".base_url()."master/index");
 		}
 		
 		public function view($page_name = null, $data = null)
 		{
-			$this->load->view('common/header');
+			$this->load->view('common/header',$this->data);
 			if(session('usertype') == "4") {
 				$this->data['menu'] = $this->db->query("SELECT * FROM `tr36_menu` WHERE `menu_id` IN (SELECT as_parent_id FROM `view_all_assigned_menu` WHERE `as_sub_admin` = ".session('profile_id')." and menu_status = 1 GROUP BY as_parent_id) ORDER BY `menu_id`");
 				$this->load->view('common/subadmin_menu', $this->data);
 			} else {
 				$this->load->view('common/menu', $this->data);
 			}
-			$this->load->view('Member/'.$page_name, $data);
+			$this->load->view('member/'.$page_name, $data);
 			$this->load->view('common/footer');		
 		}
 
@@ -48,18 +48,16 @@
 		/*|------     USER REGISTRATION      -------|*/
 		/*|-----------------------------------------|*/
 		
-		public function join_member()
+		public function registration()
 		{
 			$data['form_name'] = "Member Joining";
 			
 			$this->db->where('loc_parent_id',1);
-			$this->db->where('m_status',1);
+			$this->db->where('loc_status',1);
 			$data['state']=$this->db->get('m02_location');
-			
-			$data['bank']=$this->db->where("m_bank_status",1)->get('m01_bank');
-			
-			$this->db->where('m_pack_status',1);
-			$data['pack']=$this->db->where('m_pack_id',1)->get('m06_package');
+						
+			$data['bank'] = $this->db->where("bank_status", 1)->get('m01_bank');
+			$data['relation'] = getEnum('user_rel_type', 'm03_user_detail');
 			
 			$this->view('registration',$data);
 		}
@@ -68,7 +66,7 @@
 		
 		public function register_candidate()
 		{
-			$output = $this->member_model->signup();
+			$output = $this->Member_model->signup();
 			echo $output;
 		}
 		
@@ -138,7 +136,7 @@
 		/*|------     USER SEARCH MEMEBR      -------|*/
 		/*|------------------------------------------|*/
 		
-		public function view_all_member()
+		public function view_all_member($type)
 		{
 			$data['form_name'] = "View Search Member";
 			$data['table_name'] = "View All Member";
@@ -147,43 +145,9 @@
 			$condition='';
 			
 			$data['rank'] = $this->db->get('m03_designation');
-			if($this->input->post('start')!="")
-			{
-				$fromdate=$this->input->post('start');
-			}
 			
-			if($this->input->post('end')!="")
-			{
-				$todate=$this->input->post('end');
-			}
-			
-			if($todate!='0' && $fromdate!='0')
-			{
-				$condition=$condition."`m03_user_detail`.`user_joining_date` >= DATE_FORMAT('$fromdate','%Y-%m-%d') and `m03_user_detail`.`user_joining_date` <= DATE_FORMAT('$todate','%Y-%m-%d')and ";
-			}
-			if($this->input->post('txtlogin')!="" && $this->input->post('txtlogin')!="0")
-			{
-				$id=get_uid($this->input->post('txtlogin'));
-				$condition=$condition." `m03_user_detail`.`user_reg_id`= ".$id."  and";
-			}			
-			if($this->input->post('txtmob')!="" && $this->input->post('txtmob')!="0")
-			{
-				$condition=$condition." `m03_user_detail`.`user_mobile_no`= ".$this->input->post('txtmob')."  and";
-			}
-			if($this->input->post('txtname')!="" && $this->input->post('txtname')!="0")
-			{
-				$condition=$condition." `m03_user_detail`.`user_name`= '".$this->input->post('txtname')."'  and";
-			}
-			if($this->input->post('ddtype')!="-1" && $this->input->post('ddtype')!="")
-			{
-				$condition=$condition." `m03_user_detail`.`user_designation`= '".$this->input->post('ddtype')."'  and";
-			}
-			if(count($this->input->post()) == 0)
-			{
-				$condition=$condition."DATE_FORMAT(`m03_user_detail`.`user_joining_date`,'%Y-%m') = DATE_FORMAT(curdate(),'%Y-%m') and ";
-			}
-			
-			$condition=$condition." `m03_user_detail`.`user_reg_id` !=0 ";
+			$condition = $this->Member_model->globalSearch();
+			$condition=$condition." and `m03_user_detail`.`user_type` = ".$type;
 			$condition=$condition." ORDER BY `m03_user_detail`.`user_reg_id` DESC";
 			
 			$call_procedure = ' CALL sp05_member_details("'.$condition.'")';
@@ -193,6 +157,23 @@
 			$this->view('view_all_member',$data);
 		}
 		
+		
+		
+	/////////////////////////////////////////////////////////////////////////
+	//////////   			  Vew Loan Request 			   ///////
+	//////////////////////////////////////////////////////////////////////
+
+	public function view_loan_request()
+	{
+
+		$data = [
+			'table_name'	=> "View All Request",
+			'form_name' 	=> "View Loan Request",
+			'applyLoan' 	=> $this->db->get("v04_loan_request")->result()
+		];
+		$this->view('view_loan_request', $data);
+	}
+
 		
 		/////////////////////////////////////
 		///////   		KYC		  //////

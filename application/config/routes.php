@@ -63,8 +63,9 @@ $route['user_login'] = 'welcome/login';
 $route['customize'] = 'welcome/customize';
 $route['admin'] = 'auth/index/1';
 $route['branch'] = 'auth/index/2';
-$route['store'] = 'auth/index/3';
-$route['subadmin'] = 'auth/index/4';
+$route['support'] = 'auth/index/3';
+$route['financer'] = 'auth/index/4';
+$route['advisor'] = 'auth/index/5';
 $route['logout'] = 'auth/logout';
 
 $route['index'] = 'welcome/index';

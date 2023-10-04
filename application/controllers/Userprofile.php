@@ -177,9 +177,9 @@ class Userprofile extends CI_Controller
 		$data = [
 			'table_name'	=> "View Loan Plan",
 			'form_name' 	=> "View Loan Plan",
-			'loanType' 	=> $this->db->where('ln_type_id<>', 0)->order_by("ln_type_name", "asc")->get("ln01_loan_type")->result(),
-			'loanPlan' 	=> $this->db->get("ln02_loan_plan")->result(),
-			'rid' => $this->db->query("SELECT * FROM `tr04_apply_loan` AS A
+			'loanType' 		=> $this->db->where('ln_type_id<>', 0)->order_by("ln_type_name", "asc")->get("ln01_loan_type")->result(),
+			'loanPlan' 		=> $this->db->get("ln02_loan_plan")->result(),
+			'rid' 			=> $this->db->query("SELECT * FROM `tr04_apply_loan` AS A
 										INNER JOIN `ln02_loan_plan` AS P
 										ON A.`ap_ln_plan` = P.`ln_plan_id`
 										WHERE ap_ln_reg_id = $id")

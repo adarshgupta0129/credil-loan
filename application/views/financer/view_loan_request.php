@@ -10,7 +10,7 @@
         </h4>
         <ol class="breadcrumb">
             <li>
-                <a href="<?php echo base_url(); ?>master/index">Dashboard</a>
+                <a href="#">Dashboard</a>
             </li>
             <li class="active">
                 <?php echo $form_name; ?>
@@ -20,7 +20,7 @@
 </div>
 <!-- Page-Title -->
 <div class="row">
-    <div class="col-lg-12">
+    <!--iv class="col-lg-12">
         <div class="card-box">
             <h4 class="m-t-0 header-title">
                 <b>
@@ -30,7 +30,7 @@
             <p class="text-muted font-13 m-b-30" />
 
             <div class="form">
-                <?= form_open('member/view_all_member', array("class" => "cmxform horizontal-form", "id" => "signupForm")); ?>
+            <?= form_open(fetch_class().'/'.fetch_method().'/'.uri(3).'/'.uri(4), array("class" => "cmxform horizontal-form", "id" => "signupForm")); ?>
 
                 <div class="row">
 
@@ -74,7 +74,7 @@
                 <?php echo form_close(); ?>
             </div>
         </div>
-    </div>
+    </div-->
 
     <div class="col-sm-12">
         <div class="card-box table-responsive">
@@ -115,10 +115,10 @@
                                 <?php
                                 if ($rows->ap_ln_status == 'Pending') {
                                 ?>
-                                    <a href="javascript:void(0)" onclick="link_submit('<?= base_url() ?>Master/approve_loan/<?= $rows->ap_ln_id; ?>/1')" class=" btn btn-xs btn-success">
+                                    <a href="javascript:void(0)" onclick="link_submit('<?= base_url().fetch_class() ?>/approve_loan/<?= $rows->ap_ln_id; ?>/1')" class=" btn btn-xs btn-success">
                                         Approved
                                     </a>
-                                    <a href="javascript:void(0)" onclick="link_submit('<?= base_url() ?>Master/Reject_loan/<?= $rows->ap_ln_id;; ?>')" class="btn btn-xs btn-danger">
+                                    <a href="javascript:void(0)" onclick="link_submit('<?= base_url().fetch_class() ?>/Reject_loan/<?= $rows->ap_ln_id;; ?>')" class="btn btn-xs btn-danger">
                                         Reject
                                     </a>
                                 <?php } else { ?>
@@ -126,10 +126,6 @@
                                 <?php } ?>
 
                             </td>
-                            <!-- <td class="text-center">
-                                <a href="" class="btn btn-sm btn-success te">Approved</a>&nbsp;&nbsp;&nbsp;
-                                <a href=""class="btn btn-sm btn-danger">Reject</a>
-                            </td> -->
                         </tr>
                     <?php $sn++;
                     } ?>

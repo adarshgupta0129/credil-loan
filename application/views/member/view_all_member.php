@@ -1,8 +1,3 @@
-<!-- Start content -->
-
-
-
-<!-- Page-Title -->
 <div class="row">
 	<div class="col-sm-12">
 		<h4 id="das" class="page-title">
@@ -10,7 +5,7 @@
 		</h4>
 		<ol class="breadcrumb">
 			<li>
-				<a href="<?php echo base_url(); ?>master/index">Dashboard</a>
+				<a href="#">Dashboard</a>
 			</li>
 			<li class="active">
 				<?php echo $form_name; ?>
@@ -24,79 +19,13 @@
 		<div class="card-box">
 			<h4 class="m-t-0 header-title">
 				<b>
-					<?php echo $form_name; ?>
+					Search <?php echo uri(4); ?>
 				</b>
 			</h4>
-			<p class="text-muted font-13 m-b-30" />
+			<p class="text-muted font-13 m-b-30">
 
 			<div class="form">
-				<?= form_open('member/view_all_member', array("class" => "cmxform horizontal-form", "id" => "signupForm")); ?>
-
-				<div class="row">
-
-					<!--div class="col-md-4">
-									<div class="form-group">
-										<label class="control-label">Login Id<span class="required"> * </span>
-										</label>
-										<input type="text" id="txtlogin" name="txtlogin"  class="form-control input-inline input-medium" placeholder="Enter login id.">
-										</div>
-									</div-->
-
-					<div class="col-md-4">
-						<div class="form-group">
-							<label class="control-label">Mobile No</label>
-							<input type="text" id="txtmob" name="txtmob" class="form-control input-inline input-medium" placeholder="Enter Mobile No.">
-						</div>
-					</div>
-
-					<div class="col-md-4">
-						<div class="form-group">
-							<label class="control-label">Name</label>
-							<input type="text" id="txtname" name="txtname" class="form-control input-inline input-medium" placeholder="Enter Name.">
-						</div>
-					</div>
-
-					<div class="col-md-4">
-						<div class="form-group">
-							<label class="control-label">From Joining Date<span class="required"> * </span>
-							</label>
-							<div class="input-daterange input-group" id="date-range" data-date-format="yyyy-mm-dd">
-								<input type="text" class="form-control" name="start" autocomplete="off" />
-								<span class="input-group-addon bg-custom b-0 text-white">to</span>
-								<input type="text" class="form-control" name="end" autocomplete="off" />
-							</div>
-						</div>
-					</div>
-
-					<!--div class="col-md-4">
-
-												<div class="form-group">
-													<label class="control-label">Type</label>
-													<select id="ddtype" name="ddtype" class="form-control">
-														<option selected="selected" value="-1">Select Type</option>
-														<?php
-														foreach ($rank->result() as $p) {
-														?>
-														<option value="<?php echo $p->m_des_id; ?>">
-															<?php echo $p->m_des_name; ?></option>
-														<?php
-														}
-														?>
-													</select>
-													<span id="divddtype" style="color:red"/>
-												</div>
-											</div-->
-
-				</div>
-				<div class="row">
-					<div class="form-group">
-						<div class="col-md-offset-4 col-md-8">
-							<button class="btn btn-info" type="submit">Submit</button>
-							<button type="button" class="btn btn-danger">Cancel</button>
-						</div>
-					</div>
-				</div>
-				<?php echo form_close(); ?>
+				<?php $this->load->view('report/common_search') ?>
 			</div>
 		</div>
 	</div>
@@ -105,45 +34,11 @@
 		<div class="card-box table-responsive">
 			<h4 class="m-t-0 header-title">
 				<b>
-					<?php echo $table_name; ?>
+				View All <?php echo uri(4); ?>
 				</b>
 				<button onclick="exportTableToExcel('datatable', '<?= $table_name; ?>')" class="btn btn-success btn-xs pull-right">Export Data</button>
 			</h4>
-
-			<table id="datatable" class="table table-striped table-bordered">
-				<thead>
-					<tr>
-						<th>S No.</th>
-						<!--th nowrap>Action</th-->
-						<th>LoginId</th>
-						<th>Mobile No</th>
-						<th>Name</th>
-						<th>Date</th>
-						<th>City</th>
-					</tr>
-				</thead>
-				<tbody id="userid">
-					<?php
-					$sn = 1;
-					foreach ($rid->result() as $rows) { ?>
-						<tr>
-							<td>
-								<?php echo $sn; ?>
-							</td>
-							<!--td nowrap>
-													<a href="<?= base_url() ?>member/view_member_edit/<?= $rows->user_reg_id; ?>" title="Edit Profile"><i class="fa fa-pencil text-primary"></i></a> | 
-													<a href="<?= base_url(); ?>member/resend_msg/<?= $rows->user_reg_id; ?>" title="Send Sms"><i class="md md-email text-primary"></i></a>
- 												</td-->
-							<td><?= $rows->user_u_id; ?></td>
-							<td><?= $rows->user_mobile_no; ?></td>
-							<td><?= $rows->user_name; ?></td>
-							<td><?= date('d-m-y', strtotime($rows->user_joining_date)); ?></td>
-							<td><?= $rows->City; ?></td>
-						</tr>
-					<?php $sn++;
-					} ?>
-				</tbody>
-			</table>
+				<?php $this->load->view('report/common_view_all_member') ?>
 		</div>
 	</div>
 </div>

@@ -23,7 +23,7 @@ function registration(get_id) {
 				success: function (msg) {
 					$.unblockUI();
 					if (msg != "") {
-						$("#" + get_id).html("<center><h2>Welcome to V Credil Loan, </h2></br><h4>" + msg + "</h4><p><a href='" + baseUrl + txtclass + "/registration' class='btn btn-info btn-xs'>Click Here</a></p></center>")
+						$("#" + get_id).html("<center><h2>Welcome to V Credil Loan, </h2></br><h4>" + msg + "</h4><!--p><a href='" + baseUrl + txtclass + "/registration' class='btn btn-info btn-xs'>Click Here</a></p--></center>")
 					}
 					else {
 						bootbox.alert("Some Error on this page!!");
@@ -379,14 +379,15 @@ function add_loan1(id) {
 
 /********************************* Check Loan Amount ***************************/
 
-function check_amt() {
-	val = $("#txtloanamt").val();
-	// alert(val)
-	if ($("#hf_min").val() <= parseInt(val) && parseInt(val) <= $("#hf_max").val()) {
-		$("#signform").submit();
-	} else {
-		$("#txtloanamt").focus();
-		$("#divtxtloanamt").html('Ammount must be between ' + $("#hf_min").val() + " and " + $("#hf_max").val());
+function check_amt(get_id) {
+	if (check(get_id)) {
+		val = $("#txtloanamt").val();
+		if ($("#hf_min").val() <= parseInt(val) && parseInt(val) <= $("#hf_max").val()) {
+			$("#signform").submit();
+		} else {
+			$("#txtloanamt").focus();
+			$("#divtxtloanamt").html('Ammount must be between ' + $("#hf_min").val() + " and " + $("#hf_max").val());
+		}
 	}
 }
 

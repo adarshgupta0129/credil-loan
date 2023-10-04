@@ -58,7 +58,7 @@
 								
 								<select onchange="stat()" class="form-control" name="branch_state" id="state" required>
 								<option value="">Choose...</option>
-								<?php  foreach ($loc as $data ) {?>
+								<?php foreach ($loc as $data ) { ?>
 								<option value="<?=$data->loc_id?>"><?=$data->loc_name?></option>
 								<?php } ?>
 							</select>
@@ -132,10 +132,8 @@
   										<td><?= $unit->branch_password; ?> </td>
   										<td><?= $unit->branch_state_name; ?>/<?= $unit->branch_city_name; ?> </td>
   										<td><?= $unit->branch_address; ?> </td>
-										<td>
-											<!-- <a href="javascript:void(0);"  class="btn btn-default" onclick="change_status('<?=$unit->branch_id?>','<?=$stat?>', 'adminBank')"><span class='fa fa-refresh' title="Change Status"></span></a>									 -->
+										<td>								 -->
 											<a href="<?=base_url()?><?=fetch_class()?>/view_branch_edit/<?= $unit->branch_id; ?>"  class="btn btn-default" ><span class='fa fa-edit' title="Status"></span></a>									
-										
 											<a href="javascript:void(0);"  class="btn btn-default" onclick="change_status('<?=$unit->branch_id?>','<?=$stat?>', 'branch')"><span class='fa fa-refresh' title="Change Status"></span></a>	
 										</td>
 									</tr>

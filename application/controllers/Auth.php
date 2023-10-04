@@ -50,7 +50,7 @@ class Auth extends CI_Controller
 			$msg1 = $this->db->query("SELECT @msg1 as message1")->row()->message1;
 
 			/*-----------------------Set Message Of Status Or Reason-----------------------------*/
-			error('info', $msg);
+			
 
 			if ($msg1 != 0) {
 				/*-----------------------Fetch Data And Create Session For Login -----------------------------*/
@@ -70,35 +70,35 @@ class Auth extends CI_Controller
 				);
 				
 				$this->session->set_userdata($sessiondata);
-				if (session('tmp_profile_id') <> '') {
-					$id = session('profile_id');
-					$tmpid = session('tmp_profile_id');
-					$this->db->where('cart_reg_id', $id)->delete('tr03_cart_product');
-					$this->db->set('cart_reg_id', $id)->where('cart_reg_id', $tmpid)->update('tr03_cart_product');
-				} else {
-					$id = session('profile_id');
-				}
-
-				$this->session->set_userdata('tmp_profile_id', $id);
 
 				/*-----------------Redirect Url For Different User-----------------*/
-				// echo $this->db->last_query(); die;
-				if ($msg1 == 1 || $msg1 == 4) {
-					header("Location:" . base_url() . "master/index");
+				
+				if ($msg1 == 1) {
+					header("Location:" . base_url() . "Master/index");
 				} elseif ($msg1 == 2) {
-					header("Location:" . base_url() . "branch/index");					
+					success($msg);
+					header("Location:" . base_url() . "Branch/index");					
 				} elseif ($msg1 == 3) {
-					header("Location:" . base_url() . "store/dashboard");
+					success($msg);
+					header("Location:" . base_url() . "Support/index");					
+				} elseif ($msg1 == 4) {
+					success($msg);
+					header("Location:" . base_url() . "Financer/index");					
+				} elseif ($msg1 == 5) {
+					success($msg);
+					header("Location:" . base_url() . "Advisor/index");					
+				} elseif ($msg1 == 6) {
+					success($msg);
+					header("Location:" . base_url() . "Userprofile/dashboard");
 				} else {
-					$this->session->set_flashdata('error', $msg);
+					error($msg);
 					redirect($this->agent->referrer());
 				}
 			} else {
-				$this->session->set_flashdata('error', $msg);
+				error($msg);
 				redirect($this->agent->referrer());
 			}
 		} else {
-			$this->session->set_flashdata('info', 'Another Person is Already logged in! First Logout Then try Again');
 			$this->session->sess_destroy();
 			redirect($this->agent->referrer());
 		}
@@ -135,6 +135,16 @@ class Auth extends CI_Controller
 	{
 		$output = $this->Member_model->signup();
 		echo $output;
+	}
+
+		
+	public function loan_calculator()
+	{
+		$data['form_name'] = "Loan calculator";
+
+		$this->load->view('common/header', $this->data);
+		$this->load->view('auth/view_loan_calculator', $data);
+		$this->load->view('common/footer');
 	}
 
 	public function logout()

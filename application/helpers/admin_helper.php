@@ -343,6 +343,22 @@
 			return "false";		// RETURN ARRAY WITH ERROR
 		}
 	}
+		/*----------------Get Reg id From User Id------------------*/
+	
+		function ifKYC($id)
+		{
+			$CI =& get_instance();
+			$query=$CI->db->get_where('tr03_kyc',array('kyc_user_id'=>$id ));		
+			$row = $query->row();
+			if($query->num_rows()==1)
+			{	
+				return $row->kyc_status;	
+			}
+			else
+			{
+				return "false";		// RETURN ARRAY WITH ERROR
+			}
+		}
 	
 	
 	

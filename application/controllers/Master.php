@@ -35,7 +35,7 @@ class Master extends CI_Controller
 		} else {
 			$this->load->view('common/menu', $this->data);
 		}
-		$this->load->view('Master/' . $page_name, $data);
+		$this->load->view('master/' . $page_name, $data);
 		$this->load->view('common/footer');
 	}
 
@@ -186,7 +186,7 @@ class Master extends CI_Controller
 		$data = [
 			'table'	=> "View Payment Mode",
 			'form' 	=> "View Payments Mode",
-			'payment' 	=> $this->db->where('pay_mode_id<>', 0)->order_by("pay_mode_name", "asc")->get("m10_payment_mode")->result()
+			'payment' 	=> $this->db->where('pay_mode_id<>', 0)->get("m10_payment_mode")->result()
 		];
 		$this->view('view_payment_mode', $data);
 	}
@@ -300,45 +300,64 @@ class Master extends CI_Controller
 	}
 
 
+
+	
 	/////////////////////////////////////////////////////////////////////////
-	//////////   			  Vew Loan Request 			   ///////
+	//////////   			  Start Branch Master 			   ///////
 	//////////////////////////////////////////////////////////////////////
-
-	public function view_loan_request()
+	
+	public function view_branch_reg()
 	{
-
 		$data = [
-			'table_name'	=> "View All Request",
-			'form_name' 	=> "View Loan Request",
-			'applyLoan' 	=> $this->db->query("SELECT * FROM `tr04_apply_loan` AS A
-													INNER JOIN `ln02_loan_plan` AS P
-													ON A.`ap_ln_plan` = P.`ln_plan_id`
-													INNER JOIN `m03_user_detail` AS U
-													ON A.`ap_ln_reg_id` = U.`user_reg_id`;")->result()
+			'table'			=> "View Branch",
+			'form' 			=> "Branch Registraion",
+			'banks' 		=> $this->db->where('bank_id<>',0)->order_by("bank_name","asc")->get("m01_bank")->result(),
+			'loc' 			=> $this->db->where('loc_parent_id',1)->where('loc_status',1)->get('m02_location')->result(),
+			'branchList' 	=> $this->db->get("v02_branch_detail")->result()
 		];
-		$this->view('view_loan_request', $data);
+		
+		$this->view('view_branch_registration',$data);
 	}
-
-	public function approve_loan($id, $status)
+	
+	public function add_branch()
 	{
-		$this->db->set('ap_ln_status', $status);
-		$this->db->where('ap_ln_id', $id);
-		$this->db->update('tr04_apply_loan');
-		redirect('Master/view_loan_request', $status);
+		$output = $this->Branch_model->insert_branch();			
+		header("Location:".base_url()."Master/view_branch_reg");
 	}
-
-	public function Reject_loan($id)
+	
+	
+	
+	public function view_branch_edit()
+	{	
+		$data['form_name'] = "Edit Branch";
+		$data['form'] = "Edit Branch";
+		
+		$data = [
+			'table'			=> "Edit Branch",
+			'form' 			=> "Edit Branch",
+			'loc' 		=> $this->db->where('loc_parent_id',1)->get('m02_location')->result()
+		];
+		
+		$bid = uri(3);
+		$call_query = $this->db->query("SELECT * FROM `m03_branch` WHERE `m03_branch`.`branch_id` = '".$bid."'");
+		$data['rec'] = $call_query->row();
+		
+		if($bid != '' && $call_query->num_rows()>0)
+		{
+			$stateid = $call_query->row()->branch_state;
+			$data['city_list'] = $this->db->where('loc_parent_id',$stateid)->get('m02_location')->result();
+			$this->view('view_branch_edit',$data);	
+		}
+		
+	}
+	
+	
+	public function update_branch()
 	{
-		$this->db->set('ap_ln_status', 3);
-		$this->db->where('ap_ln_id', $id);
-		$this->db->update('tr04_apply_loan');
-		redirect('Master/view_loan_request');
+		$bid = uri(3);
+		$output = $this->Master_model->update_branch($bid);			
+		header("Location:".base_url()."Master/view_branch_reg");
 	}
-
-
-
-
-
 
 
 
